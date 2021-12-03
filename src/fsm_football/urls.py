@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('fsm-football/', include('fsm_admin.urls')),
     path('admin/', admin.site.urls),
+    path('fsm-football/', include('fsm_admin.urls')),
+    path('accounts/', include('django.contrib.auth.urls'))
 ]
