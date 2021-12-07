@@ -8,7 +8,7 @@ def index(req):
     return HttpResponse("Hello world, this is FSM-Football")
 
 def signup(req):
-    return render(req, 'signup_signin/signup.html')
+    return render(req, 'registration/signup.html')
 
 def signin(req):
-    return render(req, 'signup_signin/signin.html')
+    return render(req, 'registration/signin.html')
