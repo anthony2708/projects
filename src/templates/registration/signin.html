@@ -2,54 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css'
-        integrity='sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn' crossorigin='anonymous'>
-    <link rel="stylesheet" href="{% static 'css/registration/styles.css'%}">
-    <title>Đăng nhập</title>
+  <meta charset="UTF-8">
+  {% load static %}
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css' integrity='sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn'
+    crossorigin='anonymous'>
+  <link rel="stylesheet" href="{% static 'css/registration/styles.css'%}">
+  <title>Đăng nhập</title>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="card mx-auto box">
-                <div class="card-body">
-                    <h2>Chào mừng quay lại</h2>
-                    <div class="subtitle">
-                        <p>Bạn có thể đăng nhập phía dưới, <br>
-                            hoặc <a href="#">đăng ký</a> nếu bạn chưa có tài khoản </p>
-                    </div>
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <label for="username">Tên đăng nhập</label>
-                            <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username"
-                                name="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" class="form-control" placeholder="Mật khẩu" id="password"
-                                name="password">
-                        </div>
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberme">
-                            <label class="form-check-label" for="rememberme" name="rememberme">Lưu thông tin đăng
-                                nhập</label>
-                        </div>
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                        </div>
-                    </form>
-                    <div class="footer">
-                        <p>Vẫn chưa có tài khoản? <a href="#">Hãy đăng ký</a></p>
-                        <p>Quên mật khẩu? <a href="">Khởi tạo lại mật khẩu</a></p>
-                    </div>
-                </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="card mx-auto box">
+        <div class="card-body">
+          <h2>Chào mừng quay lại</h2>
+          <div class="subtitle">
+            <p>Bạn có thể đăng nhập phía dưới, <br>
+              hoặc <a href="#">đăng ký</a> nếu bạn chưa có tài khoản </p>
+          </div>
+          <form action="#" method="post">
+            <div class="form-group">
+              <label for="username">Tên đăng nhập</label>
+              <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username" name="username">
             </div>
+            <div class="form-group">
+              <label for="password">Mật khẩu</label>
+              <input type="password" class="form-control" placeholder="Mật khẩu" id="password" name="password">
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="rememberme">
+              <label class="form-check-label" for="rememberme" name="rememberme">Lưu thông tin đăng nhập</label>
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-primary">Đăng nhập</button>
+            </div>
+          </form>
+          <div class="footer">
+            <p>Vẫn chưa có tài khoản? <a href="#">Hãy đăng ký</a></p>
+            <p>Quên mật khẩu? <a href="">Khởi tạo lại mật khẩu</a></p>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </body>
 
 </html>

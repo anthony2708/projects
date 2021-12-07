@@ -15,6 +15,7 @@ def signup(req):
     return render(req, 'registration/signup.html')
 
 
+
 def signin(req):
     return render(req, 'registration/signin.html')
 
@@ -55,3 +56,5 @@ def login(req):
 def logoutUser(req):
     logout(req)
     return redirect('login')
+
+
