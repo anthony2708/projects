@@ -11,6 +11,14 @@ def index(req):
     return render(req, 'home.html')
 
 
+def signup(req):
+    return render(req, 'registration/signup.html')
+
+
+def signin(req):
+    return render(req, 'registration/signin.html')
+
+
 def register(req):
     if req.user.is_authenticated:
         return redirect('home')
