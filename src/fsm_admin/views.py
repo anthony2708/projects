@@ -89,3 +89,4 @@ def edittournament(request, pk):
         return redirect('index')
 
     return render(request, 'tournament/EditTournament.html', {'tournament' : giaidau})
+
