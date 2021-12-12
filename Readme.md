@@ -12,7 +12,7 @@ This is the repo for all projects in ***Vietnam National University of Ho Chi Mi
 
 ## LICENSE
 
-We use GNU GENERAL PUBLIC LICENSE in this repository. You can check the [LICENSE](LICENSE) file (in the Github folder) for more information.
+We use GNU GENERAL PUBLIC LICENSE in this repository. You can check the [LICENSE](LICENSE) file for more information.
 
 ## Code of Conduct
 
