@@ -10,11 +10,14 @@ This is the repo for all projects in ***Vietnam National University of Ho Chi Mi
 
 19120250: [Phạm Tiến Khải](https://github.com/khailqd81)
 
-### LICENSE
+## LICENSE
+
 We use GNU GENERAL PUBLIC LICENSE in this repository. You can check the [LICENSE](LICENSE) file (in the Github folder) for more information.
 
-### Code of Conduct
+## Code of Conduct
+
 Please check the [Code of Conduct](.github/CODE_OF_CONDUCT.md)  in the Github folder.
 
-### Contribute to Projects
+## Contribute to Projects
+
 As this is a public repository, you can contribute to this project. Please check the [Contributing](.github/CONTRIBUTING.md) file in the Github folder.
