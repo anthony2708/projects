@@ -16,7 +16,7 @@ We use GNU GENERAL PUBLIC LICENSE in this repository. You can check the [LICENSE
 
 ## Code of Conduct
 
-Please check the [Code of Conduct](.github/CODE_OF_CONDUCT.md)  in the Github folder.
+Please check the [Code of Conduct](.github/CODE_OF_CONDUCT.md) in the Github folder.
 
 ## Contribute to Projects
 
