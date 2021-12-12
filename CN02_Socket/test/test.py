@@ -16,7 +16,7 @@ buffer_size = 8192
 def start():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('', listen_port))
+        s.bind(('127.0.0.1', listen_port))
         s.listen(max_conn)
         print("[*] Socket initializing")
         print("[*] Successful")
@@ -87,7 +87,8 @@ def proxy(server, port, conn, addr, data):
                 dar = float(dar/1024)
                 dar = "%.3s" % (str(dar))
                 dar = "%s KB" % dar
-                print("[*] Complete from %s => %s <=") % (str(addr[0]), str(dar))
+                print(
+                    "[*] Complete from %s => %s <=") % (str(addr[0]), str(dar))
             else:
                 break
 
