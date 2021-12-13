@@ -47,10 +47,10 @@ def login(req):
 # Create your views here.
 
 
-def index(req):
-    tournaments = GIAIDAU.objects.all()
+# def index(req):
+#     tournaments = GIAIDAU.objects.all()
 
-    return render(req, "index.html", {'tournaments': tournaments})
+#     return render(req, "index.html", {'tournaments': tournaments})
 
 
 def createtournaments(request):
@@ -220,3 +220,9 @@ def edittournament(request, pk):
 
     return render(request, 'tournament/EditTournament.html',
                   {'tournament': giaidau})
+
+def signin(req):
+    return render(req, 'registration/signin.html')
+
+def createteam(request):
+    return render(request, 'user/createteam.html')
