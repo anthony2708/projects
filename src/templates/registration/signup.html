@@ -22,7 +22,14 @@
             <p>Bạn có thể đăng ký bên dưới, <br>
               hoặc <a href="signin">đăng nhập</a> nếu đã có tài khoản </p>
           </div>
-          <form action="#" method="post">
+
+          <form action="signup" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              {% for message in messages %}
+              <h6>{{message}}</h6>
+              {% endfor %}
+            </div>
             <div class="form-group">
               <label for="username">Tên đăng nhập</label>
               <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username" name="username">
@@ -42,7 +49,7 @@
           <div class="footer">
             <p>Nếu đăng ký, bạn đã đồng ý với <a href="#">điều khoản dịch vụ</a> và <a href="#">chính sách bảo mật</a>
               của chúng tôi</p>
-            <p>Đã có tài khoản? <a href="#">Đăng nhập</a></p>
+            <p>Đã có tài khoản? <a href="/signin">Đăng nhập</a></p>
           </div>
         </div>
       </div>
