@@ -818,7 +818,7 @@ html {
         justify-content: center;
     -ms-flex-align: center;
         align-items: center;
-    background: url("../images/Searchs_008.png");
+    background: #000;
     background-size: cover;
     padding: 15px;
     font-family: 'Roboto', sans-serif;
@@ -876,7 +876,7 @@ html {
     min-width: 100px;
     height: 40px;
     padding: 0 15px;
-    background: #e45c27;
+    background: #ee1e46;
     white-space: nowrap;
     border-radius: 3px;
     font-size: 14px;
@@ -888,7 +888,7 @@ html {
   }
   
   .s008 form .inner-form .input-field .btn-search:hover {
-    background: #d7501b;
+    opacity: 0.5;
   }
   
   .s008 form .inner-form .input-field .btn-delete {
