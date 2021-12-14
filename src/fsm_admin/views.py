@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 import random
+
 from .forms import CreateUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages, auth
+from django.contrib.auth.decorators import login_required
 from fsm_admin.models import GIAIDAU
 # Create your views here.
 
@@ -18,11 +20,12 @@ def signup(req):
     }
     if req.user.is_authenticated:
         return redirect('/home')
+
     if req.method == 'POST':
         email = req.POST['email']
         username = req.POST['username']
         password = req.POST['password']
-
+        
         if User.objects.filter(username=username).exists():
             messages.info(req, "Tên đăng nhập đã tồn tại.")
             context['fail'] = True
@@ -35,10 +38,6 @@ def signup(req):
             return redirect('/signin')
 
     return render(req, 'registration/signup.html', context)
-
-def signout(req):
-    auth.logout(req)
-    return redirect('index')
 
 def signin(req):
     context = {
@@ -65,6 +64,12 @@ def signin(req):
 
     return render(req, 'registration/signin.html', context)
 
+def signout(req):
+    auth.logout(req)
+    return redirect('/home')
+
+
+@login_required(login_url='/signin')
 def createtournaments(request):
     if request.method == 'POST':
         magiaidau = str(random.randint(1, 10000))
@@ -78,10 +83,6 @@ def createtournaments(request):
         chedo_final = 0
         trangthai = request.POST['trangthai']
 
-        # ins = GIAIDAU(ma_giaidau, tengiaidau, sodoithamdu, thethuc, luatuoi,
-        # lephi,
-        # loaisan, chedo, trangthai)
-        # ins.save()
         if chedo == 'Cong khai':
             chedo_final = 1
 
@@ -89,9 +90,9 @@ def createtournaments(request):
             magiaidau = str(random.randint(1, 10000))
 
         st = GIAIDAU(ma_giaidau=magiaidau, ten_giaidau=tengiaidau,
-                     sodoi_thamdu=sodoithamdu, thethuc=thethuc,
-                     luatuoi=luatuoi, lephi=lephi, loaisan=loaisan,
-                     chedo=chedo_final, trangthai=trangthai)
+                     sodoi_thamdu=sodoithamdu,
+                     thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
+                     loaisan=loaisan, chedo=chedo_final, trangthai=trangthai)
         st.save()
 
         return redirect('index')
@@ -99,6 +100,7 @@ def createtournaments(request):
     return render(request, "tournament/createtournament.html")
 
 
+@login_required(login_url='/signin')
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
 
@@ -115,6 +117,7 @@ def search(request):
     return render(request, 'tournament/search.html')
 
 
+@login_required(login_url='/signin')
 def edittournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
 
@@ -150,3 +153,8 @@ def edittournament(request, pk):
 
     return render(request, 'tournament/EditTournament.html',
                   {'tournament': giaidau})
+
+
+@login_required(login_url='/signin')
+def createteam(request):
+    return render(request, 'user/createteam.html')
