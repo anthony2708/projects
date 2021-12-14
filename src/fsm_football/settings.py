@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'fsm_football.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fsm-football',
         'USER': 'postgres',
         'PASSWORD': os.environ.get("PASSWORD"),

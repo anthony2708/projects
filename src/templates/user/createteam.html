@@ -43,8 +43,9 @@
       <div class="container bg-dark">
         <div class="row align-items-center mt-5 mb-5">
           <div class="col-lg-10 mx-auto text-white">
-            <form action ='createTeam/'>
-              < class="mb-3">
+            <form name ='createteam' method="POST">
+              {% csrf_token %}
+              <class="mb-3">
                 <div class="row mt-5">
                   <h3>Tên đội bóng</h3>
                 </div>
