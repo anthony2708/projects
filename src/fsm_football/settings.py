@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'fsm_football.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fsm-football',
         'USER': 'postgres',
         'PASSWORD': os.environ.get("PASSWORD"),
@@ -127,7 +127,7 @@ USE_TZ = True
 
 
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'fsm_admin', 'static'),
+    os.path.join(BASE_DIR, 'fsm_admin', 'static'),
 ]
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
