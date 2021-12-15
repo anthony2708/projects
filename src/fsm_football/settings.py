@@ -137,3 +137,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Tự động đăng xuất khi tắt trình duyệt
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

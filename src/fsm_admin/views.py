@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 import random
-from django.contrib import messages, auth
+
+from .forms import CreateUserForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from fsm_admin.models import GIAIDAU
 # Create your views here.
@@ -11,42 +14,59 @@ def index(req):
     tournaments = GIAIDAU.objects.all()
     return render(req, 'home.html', {'tournaments': tournaments})
 
-
 def signup(req):
+    context = {
+        'fail': False,
+    }
     if req.user.is_authenticated:
-        return redirect('index')
+        return redirect('/home')
+
     if req.method == 'POST':
         email = req.POST['email']
         username = req.POST['username']
         password = req.POST['password']
+        
+        if User.objects.filter(username=username).exists():
+            messages.info(req, "Tên đăng nhập đã tồn tại.")
+            context['fail'] = True
+        elif User.objects.filter(email=email).exists():
+            messages.info(req, "Email đã tồn tại.")
+            context['fail'] = True
+        else:
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.save()
+            return redirect('/signin')
 
-        user = User.objects.create_user(
-            username=username, password=password, email=email)
-        user.save()
-        return redirect('index')
-
-    return render(req, 'registration/signup.html')
-
+    return render(req, 'registration/signup.html', context)
 
 def signin(req):
+    context = {
+        'fail': False,
+    }
+    if req.user.is_authenticated:
+        return redirect('/home')
     if req.method == 'POST':
-        uname = req.POST['username']
-        pword = req.POST['password']
-        user = auth.authenticate(username=uname, password=pword)
-        # print(user)
+        username = req.POST.get('username')
+        password = req.POST.get('password')
+        rememberme = req.POST.get('rememberme', False)
+
+        user = authenticate(req, username=username, password=password)
+
         if user is not None:
             auth.login(req, user)
-            return redirect('index')
-
+            print(rememberme)
+            if rememberme != False:
+                req.session.set_expiry(2629746) # 1 tháng
+            return redirect('/home')
         else:
-            messages.error(req, 'Username or Password is incorrect')
+            messages.error(req, "Tên đăng nhập hoặc mật khẩu không đúng.")
+            context['fail'] = True 
 
-    return render(req, 'registration/signin.html')
-
+    return render(req, 'registration/signin.html', context)
 
 def signout(req):
     auth.logout(req)
-    return redirect('index')
+    return redirect('/home')
 
 
 @login_required(login_url='/signin')
