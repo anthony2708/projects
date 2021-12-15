@@ -14,6 +14,7 @@ def index(req):
     tournaments = GIAIDAU.objects.all()
     return render(req, 'home.html', {'tournaments': tournaments})
 
+
 def signup(req):
     context = {
         'fail': False,
@@ -25,7 +26,7 @@ def signup(req):
         email = req.POST['email']
         username = req.POST['username']
         password = req.POST['password']
-        
+
         if User.objects.filter(username=username).exists():
             messages.info(req, "Tên đăng nhập đã tồn tại.")
             context['fail'] = True
@@ -33,11 +34,13 @@ def signup(req):
             messages.info(req, "Email đã tồn tại.")
             context['fail'] = True
         else:
-            user = User.objects.create_user(username=username, password=password, email=email)
+            user = User.objects.create_user(
+                username=username, password=password, email=email)
             user.save()
             return redirect('/signin')
 
     return render(req, 'registration/signup.html', context)
+
 
 def signin(req):
     context = {
@@ -55,14 +58,15 @@ def signin(req):
         if user is not None:
             auth.login(req, user)
             print(rememberme)
-            if rememberme != False:
-                req.session.set_expiry(2629746) # 1 tháng
+            if rememberme is not False:
+                req.session.set_expiry(2629746)  # 1 tháng
             return redirect('/home')
         else:
             messages.error(req, "Tên đăng nhập hoặc mật khẩu không đúng.")
-            context['fail'] = True 
+            context['fail'] = True
 
     return render(req, 'registration/signin.html', context)
+
 
 def signout(req):
     auth.logout(req)
