@@ -16,4 +16,6 @@ urlpatterns = [
     path('search', views.search, name='search'),
     path('edittournament/<str:pk>', views.edittournament,
          name='edittournament'),  # edit tournament
+     path('jointournament/<str:pk>', views.jointournament,
+          name='jointournament')
 ]

@@ -1,0 +1,11 @@
+<form method="post" name='createfootballteam'>
+    {% csrf_token %}
+    <p>Team owner: {{taikhoan.hoten}}</p>
+    <p>Ten doi bong: </p>
+    <input type="text" name='ten_doibong'>
+    <p>Mau ao chinh: </p>
+    <input type="text" name="mauao_chinh">
+    <p>Mau ao phu :</p>
+    <input type="text" name="mauao_phu">
+    <input type="submit">
+</form>
