@@ -49,18 +49,24 @@ addPlayer.onclick = function (e) {
                 players[j].querySelector('select[name^="age"]').name= `age${j+1}`;
                 players[j].querySelector('select[name^="position"]').name= `position${j+1}`;
               };
+              const numofplayer = document.querySelector('input[name="numofplayer"]');
+              numofplayer.value=i;
             };
-          };    
+          }; 
+        const numofplayer = document.querySelector('input[name="numofplayer"]');
+        numofplayer.value=i;
+    };
 
-      };
+
       const deletePlayer = document.querySelector(`.deletePlayer1`);
       const player = document.querySelector(`.player1`);
       deletePlayer.onclick = function (e) {
           e.preventDefault();
           player.remove();
           i--;
+          const numofplayer = document.querySelector('input[name="numofplayer"]');
+          numofplayer.value=i;
       };
-
 
 
       const addCoachOrSupport = document.querySelector('.addCoachOrSupport');
@@ -94,16 +100,20 @@ addPlayer.onclick = function (e) {
               e.preventDefault();
               CoachOrSupport.remove();
               k--;
-              const players = document.querySelectorAll('div[class^="CoachOrSupport"]');
-              for(let j = 0; j < players.length; j++) {
-                  players[j].className=`CoachOrSupport${j+1}`;
-                  players[j].querySelector('span[class="input-group mb-1 mt-1"]').innerText= `Thành viên ${j+1}`;
-                  players[j].querySelector('button[class^="btn btn-primary deleteCoachOrSupport"]').className=`btn btn-primary deleteCoachOrSupport${j+1}`;
-                  players[j].querySelector('input[name^="nameCoachOrSupport"]').name= `nameCoachOrSupport${j+1}`;
-                  players[j].querySelector('select[name^="role"]').name= `role${j+1}`;
+              const elements = document.querySelectorAll('div[class^="CoachOrSupport"]');
+              for(let j = 0; j < elements.length; j++) {
+                  elements[j].className=`CoachOrSupport${j+1}`;
+                  elements[j].querySelector('span[class="input-group mb-1 mt-1"]').innerText= `Thành viên ${j+1}`;
+                  elements[j].querySelector('button[class^="btn btn-primary deleteCoachOrSupport"]').className=`btn btn-primary deleteCoachOrSupport${j+1}`;
+                  elements[j].querySelector('input[name^="nameCoachOrSupport"]').name= `nameCoachOrSupport${j+1}`;
+                  elements[j].querySelector('select[name^="role"]').name= `role${j+1}`;
               };
+              const numofCoachOrSupport = document.querySelector('input[name="numofCoachOrSupport"]');
+              numofCoachOrSupport.value=k;
             };
-          };    
+          }; 
+          const numofCoachOrSupport = document.querySelector('input[name="numofCoachOrSupport"]');
+              numofCoachOrSupport.value=k;  
       };
       const deleteCoachOrSupport = document.querySelector(`.deleteCoachOrSupport1`);
       const CoachOrSupport = document.querySelector(`.CoachOrSupport1`);
@@ -111,6 +121,8 @@ addPlayer.onclick = function (e) {
           e.preventDefault();
           CoachOrSupport.remove();
           k--;
+          const numofCoachOrSupport = document.querySelector('input[name="numofCoachOrSupport"]');
+          numofCoachOrSupport.value=k;  
       };
 
       const submitBtn = document.querySelector('.submit-btn');
