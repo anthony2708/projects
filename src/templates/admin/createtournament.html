@@ -1,6 +1,6 @@
 <h1> Tạo giải đấu </h1>
 
-<form action="createtournaments" method="POST">
+<form name="createtournaments" method="POST">
     {% csrf_token %}
     <p>Tên giải đấu</p>
     <input type="text" name="ten_giaidau">
@@ -14,7 +14,7 @@
     <input type="text" name="thethuc" />
     <p>Lua tuoi:</p>
     <select name="luatuoi">
-        <option value="15">U15</option>
+        <option value="16">U16</option>
         <option value="20">U20</option>
     </select>
     <p>Le phi:</p>
