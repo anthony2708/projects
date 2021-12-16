@@ -169,11 +169,9 @@ def createtournaments(request):
     return render(request, "tournament/createtournament.html")
 
 
-def tournament(request, pk):
-    giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+def tournaments(request):
 
-    return render(request, 'tournament/viewtournament.html',
-                  {'tournament': giaidau})
+    return render(request, 'tournament/viewtournament.html')
 
 
 def search(request):
