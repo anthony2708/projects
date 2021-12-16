@@ -101,7 +101,7 @@ def createtournaments(request):
 
 
 
-def tournament(request, pk):
+def tournaments(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     return render(request, 'tournament/viewtournament.html',
                   {'tournament': giaidau})
