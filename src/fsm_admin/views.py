@@ -101,10 +101,16 @@ def createtournaments(request):
     return render(request, "tournament/createtournament.html")
 
 
-@login_required(login_url='/signin')
+# Get all tournaments from the database
+def allTournaments(request):
+    giaidau = GIAIDAU.objects.all()
+    return render(request, 'tournament/viewtournament.html',
+                  {'tournament': giaidau})
+
+
+# Get tournament base on key
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
-
     return render(request, 'tournament/viewtournament.html',
                   {'tournament': giaidau})
 

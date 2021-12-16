@@ -9,6 +9,7 @@ urlpatterns = [
     path('signin', views.signin, name='signin'),
     path('signout', views.signout, name='signout'),
     path('createteam', views.createteam, name='createteam'),
+    path('tournaments', views.allTournaments, name='tournaments'),
     path('createtournaments', views.createtournaments,
          name='createtournaments'),
     path('tournament/<str:pk>', views.tournament,
