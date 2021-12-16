@@ -1,0 +1,19 @@
+<p>Số đội tham dự: {{giaidau.sodoi_thamdu}}</p>
+<p>Số đội hiện tại: {{giaidau.sodoi_hientai}}</p>
+
+<form method="post" name='jointournament'>
+    {% csrf_token %}
+    <select name='teamchoice'>
+        {% for t in userteams %}
+            {% if t.playing == False %}
+                <option value="{{t.ma_doibong}}"">{{t.ten_doibong}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    {% if giaidau.sodoi_hientai < giaidau.sodoi_thamdu %}
+    <input type="submit">
+    {% else %}
+    <p>Gỉải đấu đã đủ số đội đăng ký</p>
+    {% endif %}
+</form>
