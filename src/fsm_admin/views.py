@@ -100,15 +100,11 @@ def createtournaments(request):
     return render(request, "tournament/createtournament.html")
 
 
-<<<<<<< HEAD
-def tournaments(request):
-=======
-@login_required(login_url='/signin')
+
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
->>>>>>> f706769d168f4147b8648cab6a51f262a6b18252
-
-    return render(request, 'tournament/viewtournament.html')
+    return render(request, 'tournament/viewtournament.html',
+                  {'tournament': giaidau})
 
 
 def search(request):
