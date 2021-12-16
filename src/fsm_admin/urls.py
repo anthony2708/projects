@@ -9,7 +9,7 @@ urlpatterns = [
     path('signin', views.signin, name='signin'),
     path('signout', views.signout, name='signout'),
     path('createteam', views.createteam, name='createteam'),
-    path('tournaments', views.tournaments, name='tournaments'),
+    path('tournaments', views.allTournaments, name='tournaments'),
     path('createtournaments', views.createtournaments,
          name='createtournaments'),
     path('tournament/<str:pk>', views.tournament,
@@ -17,6 +17,6 @@ urlpatterns = [
     path('search', views.search, name='search'),
     path('edittournament/<str:pk>', views.edittournament,
          name='edittournament'),  # edit tournament
-     path('jointournament/<str:pk>', views.jointournament,
-          name='jointournament')
+    path('jointournament/<str:pk>', views.jointournament,
+         name='jointournament')
 ]
