@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 import random
@@ -7,13 +8,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-from fsm_admin.models import CAUTHU, DOIBONG, GIAIDAU, HAUCAN, HLVIEN
+from fsm_admin.models import CAUTHU, CHITIETTRANDAU, DOIBONG, GIAIDAU, \
+    HAUCAN, HLVIEN, TAIKHOAN, TRANDAU, XEPHANG
 # Create your views here.
 
 
 def index(req):
-    tournaments = GIAIDAU.objects.all()
-    return render(req, 'home.html', {'tournaments': tournaments})
+    return render(req, 'home.html')
 
 
 def signup(req):
@@ -76,32 +77,100 @@ def signout(req):
     return redirect('/home')
 
 
-@login_required(login_url='/signin')
-def createtournaments(request):
+def editprofile(request):
+    current_user = request.user
     if request.method == 'POST':
-        tengiaidau = request.POST['ten_giaidau']
-        sodoithamdu = request.POST['sodoi_thamdu']
-        thethuc = request.POST['thethuc']
-        luatuoi = request.POST['luatuoi']
-        lephi = request.POST['lephi']
-        loaisan = request.POST['loaisan']
-        chedo = request.POST['chedo']
-        chedo_final = 0
-        trangthai = request.POST['trangthai']
+        hoten = request.POST.get('hoten')
+        ngaysinh = request.POST.get('ngaysinh')
+        gioitinh = request.POST.get('gioitinh')
+        diachi = request.POST.get('diachi')
+        so_dienthoai = request.POST.get('so_dienthoai')
+        print(gioitinh)
 
-        if chedo == 'Cong khai':
-            chedo_final = 1
+        if gioitinh == 'male':
+            gioitinh = "Nam"
+        elif gioitinh == 'female':
+            gioitinh = "Nữ"
 
-        giaidau = GIAIDAU(ten_giaidau=tengiaidau,
-                          sodoi_thamdu=sodoithamdu,
-                          thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
-                          loaisan=loaisan, chedo=chedo_final,
-                          trangthai=trangthai)
-        giaidau.save()
+        taikhoan = TAIKHOAN(
+            ma_taikhoan=current_user,
+            hoten=hoten,
+            ngaysinh=ngaysinh,
+            gioitinh=gioitinh,
+            diachi=diachi,
+            so_dienthoai=so_dienthoai,
+        )
 
+        taikhoan.save()
         return redirect('index')
 
-    return render(request, "tournament/createtournament.html")
+    return render(request, 'account/UpdateInfo.html',
+                  {'taikhoan': current_user})
+
+
+def search(request):
+    if request.method == 'POST':
+        # if request.GET.get('query'):
+        #     query = request.GET.get('query')
+        #     checklist = request.GET.getlist('search')
+        query = request.POST.get('nameOrId')
+        agecond = request.POST.get('age')
+        numofteamcond = request.POST.get('numOfTeam')
+        giaidau = GIAIDAU.objects.filter(ten_giaidau=query)
+        # redirect('index')
+        if agecond == '' and numofteamcond == '':
+            if giaidau is not None:
+                return render(request, 'tournament/SearchResult.html',
+                              {'giaidau': giaidau})
+            else:
+                return render(request, 'tournament/TournamentNotExists.html')
+        elif agecond == '' and numofteamcond:
+            giaidaus = []
+            if giaidau is not None:
+                for g in giaidau:
+                    if g.sodoi_thamdu == int(numofteamcond):
+                        giaidaus.append(g)
+            if len(giaidaus) != 0:
+                return render(request, 'tournament/SearchResult.html',
+                              {'giaidau': giaidaus})
+            else:
+                return render(request, 'tournament/TournamentNotExist.html')
+        elif agecond != '' and numofteamcond == '':
+            giaidaus = []
+            if giaidau is not None:
+                for g in giaidau:
+                    if g.luatuoi == int(agecond):
+                        giaidaus.append(g)
+                return render(request, 'tournament/SearchResult.html',
+                              {'giaidau': giaidaus})
+            else:
+                return render(request, 'tournament/TournamentNotExist.html')
+        elif agecond != '' and numofteamcond != '':
+            giaidaus = []
+            if giaidau is not None:
+                for g in giaidau:
+                    if g.luatuoi == int(agecond) and g.sodoi_thamdu == \
+                            int(numofteamcond):
+                        giaidaus.append(g)
+                return render(request, 'tournament/SearchResult.html',
+                              {'giaidau': giaidaus})
+            else:
+                return render(request, 'tournament/TournamentNotExist.html')
+
+        # if cond == 'name':
+        #     if GIAIDAU.objects.filter(ten_giaidau=query):
+        #         giaidau = GIAIDAU.objects.filter(ten_giaidau=query)
+        #         return render(request, 'tournament/SearchResult.html',
+        # {'giaidau':giaidau})
+        #     else:
+        #         return render(request, 'tournament/TournamentNotExist.html')
+        # elif cond=='pk':
+        #     if GIAIDAU.objects.filter(ma_giaidau=query):
+        #         return tournament(request, query)
+        #     else:
+        #         return render(request, 'tournament/TournamentNotExist.html')
+
+    return render(request, 'tournament/search.html')
 
 
 # Get all tournaments from the database
@@ -118,59 +187,110 @@ def tournament(request, pk):
                   {'tournament': giaidau})
 
 
-def search(request):
-    if request.method == 'GET':
-        # if request.GET.get('query'):
-        #     query = request.GET.get('query')
-        #     checklist = request.GET.getlist('search')
-        query = request.GET.get('query')
-        cond = request.GET.get('search')
-        if cond == 'name':
-            giaidau = GIAIDAU.objects.filter(ten_giaidau=query)
-            return render(request, 'tournament/SearchResult.html',
-                          {'giaidau': giaidau})
-        else:
-            if GIAIDAU.objects.filter(ma_giaidau=query):
-                return tournament(request, query)
-            # else:
-            #     return render(request, 'tournament/TournamentNotExist.html')
+@login_required(login_url='/signin')
+def createtournaments(request):
+    current_user = request.user
+    if current_user.is_superuser:
+        if request.method == 'POST':
+            tengiaidau = request.POST.get('ten_giaidau')
+            sodoithamdu = request.POST.get('sodoi_thamdu')
+            thethuc = request.POST.get('thethuc')
+            luatuoi = request.POST.get('luatuoi')
+            lephi = request.POST.get('lephi')
+            loaisan = request.POST.get('loaisan')
+            chedo = request.POST.get('chedo')
+            chedo_final = 0
+            trangthai = request.POST.get('trangthai')
 
-    return render(request, 'tournament/search.html')
+            if chedo == 'Cong khai':
+                chedo_final = 1
+
+            giaidau = GIAIDAU(ten_giaidau=tengiaidau,
+                              sodoi_thamdu=sodoithamdu,
+                              thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
+                              loaisan=loaisan, chedo=chedo_final,
+                              trangthai=trangthai)
+            giaidau.save()
+
+            return redirect('index')
+    else:
+        return render(request, 'admin/createtournamentNotGranted.html')
+
+    return render(request, "admin/createtournament.html")
 
 
 @login_required(login_url='/signin')
 def edittournament(request, pk):
-    giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+    giaidau = GIAIDAU.objects.filter(ma_giaidau=pk)
+    current_user = request.user
+    if current_user.is_superuser:
+        if request.method == "POST":
+            ten = request.POST.get('new_ten_giaidau')
+            sodoi_thamdu = request.POST.get('new_sodoi_thamdu')
+            thethuc = request.POST.get('new_thethuc')
+            luatuoi = request.POST.get('new_luatuoi')
+            lephi = request.POST.get('new_lephi')
+            loaisan = request.POST.get('new_loaisan')
+            chedo = request.POST.get('new_chedo')
+            trangthai = request.POST.get('new_trangthai')
+            chedo_final = 0
 
-    if request.method == "POST":
-        ten = request.POST.get('new_ten_giaidau')
-        sodoi_thamdu = request.POST.get('new_sodoi_thamdu')
-        thethuc = request.POST.get('new_thethuc')
-        luatuoi = request.POST.get('new_luatuoi')
-        lephi = request.POST.get('new_lephi')
-        loaisan = request.POST.get('new_loaisan')
-        chedo = request.POST.get('new_chedo')
-        trangthai = request.POST.get('new_trangthai')
-        chedo_final = 0
+            if chedo == 'Cong khai':
+                chedo_final = 1
 
-        if chedo == 'Cong khai':
-            chedo_final = 1
+            giaidau.ten_giaidau = ten
+            giaidau.sodoi_thamdu = sodoi_thamdu
+            giaidau.thethuc = thethuc,
+            giaidau.luatuoi = luatuoi
+            giaidau.lephi = lephi
+            giaidau.loaisan = loaisan
+            giaidau.chedo = chedo_final
+            giaidau.trangthai = trangthai
 
-        giaidau.ten_giaidau = ten
-        giaidau.sodoi_thamdu = sodoi_thamdu
-        giaidau.thethuc = thethuc,
-        giaidau.luatuoi = luatuoi
-        giaidau.lephi = lephi
-        giaidau.loaisan = loaisan
-        giaidau.chedo = chedo_final
-        giaidau.trangthai = trangthai
+            giaidau.save()
 
-        giaidau.save()
-
-        return redirect('index')
+            return redirect('index')
+    else:
+        return render(request, 'admin/EditTournamentNotGranted.html')
 
     return render(request, 'tournament/EditTournament.html',
                   {'tournament': giaidau})
+
+
+@login_required(login_url='/signin')
+def jointournament(request, pk):
+    current_user = request.user
+    userteams = DOIBONG.objects.filter(ten_taikhoan=current_user.id)
+    giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+    if request.method == 'POST':
+        teampk = request.POST.get('teamchoice')
+        doibong = DOIBONG.objects.get(ma_doibong=teampk)
+        doibong.playing = True
+        doibong.playin = giaidau
+        doibong.save()
+        giaidau.sodoi_hientai += 1
+        giaidau.save()
+        return redirect('index')
+
+    return render(request, 'tournament/JoinTournament.html',
+                  {'giaidau': giaidau, 'userteams': userteams})
+
+
+@login_required(login_url='/signin')
+def deletetournament(request, pk):
+    current_user = request.user
+    if current_user.is_superuser:
+        if request.method == 'GET':
+            giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+            giaidau.delete()
+            doibong = DOIBONG.objects.filter(playin=pk)
+            doibong.playing = False
+            doibong.save()
+            redirect('index')
+    else:
+        return render(request, 'admin/DeleteTournamentNotGranted.html')
+
+    return render(request, 'admin/DeleteTournament.html')
 
 
 @login_required(login_url='/signin')
@@ -215,7 +335,7 @@ def createteam(request):
                 dotuoi=agep,
                 so_ao=numberp,
                 vitri_thidau=positionp,
-                ma_doibong=doibong
+                ma_doibong=doibong,
             )
             cauthu.save()
 
@@ -251,23 +371,101 @@ def createteam(request):
 
 
 @login_required(login_url='/signin')
-def jointournament(request, pk):
+def match_arrange(request, pk):
     current_user = request.user
-    userteams = DOIBONG.objects.filter(ten_taikhoan=current_user.id)
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+    ds_thamdu = giaidau.get_ds_thamdu()
+    # print('views')
+    # print(ds_thamdu)
+    if current_user.is_superuser:
+        if giaidau.sodoi_hientai == giaidau.sodoi_thamdu:
+            if giaidau.is_arranged is False:
+                if request.method == 'POST':
+                    giaidau.randomly_matches_gen()
+                    return redirect('index')
+            else:
+                return HttpResponse('Giai dau da duoc sap xep roi')
+        else:
+            return HttpResponse('Chua du so doi tham du')
+    else:
+        return render(request, 'admin/MatchArrangeNotGranted.html')
+
+    return render(request, 'admin/MatchArrange.html',
+                  {'ds_thamdu': ds_thamdu, 'giaidau': giaidau})
+
+
+def match_arrange_result(request, pk):
+    trandau = TRANDAU.objects.filter(ma_giaidau=pk)
+    print(trandau)
+    return render(request, 'admin/MatchArrangeResult.html',
+                  {'trandau': trandau, 'trandau': trandau})
+
+
+@login_required(login_url='/login')
+def matchupdate(request, tourpk, matchpk):
+    current_user = request.user
+    # giaidau = GIAIDAU.objects.get(ma_giaidau=tourpk)
+    # trandau = TRANDAU,object.get(ma_giadau=tourpk, ma_trandau=matchpk)
+    chitiettrandau = CHITIETTRANDAU.objects.get(
+        ma_giaidau=tourpk, ma_trandau=matchpk)
+    # DOIBONG.objects.get(ma_doibong=chitiettrandau.ma_doiA)
+    doiA = chitiettrandau.ma_doiA
+    # DOIBONG.objects.get(ma_doibong=chitiettrandau.ma_doiB)
+    doiB = chitiettrandau.ma_doiB
+
     if request.method == 'POST':
-        teampk = request.POST.get('teamchoice')
-        doibong = DOIBONG.objects.get(ma_doibong=teampk)
-        doibong.playing = True
-        doibong.save()
-        giaidau.sodoi_hientai += 1
-        giaidau.save()
-        return redirect('index')
+        if current_user.is_superuser:
+            # chitiettrandau = CHITIETTRANDAU.objects.get(ma_giaidau=tourpk,
+            # ma_trandau=matchpk)
+            xephang_A = XEPHANG.objects.get(
+                ma_giaidau=tourpk, ma_doibong=doiA.ma_doibong)
+            xephang_B = XEPHANG.objects.get(
+                ma_giaidau=tourpk, ma_doibong=doiB.ma_doibong)
 
-    return render(request, 'tournament/JoinTournament.html',
-                  {'giaidau': giaidau, 'userteams': userteams})
+            banthang_A = int(request.POST.get('banthang_A'))
+            banthang_B = int(request.POST.get('banthang_B'))
+            thephat_A = int(request.POST.get('thephat_A'))
+            thephat_B = int(request.POST.get('thephat_B'))
+            ketqua = None
 
+            if banthang_A > banthang_B:
+                ketqua = xephang_A.ma_doibong
+                xephang_A.so_diem += 3
+                xephang_A.so_diem += 0
+            elif banthang_B > banthang_A:
+                ketqua = xephang_B.madoibong
+                xephang_A.so_diem += 0
+                xephang_B.so_diem += 3
+            else:
+                xephang_A.so_diem += 1
+                xephang_B.so_diem += 1
 
+            xephang_A.so_tran += 1
+            xephang_A.banthang += banthang_A
+            xephang_A.thephat += thephat_A
+            xephang_A.hieuso += (banthang_A-banthang_B)
+            xephang_A.save()
+            xephang_B.so_tran += 1
+            xephang_B.banthang += banthang_B
+            xephang_B.thephat += thephat_B
+            xephang_B.hieuso += (banthang_B-banthang_A)
+            xephang_B.save()
+            xephang_A.update_thuhang()
+            xephang_B.update_thuhang()
+
+            chitiettrandau.banthang_A = banthang_A
+            chitiettrandau.banthang_B = banthang_B
+            chitiettrandau.thephat_A = thephat_A
+            chitiettrandau.thephat_B = thephat_B
+            chitiettrandau.ketqua = ketqua
+            chitiettrandau.save()
+
+            return redirect('index')
+        else:
+            return render(request, 'admin/UpdateMatchNotGranted.html')
+          
+    return render(request, 'admin/UpdateMatch.html',
+                  {'doiA': doiA, 'doiB': doiB, 'trandau': chitiettrandau})
 
 # ================================ Admin site ===================================================
 

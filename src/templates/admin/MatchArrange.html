@@ -1,0 +1,9 @@
+<p1>Sắp xếp trận đấu trong giải</p1>
+<form method="POST" name='matcharrange'>
+    {% csrf_token %}
+    <p>Danh sách các đội tham dự giải {{giaidau.ten_giaidau}}</p>
+    {% for ds in ds_thamdu %}
+    - {{ds.ten_doibong}} <br>
+    {% endfor %}
+    <input type="submit">
+</form>
