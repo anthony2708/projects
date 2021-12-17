@@ -43,10 +43,10 @@
       <div class="container bg-dark">
         <div class="row align-items-center mt-5 mb-5">
           <div class="col-lg-10 mx-auto text-white">
-            <form name ='createteam' method="POST">
+            <form action ='createTeam/' method="POST">
               {% csrf_token %}
-              <class="mb-3">
-                <div class="row mt-5">
+              <div class="mb-3 mt-5">
+                <div class="row">
                   <h3>Tên đội bóng</h3>
                 </div>
                 <div class="row">
@@ -90,8 +90,11 @@
     
                     </div>
                   </div>
-  
+
                 </div>
+                <span class="input-group mb-1 mt-1 row">Số lượng hiện tại: 
+                  <input style="margin-left: 10px; color: #ee1e46;" name="numofplayer" value="1" size="1" readonly>
+                </span>
                 <div class="row"> <button class="btn btn-primary addPlayer" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Thêm cầu thủ</button></div>
   
                 <!-- Đội hình -->
@@ -119,6 +122,9 @@
                   </div>
   
                 </div>
+                <span class="input-group mb-1 mt-1 row">Số lượng hiện tại: 
+                  <input style="margin-left: 10px; color: #ee1e46;" name="numofCoachOrSupport" value="1" size="1" readonly>
+                </span>
                 <div class="row"> <button class="btn btn-primary addCoachOrSupport" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Thêm HLV/HC</button></div>
   
                 <!-- Màu áo -->
