@@ -1,0 +1,26 @@
+<p1>UPDATE YOUR INFO HERE</p1>
+<p>Tên tài khoản: {{taikhoan.ten_taikhoan}}</p>
+<p>Mật khẩu: ******</p>
+<p>Email: {{taikhoan.email}}</p>
+<form method="POST" name='updateinfo'>
+    {% csrf_token %}
+    <p>Họ tên:</p>
+    <input type="text" name='hoten'>
+
+    <p>Ngày sinh:</p>
+    <input type="date" name="ngaysinh">
+
+    <p>Giới tính:</p>
+    <input type="radio" value="male" name='gioitinh' id='male'>
+    <label for='male'>Nam</label>
+    <input type="radio" value="female" name='gioitinh' id='female'>
+    <label for='female'>Nữ</label>
+
+    <p>Địa chỉ:</p>
+    <input type="text" name='diachi'>
+
+    <p>Số điện thoại::</p>
+    <input type="text" name='so_dienthoai'>
+
+    <input type="submit">
+</form>
