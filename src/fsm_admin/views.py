@@ -48,7 +48,6 @@ def signin(req):
     context = {
         'fail': False,
     }
-    
 
     if req.user.is_authenticated:
         return redirect('/home')
@@ -73,7 +72,8 @@ def signin(req):
 
 
 def signout(req):
-    auth.logout(req)
+    if req.user.is_authenticated:
+        auth.logout(req)
     return redirect('/home')
 
 
@@ -463,15 +463,15 @@ def matchupdate(request, tourpk, matchpk):
             return redirect('index')
         else:
             return render(request, 'admin/UpdateMatchNotGranted.html')
-          
+
     return render(request, 'admin/UpdateMatch.html',
                   {'doiA': doiA, 'doiB': doiB, 'trandau': chitiettrandau})
 
-# ================================ Admin site ===================================================
 
+# ================================= Admin site ================================
 @login_required(login_url='/admin_site/signin')
 def admin_site(req, tab=None):
-    if tab == None:
+    if tab is None:
         tab = 1
     context = {}
     for i in range(4):
@@ -491,9 +491,8 @@ def admin_site(req, tab=None):
     if req.user.is_authenticated and req.user.username != "admin":
         auth.logout(req)
         return redirect('admin_signin')
-    
-    tournaments = GIAIDAU.objects.all()
 
+    tournaments = GIAIDAU.objects.all()
     context['tournaments'] = tournaments
 
     return render(req, 'admin_site/home.html', context)
@@ -523,12 +522,15 @@ def admin_signin(req):
         else:
             messages.error(req, "Tên đăng nhập hoặc mật khẩu không đúng.")
             context['fail'] = True
-            
+
     return render(req, 'admin_site/signin.html', context)
 
+
 def admin_signout(req):
-    auth.logout(req)
+    if req.user.is_authenticated:
+        auth.logout(req)
     return redirect('admin_signin')
+
 
 @login_required(login_url='/admin_site/signin')
 def admin_create_tournament(req):
@@ -567,20 +569,20 @@ def admin_create_tournament(req):
             chedo_final = 0
         trangthai = "Đang diễn ra"
 
-
         giaidau = GIAIDAU(ten_giaidau=tengiaidau,
-                              sodoi_thamdu=sodoithamdu,
-                              thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
-                              loaisan=loaisan, chedo=chedo_final,
-                              trangthai=trangthai)
+                          sodoi_thamdu=sodoithamdu,
+                          thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
+                          loaisan=loaisan, chedo=chedo_final,
+                          trangthai=trangthai)
         if giaidau is not None:
-                giaidau.save()
-                return redirect('/admin_site/1')
+            giaidau.save()
+            return redirect('/admin_site/1')
         else:
             context['showMsg'] = True
             messages.error("Tạo giải đấu không thành công")
 
     return render(req, 'admin_site/create_tournament.html', context)
+
 
 @login_required(login_url='/admin_site/signin')
 def admin_create_tournament_back(req):
