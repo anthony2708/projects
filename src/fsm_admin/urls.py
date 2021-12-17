@@ -28,6 +28,7 @@ urlpatterns = [
     path('matcharrangeresult/<str:pk>',
          views.match_arrange_result, name='match_arrange_result'),
 
+
     # Admin site
     path('admin_site', views.admin_site, name='admin_site'),
     path('admin_site/<int:tab>', views.admin_site, name='admin_site'),
@@ -38,4 +39,5 @@ urlpatterns = [
     path('admin_site/1/create_tournament/back',
          views.admin_create_tournament_back,
          name='admin_create_tournament_back'),
+    path('admin_site/1/search', views.admin_search, name='admin_search'),
 ]

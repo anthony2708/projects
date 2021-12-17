@@ -1,29 +1,8 @@
 {% extends 'admin_site/base.html' %}
 
 {% block tab1 %}
-<div class="modal fade" id="msg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="msgLabel">Thông báo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {% for message in messages %}
-        {{message}}<br>
-        {% endfor %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="container-fluid">
-  <div class="row m-4 pb-5">
+  <div class="row m-4 pb-2">
     <div class="col-2"></div>
     <div class="col-4 d-flex flex-grow-1">
       <form class="mr-2 my-auto w-100 d-inline-block order-1" action="/admin_site/1" method="POST">
@@ -41,7 +20,24 @@
       <a href="/admin_site/1/create_tournament" id="btnCreTournament">Tạo giải đấu</a>
     </div>
   </div>
-  {% if tournaments %}
+  <div class="row m-4">
+    <div class="col-1"></div>
+    <div class="col-6">
+      <div class="h4">
+        Tìm được {{ count }} kết quả phù hợp.
+        <hr>
+      </div>
+    </div>
+    <div class="col-2" id="back">
+      <a href="/admin_site">
+        <h4><i class="bi bi-arrow-left"></i> Trở về</h4>
+      </a>
+    </div>
+  </div>
+  <div class="row mx-4">
+    <div class="col-1"></div>
+
+  </div>
   {% for tournament in tournaments %}
   {% load static %}
   <div class="row m-4">
@@ -67,15 +63,5 @@
     </div>
   </div>
   {% endfor %}
-  {% else %}
-  <div class="row my-5 mx-4">
-    <div class="col-1"></div>
-    <div class="col">
-      <div class="h4">
-        Không có giải đấu nào để hiển thị.
-      </div>
-    </div>
-  </div>
-  {% endif %}
 </div>
 {% endblock %}
