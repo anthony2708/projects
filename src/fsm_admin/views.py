@@ -491,9 +491,20 @@ def admin_site(req, tab=None):
     if req.user.is_authenticated and req.user.username != "admin":
         auth.logout(req)
         return redirect('admin_signin')
+
+    if req.method == "POST":
+        keyword = req.POST.get('keyword')
+
+        tournaments = GIAIDAU.objects.filter(ten_giaidau=keyword).exists()
+        print(tournament)
+        if GIAIDAU.objects.filter(ten_giaidau=keyword).exists():
+            url = '/admin_site/1/search?keyword=' + keyword
+            return redirect(url)
+        else:
+            messages.error(req, "Không tìm thấy giải đấu phù hợp")
+            context['showMsg'] = True
     
     tournaments = GIAIDAU.objects.all()
-
     context['tournaments'] = tournaments
 
     return render(req, 'admin_site/home.html', context)
@@ -578,10 +589,36 @@ def admin_create_tournament(req):
                 return redirect('/admin_site/1')
         else:
             context['showMsg'] = True
-            messages.error("Tạo giải đấu không thành công")
+            messages.error(req, "Tạo giải đấu không thành công")
 
     return render(req, 'admin_site/create_tournament.html', context)
 
 @login_required(login_url='/admin_site/signin')
 def admin_create_tournament_back(req):
     return redirect('/admin_site/1')
+
+@login_required(login_url='/admin_site/signin')
+def admin_search(req):
+    tab = 1
+    context = {}
+    for i in range(4):
+        if i + 1 == tab:
+            tabActive = "tab" + str(i + 1)
+            context[tabActive] = {
+                "active": "active",
+                "show": "show",
+            }
+        else:
+            tabActive = "tab" + str(i + 1)
+            context[tabActive] = {
+                "active": "",
+                "show": "",
+            }
+
+    keyword = req.GET.get('keyword')
+
+    tournaments = GIAIDAU.objects.filter(ten_giaidau=keyword)
+    context['tournaments'] = tournaments
+    context['count'] = tournaments.count()
+
+    return render(req, 'admin_site/search_result.html', context)
