@@ -14,6 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='doibong',
             name='playin',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.giaidau'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='fsm_admin.giaidau'),
         ),
     ]

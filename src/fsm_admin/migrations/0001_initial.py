@@ -17,18 +17,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DOIBONG',
             fields=[
-                ('ma_doibong', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_doibong', models.BigAutoField(primary_key=True,
+                 serialize=False)),
                 ('ten_doibong', models.CharField(max_length=50)),
                 ('mauao_chinh', models.CharField(max_length=10)),
                 ('mauao_phu', models.CharField(max_length=10)),
                 ('playing', models.BooleanField(default='False')),
-                ('ten_taikhoan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('ten_taikhoan', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='GIAIDAU',
             fields=[
-                ('ma_giaidau', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_giaidau', models.BigAutoField(
+                    primary_key=True, serialize=False)),
                 ('ten_giaidau', models.CharField(max_length=50)),
                 ('sodoi_thamdu', models.IntegerField()),
                 ('thethuc', models.CharField(max_length=50)),
@@ -42,28 +46,37 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HLVIEN',
             fields=[
-                ('ma_hlv', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_hlv', models.BigAutoField(primary_key=True,
+                                               serialize=False)),
                 ('ten_hlv', models.CharField(max_length=50)),
-                ('ma_doibong', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.doibong')),
+                ('ma_doibong', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='fsm_admin.doibong')),
             ],
         ),
         migrations.CreateModel(
             name='HAUCAN',
             fields=[
-                ('ma_haucan', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_haucan', models.BigAutoField(
+                    primary_key=True, serialize=False)),
                 ('ten_haucan', models.CharField(max_length=50)),
-                ('ma_doibong', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.doibong')),
+                ('ma_doibong', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='fsm_admin.doibong')),
             ],
         ),
         migrations.CreateModel(
             name='CAUTHU',
             fields=[
-                ('ma_cauthu', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_cauthu', models.BigAutoField(
+                    primary_key=True, serialize=False)),
                 ('ten_cauthu', models.CharField(max_length=50)),
                 ('dotuoi', models.IntegerField()),
                 ('so_ao', models.IntegerField()),
                 ('vitri_thidau', models.CharField(max_length=20)),
-                ('ma_doibong', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.doibong')),
+                ('ma_doibong', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='fsm_admin.doibong')),
             ],
         ),
     ]

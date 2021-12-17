@@ -18,7 +18,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='doibong',
             name='playin',
-            field=models.ForeignKey(default=4325, on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.giaidau'),
+            field=models.ForeignKey(
+                default=4325, on_delete=django.db.models.deletion.CASCADE,
+                to='fsm_admin.giaidau'),
             preserve_default=False,
         ),
     ]
