@@ -1,5 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 import random
 
 from .forms import CreateUserForm
@@ -47,6 +48,8 @@ def signin(req):
     context = {
         'fail': False,
     }
+    
+
     if req.user.is_authenticated:
         return redirect('/home')
     if req.method == 'POST':
@@ -56,9 +59,9 @@ def signin(req):
 
         user = authenticate(req, username=username, password=password)
 
-        if user is not None:
+        if user is not None and user.get_username() != "admin":
             auth.login(req, user)
-            print(rememberme)
+
             if rememberme is not False:
                 req.session.set_expiry(2629746)  # 1 tháng
             return redirect('/home')
@@ -460,6 +463,125 @@ def matchupdate(request, tourpk, matchpk):
             return redirect('index')
         else:
             return render(request, 'admin/UpdateMatchNotGranted.html')
-
+          
     return render(request, 'admin/UpdateMatch.html',
                   {'doiA': doiA, 'doiB': doiB, 'trandau': chitiettrandau})
+
+# ================================ Admin site ===================================================
+
+@login_required(login_url='/admin_site/signin')
+def admin_site(req, tab=None):
+    if tab == None:
+        tab = 1
+    context = {}
+    for i in range(4):
+        if i + 1 == tab:
+            tabActive = "tab" + str(i + 1)
+            context[tabActive] = {
+                "active": "active",
+                "show": "show",
+            }
+        else:
+            tabActive = "tab" + str(i + 1)
+            context[tabActive] = {
+                "active": "",
+                "show": "",
+            }
+
+    if req.user.is_authenticated and req.user.username != "admin":
+        auth.logout(req)
+        return redirect('admin_signin')
+    
+    tournaments = GIAIDAU.objects.all()
+
+    context['tournaments'] = tournaments
+
+    return render(req, 'admin_site/home.html', context)
+
+
+def admin_signin(req):
+    context = {
+        'fail': False,
+    }
+    if req.user.is_authenticated:
+        if req.user.username != "admin":
+            auth.logout(req)
+            return redirect('admin_signin')
+        else:
+            return redirect('/admin_site/1')
+
+    if req.method == 'POST':
+        username = req.POST.get('username')
+        password = req.POST.get('password')
+
+        user = authenticate(req, username=username, password=password)
+
+        if user is not None and user.get_username() == "admin":
+            auth.login(req, user)
+            return redirect('/admin_site/1')
+
+        else:
+            messages.error(req, "Tên đăng nhập hoặc mật khẩu không đúng.")
+            context['fail'] = True
+            
+    return render(req, 'admin_site/signin.html', context)
+
+def admin_signout(req):
+    auth.logout(req)
+    return redirect('admin_signin')
+
+@login_required(login_url='/admin_site/signin')
+def admin_create_tournament(req):
+    context = {}
+    tabActive = 1
+    for i in range(4):
+        if i + 1 == tabActive:
+            tab = "tab" + str(i + 1)
+            context[tab] = {
+                "active": "active",
+                "show": "show",
+            }
+        else:
+            tab = "tab" + str(i + 1)
+            context[tab] = {
+                "active": "",
+                "show": "",
+            }
+
+    if req.method == 'POST':
+
+        tengiaidau = req.POST.get('tournamentName')
+        sodoithamdu = req.POST.get('numTeams')
+        thethuc = req.POST.get('format')
+        if thethuc == 1:
+            thethuc = "Vòng loại 1 lượt"
+        else:
+            thethuc = "Vòng loại 2 lượt"
+        luatuoi = req.POST.get('age')
+        lephi = req.POST.get('fee')
+        loaisan = req.POST.get('type')
+        chedo = req.POST.get('viewMode')
+        if chedo == "public":
+            chedo_final = 1
+        else:
+            chedo_final = 0
+        trangthai = "Đang diễn ra"
+
+
+        giaidau = GIAIDAU(ten_giaidau=tengiaidau,
+                              sodoi_thamdu=sodoithamdu,
+                              thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
+                              loaisan=loaisan, chedo=chedo_final,
+                              trangthai=trangthai)
+        if giaidau is not None:
+                giaidau.save()
+                return redirect('/admin_site/1')
+        else:
+            context['showMsg'] = True
+            messages.error("Tạo giải đấu không thành công")
+
+    return render(req, 'admin_site/create_tournament.html', context)
+
+@login_required(login_url='/admin_site/signin')
+def admin_create_tournament_back(req):
+    return redirect('/admin_site/1')
