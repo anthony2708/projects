@@ -1,0 +1,67 @@
+a,
+a:hover {
+  text-decoration: none;
+}
+
+.edtPro {
+  color: #949494;
+}
+
+.edtPro:hover {
+  color: #757575;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: black;
+  background-color: #e2e8f0;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.nav-pills .nav-link,
+.nav-pills .show > .nav-link {
+  color: black;
+}
+
+.nav-pills .nav-link:hover(:not(.active)),
+.nav-pills .show > .nav-link:hover {
+  color: #13a153;
+}
+
+.sidebar {
+  background-color: #f7fafc;
+}
+
+#btnCreTournament, .btnSignup {
+  display: inline-block;
+  width: 175px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #17bf63;
+  border: none;
+  border-radius: 100px;
+  color: white;
+  font-size: 18px;
+  line-height: 133%;
+  font-weight: bold;
+  text-align: center;
+}
+
+#back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#back a {
+  color: #17bf63;
+}
+
+#back a:hover {
+  color: #13a153;
+}
+
+label:not(.custom-control-label) {
+  font-weight: bold;
+}

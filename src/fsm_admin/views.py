@@ -1,8 +1,11 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 import random
-from django.contrib import messages, auth
+
+from .forms import CreateUserForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from fsm_admin.models import CAUTHU, CHITIETTRANDAU, DOIBONG, GIAIDAU, HAUCAN, HLVIEN, TAIKHOAN, TRANDAU, XEPHANG
 # Create your views here.
@@ -13,40 +16,61 @@ def index(req):
 
 
 def signup(req):
+    context = {
+        'fail': False,
+    }
     if req.user.is_authenticated:
-        return redirect('index')
+        return redirect('/home')
+
     if req.method == 'POST':
         email = req.POST['email']
         username = req.POST['username']
         password = req.POST['password']
 
-        user = User.objects.create_user(
-            username=username, password=password, email=email)
-        user.save()
-        return redirect('index')
+        if User.objects.filter(username=username).exists():
+            messages.info(req, "Tên đăng nhập đã tồn tại.")
+            context['fail'] = True
+        elif User.objects.filter(email=email).exists():
+            messages.info(req, "Email đã tồn tại.")
+            context['fail'] = True
+        else:
+            user = User.objects.create_user(
+                username=username, password=password, email=email)
+            user.save()
+            return redirect('/signin')
 
-    return render(req, 'registration/signup.html')
+    return render(req, 'registration/signup.html', context)
 
 
 def signin(req):
+    context = {
+        'fail': False,
+    }
+    if req.user.is_authenticated:
+        return redirect('/home')
     if req.method == 'POST':
-        uname = req.POST['username']
-        pword = req.POST['password']
-        user = auth.authenticate(username=uname, password=pword)
-        # print(user)
+        username = req.POST.get('username')
+        password = req.POST.get('password')
+        rememberme = req.POST.get('rememberme', False)
+
+        user = authenticate(req, username=username, password=password)
+
         if user is not None:
             auth.login(req, user)
-            return redirect('index')
-
+            print(rememberme)
+            if rememberme is not False:
+                req.session.set_expiry(2629746)  # 1 tháng
+            return redirect('/home')
         else:
-            messages.error(req, 'Username or Password is incorrect')
+            messages.error(req, "Tên đăng nhập hoặc mật khẩu không đúng.")
+            context['fail'] = True
 
-    return render(req, 'registration/signin.html')
+    return render(req, 'registration/signin.html', context)
 
 
 def signout(req):
     auth.logout(req)
-    return redirect('index')
+    return redirect('/home')
 
 def editprofile(request):
     current_user=request.user
@@ -134,10 +158,16 @@ def search(request):
     return render(request, 'tournament/search.html')
 
 
-@login_required(login_url='/signin')
+# Get all tournaments from the database
+def allTournaments(request):
+    giaidau = GIAIDAU.objects.all()
+    return render(request, 'tournament/viewtournament.html',
+                  {'tournament': giaidau})
+
+
+# Get tournament base on key
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
-
     return render(request, 'tournament/viewtournament.html',
                   {'tournament': giaidau})
 
@@ -247,7 +277,7 @@ def deletetournament(request, pk):
 def createteam(request):
     if request.method == 'POST':
         current_user = request.user
-        #user_id = current_user.id 
+        # user_id = current_user.id
         nameTeam = request.POST.get('nameTeam')
         colorHomeTeam = request.POST.get('colorHomeTeam')
         colorVisitTeam = request.POST.get('colorVisitTeam')
@@ -258,7 +288,7 @@ def createteam(request):
             ten_taikhoan=current_user
         )
         doibong.save()
-        for i in range (1,4):
+        for i in range(1, 4):
             index = str(i)
             # player
             namePlayer = 'namePlayer'+index
@@ -271,12 +301,16 @@ def createteam(request):
             agep = request.POST.get(age)
             positionp = request.POST.get(position)
 
-            if (positionp=='ST'): positionp="Tiền đạo"
-            elif positionp=='CM': positionp="Tiền Vệ"
-            elif positionp=='CB': positionp="Hậu vệ"
-            else: positionp="Thủ môn"
+            if (positionp == 'ST'):
+                positionp = "Tiền đạo"
+            elif positionp == 'CM':
+                positionp = "Tiền Vệ"
+            elif positionp == 'CB':
+                positionp = "Hậu vệ"
+            else:
+                positionp = "Thủ môn"
 
-            cauthu = CAUTHU( # create cauthu
+            cauthu = CAUTHU(  # create cauthu
                 ten_cauthu=namep,
                 dotuoi=agep,
                 so_ao=numberp,
@@ -284,27 +318,27 @@ def createteam(request):
                 ma_doibong=doibong,
             )
             cauthu.save()
-        
-        #now get value
+
+        # now get value
         namec = request.POST.get('nameCoachOrSupport1')
         rolec = request.POST.get('role1')
-        if rolec=='HLVT': 
-            rolec='HLV Trưởng' # create hlv truong
+        if rolec == 'HLVT':
+            rolec = 'HLV Trưởng'  # create hlv truong
             hlvt = HLVIEN(
                 ten_hlv=namec,
                 vaitro=rolec,
                 ma_doibong=doibong,
             )
             hlvt.save()
-        elif rolec=='HLVP': # create hlv pho
-            rolec='HLP Phó'
+        elif rolec == 'HLVP':  # create hlv pho
+            rolec = 'HLP Phó'
             hlvp = HLVIEN(
                 ten_hlv=namec,
                 vaitro=rolec,
                 ma_doibong=doibong,
             )
             hlvp.save()
-        else: 
+        else:
             hc = HAUCAN(
                 ten_haucan=namec,
                 ma_doibong=doibong,

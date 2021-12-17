@@ -42,28 +42,38 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HLVIEN',
             fields=[
-                ('ma_hlv', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_hlv', models.BigAutoField(primary_key=True,
+                                               serialize=False)),
                 ('ten_hlv', models.CharField(max_length=50)),
-                ('ma_doibong', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.doibong')),
+                ('vaitro', models.CharField(max_length=20)),
+                ('ma_doibong', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='fsm_admin.doibong')),
             ],
         ),
         migrations.CreateModel(
             name='HAUCAN',
             fields=[
-                ('ma_haucan', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_haucan', models.BigAutoField(
+                    primary_key=True, serialize=False)),
                 ('ten_haucan', models.CharField(max_length=50)),
-                ('ma_doibong', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.doibong')),
+                ('ma_doibong', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='fsm_admin.doibong')),
             ],
         ),
         migrations.CreateModel(
             name='CAUTHU',
             fields=[
-                ('ma_cauthu', models.BigAutoField(primary_key=True, serialize=False)),
+                ('ma_cauthu', models.BigAutoField(
+                    primary_key=True, serialize=False)),
                 ('ten_cauthu', models.CharField(max_length=50)),
                 ('dotuoi', models.IntegerField()),
                 ('so_ao', models.IntegerField()),
                 ('vitri_thidau', models.CharField(max_length=20)),
-                ('ma_doibong', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fsm_admin.doibong')),
+                ('ma_doibong', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='fsm_admin.doibong')),
             ],
         ),
     ]
