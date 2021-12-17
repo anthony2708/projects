@@ -26,7 +26,7 @@ urlpatterns = [
     path('matchupdate/<str:tourpk>/<str:matchpk>',
          views.matchupdate, name='matchupdate'),
     path('matcharrangeresult/<str:pk>',
-         views.match_arrange_result, name='match_arrange_result')
+         views.match_arrange_result, name='match_arrange_result'),
 
     # Admin site
     path('admin_site', views.admin_site, name='admin_site'),
