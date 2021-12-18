@@ -90,9 +90,10 @@ def createtournaments(request):
             chedo_final = 1
 
         giaidau = GIAIDAU(ten_giaidau=tengiaidau,
-                     sodoi_thamdu=sodoithamdu,
-                     thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
-                     loaisan=loaisan, chedo=chedo_final, trangthai=trangthai)
+                          sodoi_thamdu=sodoithamdu,
+                          thethuc=thethuc, luatuoi=luatuoi, lephi=lephi,
+                          loaisan=loaisan, chedo=chedo_final,
+                          trangthai=trangthai)
         giaidau.save()
 
         return redirect('index')
@@ -100,15 +101,18 @@ def createtournaments(request):
     return render(request, "tournament/createtournament.html")
 
 
-<<<<<<< HEAD
-def tournaments(request):
-=======
-@login_required(login_url='/signin')
+# Get all tournaments from the database
+def allTournaments(request):
+    giaidau = GIAIDAU.objects.all()
+    return render(request, 'tournament/viewtournament.html',
+                  {'tournament': giaidau})
+
+
+# Get tournament base on key
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
->>>>>>> f706769d168f4147b8648cab6a51f262a6b18252
-
-    return render(request, 'tournament/viewtournament.html')
+    return render(request, 'tournament/viewtournament.html',
+                  {'tournament': giaidau})
 
 
 def search(request):
@@ -120,7 +124,8 @@ def search(request):
         cond = request.GET.get('search')
         if cond == 'name':
             giaidau = GIAIDAU.objects.filter(ten_giaidau=query)
-            return render(request, 'tournament/SearchResult.html', {'giaidau':giaidau})
+            return render(request, 'tournament/SearchResult.html',
+                          {'giaidau': giaidau})
         else:
             if GIAIDAU.objects.filter(ma_giaidau=query):
                 return tournament(request, query)
@@ -169,7 +174,7 @@ def edittournament(request, pk):
 def createteam(request):
     if request.method == 'POST':
         current_user = request.user
-        #user_id = current_user.id 
+        # user_id = current_user.id
         nameTeam = request.POST.get('nameTeam')
         colorHomeTeam = request.POST.get('colorHomeTeam')
         colorVisitTeam = request.POST.get('colorVisitTeam')
@@ -180,7 +185,7 @@ def createteam(request):
             ten_taikhoan=current_user
         )
         doibong.save()
-        for i in range (1,4):
+        for i in range(1, 4):
             index = str(i)
             # player
             namePlayer = 'namePlayer'+index
@@ -193,12 +198,16 @@ def createteam(request):
             agep = request.POST.get(age)
             positionp = request.POST.get(position)
 
-            if (positionp=='ST'): positionp="Tiền đạo"
-            elif positionp=='CM': positionp="Tiền Vệ"
-            elif positionp=='CB': positionp="Hậu vệ"
-            else: positionp="Thủ môn"
+            if (positionp == 'ST'):
+                positionp = "Tiền đạo"
+            elif positionp == 'CM':
+                positionp = "Tiền Vệ"
+            elif positionp == 'CB':
+                positionp = "Hậu vệ"
+            else:
+                positionp = "Thủ môn"
 
-            cauthu = CAUTHU( # create cauthu
+            cauthu = CAUTHU(  # create cauthu
                 ten_cauthu=namep,
                 dotuoi=agep,
                 so_ao=numberp,
@@ -206,27 +215,27 @@ def createteam(request):
                 ma_doibong=doibong
             )
             cauthu.save()
-        
-        #now get value
+
+        # now get value
         namec = request.POST.get('nameCoachOrSupport1')
         rolec = request.POST.get('role1')
-        if rolec=='HLVT': 
-            rolec='HLV Trưởng' # create hlv truong
+        if rolec == 'HLVT':
+            rolec = 'HLV Trưởng'  # create hlv truong
             hlvt = HLVIEN(
                 ten_hlv=namec,
                 vaitro=rolec,
                 ma_doibong=doibong,
             )
             hlvt.save()
-        elif rolec=='HLVP': # create hlv pho
-            rolec='HLP Phó'
+        elif rolec == 'HLVP':  # create hlv pho
+            rolec = 'HLP Phó'
             hlvp = HLVIEN(
                 ten_hlv=namec,
                 vaitro=rolec,
                 ma_doibong=doibong,
             )
             hlvp.save()
-        else: 
+        else:
             hc = HAUCAN(
                 ten_haucan=namec,
                 ma_doibong=doibong,
@@ -237,9 +246,10 @@ def createteam(request):
 
     return render(request, 'user/createteam.html')
 
+
 @login_required(login_url='/signin')
 def jointournament(request, pk):
-    current_user=request.user
+    current_user = request.user
     userteams = DOIBONG.objects.filter(ten_taikhoan=current_user.id)
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     if request.method == 'POST':
@@ -247,8 +257,9 @@ def jointournament(request, pk):
         doibong = DOIBONG.objects.get(ma_doibong=teampk)
         doibong.playing = True
         doibong.save()
-        giaidau.sodoi_hientai+=1
+        giaidau.sodoi_hientai += 1
         giaidau.save()
         return redirect('index')
 
-    return render(request, 'tournament/JoinTournament.html', {'giaidau':giaidau,'userteams':userteams})
+    return render(request, 'tournament/JoinTournament.html',
+                  {'giaidau': giaidau, 'userteams': userteams})
