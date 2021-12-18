@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin
+{% endblock %}
+
+{% block css %}
+{% load static %}
+{% include 'partials/btCss.html' %}
+<link rel="stylesheet" href="{% static 'css/admin_site/home.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row vh-100">
+    <div class="col-2 py-4 sidebar">
+      <div class="mx-3">
+        <h3 class="font-weight-bolder">Admin</h3>
+        <a href="/admin_site/signout" class="btnLogout"><i class="bi bi-box-arrow-left"></i> Đăng xuất</a>
+      </div>
+      <div class="nav flex-column nav-pills my-3 font-weight-bold h5" id="v-pills-tab" role="tablist"
+        aria-orientation="vertical">
+        <a class="nav-link my-2 {{ tab1.active }} " data-toggle="pill" href="#v-pills-tournament-manager">
+          <i class="bi bi-calendar-minus-fill"></i> Quản lý giải đấu
+        </a>
+        <a class="nav-link my-2 {{ tab2.active }}" data-toggle="pill" href="#v-pills-user-manager">
+          <i class="bi bi-people-fill"></i> Quản lý người dùng
+        </a>
+        <a class="nav-link my-2 {{ tab3.active }}" id="v-pills-settings-tab" data-toggle="pill"
+          href="#v-pills-settings">
+          <i class="bi bi-gear-fill"></i> Cài đặt
+        </a>
+      </div>
+    </div>
+    <div class="col-10 py-4">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade {{ tab1.active }} {{ tab1.show }}" id="v-pills-tournament-manager">
+          {% block tab1 %}
+          {% endblock %}
+        </div>
+        <div class="tab-pane fade {{ tab2.active }} {{ tab2.show }}" id="v-pills-user-manager">
+          {% block tab2 %}
+          {% endblock %}
+        </div>
+        <div class="tab-pane fade {{ tab3.active }} {{ tab3.show }}" id="v-pills-settings">
+          {% block tab3 %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% include 'partials/btJs.html' %}
+{% if showMsg %}
+<script>
+  $('#msg').modal('show');
+</script>
+{% endif %}
+{% endblock %}

@@ -1,13 +1,14 @@
 a,
 a:hover {
+  color: black;
   text-decoration: none;
 }
 
-.edtPro {
+.btnLogout {
   color: #949494;
 }
 
-.edtPro:hover {
+.btnLogout:hover {
   color: #757575;
 }
 
@@ -33,7 +34,7 @@ a:hover {
   background-color: #f7fafc;
 }
 
-#btnCreTournament, .btnSignup {
+#btnCreTournament, .btnCreate {
   display: inline-block;
   width: 175px;
   padding-top: 10px;
@@ -46,6 +47,10 @@ a:hover {
   line-height: 133%;
   font-weight: bold;
   text-align: center;
+}
+
+.btnCreate:hover {
+  background-color: #13a153;
 }
 
 #back {
@@ -64,4 +69,15 @@ a:hover {
 
 label:not(.custom-control-label) {
   font-weight: bold;
+}
+
+.container-thumb {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.thumb {
+  transform: translateY(-40px);
+  max-width: 100%;
 }
