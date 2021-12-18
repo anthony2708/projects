@@ -16,13 +16,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TAIKHOAN',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                                           primary_key=True, serialize=False,
+                                           verbose_name='ID')),
                 ('hoten', models.CharField(max_length=20)),
                 ('ngaysinh', models.DateField()),
                 ('gioitinh', models.CharField(max_length=5)),
                 ('diachi', models.CharField(max_length=50)),
                 ('so_dienthoai', models.CharField(max_length=15)),
-                ('ma_taikhoan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('ma_taikhoan', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
