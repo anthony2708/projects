@@ -503,7 +503,7 @@ def admin_site(req, tab=None):
         else:
             messages.error(req, "Không tìm thấy giải đấu phù hợp")
             context['showMsg'] = True
-    
+
     tournaments = GIAIDAU.objects.all()
     context['tournaments'] = tournaments
 
@@ -599,6 +599,7 @@ def admin_create_tournament(req):
 @login_required(login_url='/admin_site/signin')
 def admin_create_tournament_back(req):
     return redirect('/admin_site/1')
+
 
 @login_required(login_url='/admin_site/signin')
 def admin_search(req):
