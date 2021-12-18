@@ -15,7 +15,18 @@
               <li><a href="createteam" class="nav-link">Đội bóng</a></li>
               <li><a href="#" class="nav-link">Liên hệ</a></li>
               {% if user.is_authenticated %}
-              <li><a href="signout" class="btn btn-primary py-3 px-4 mr-3">{{user.username}}</a></li>
+              <li>
+
+                <div class="dropdown">
+                  <a class="btn btn-secondary bg-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{user.username}}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="editprofile">Thông tin cá nhân</a></li>
+                    <li><a class="dropdown-item" href="signout">Đăng xuất</a></li>
+                  </ul>
+                </div>
+              </li>
               {% else %}
               <li><a href="signin" class="btn btn-primary py-3 px-4 mr-3">Đăng nhập</a></li>
               {% endif %}
