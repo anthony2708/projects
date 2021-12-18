@@ -11,8 +11,8 @@
 
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
   {% include 'partials/ownCSS.html' %}
   {% include 'partials/tournamentCSS.html' %}
@@ -25,120 +25,144 @@
 
   <div class="site-wrap">
 
-        <div class="site-mobile-menu site-navbar-target">
-        <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close">
-            <span class="icon-close2 js-menu-toggle"></span>
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    {% include 'partials/header.html' %}
+
+    <div class="hero overlay" style="background-image: url('../static/images/bg_1.jpg');">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-5 ml-auto">
+            <h1 class="text-white">THAM GIA GIẢI ĐẤU</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tournaments mt-5">
+
+      <div class="container">
+        <div class="row">
+
+          <div class="col-3 text-white">
+            <div class="row mt-5">
+
+              <form>
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="nameOrId" placeholder="Nhập tên hoặc mã...">
+                </div>
+
+                <div class="mb-3 form-check mt-5">
+                  <label class="form-check-label text-info">Số đội tham gia</label>
+                  <ul>
+                    <li><input type="radio" class="form-check-input" value="16" name="amount"> 16</li>
+                    <li><input type="radio" class="form-check-input" value="32" name="amount"> 32</li>
+                  </ul>
+                </div>
+
+                <div class="mb-3 form-check mt-5">
+                  <label class="form-check-label text-info">Lứa tuổi</label>
+                  <ul>
+                    <li><input type="radio" class="form-check-input" value="U16" name="age"> U16</li>
+                    <li><input type="radio" class="form-check-input" value="U19" name="age"> U19</li>
+                    <li><input type="radio" class="form-check-input" value="U23" name="age"> U23</li>
+                  </ul>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-check-label text-info">Lệ phí (vnđ/đội)</label>
+                  <input type="text" class="form-control col" name="fees" value="0">
+                  <div>-</div>
+                  <input type="text" class="form-control col" name="fees" value="1000000">
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-5">Lọc giải đấu</button>
+              </form>
             </div>
-        </div>
-        <div class="site-mobile-menu-body"></div>
-        </div>
+          </div>
 
-        {% include 'partials/header.html' %}
-
-        <div class="hero overlay" style="background-image: url('../static/images/bg_1.jpg');">
-        <div class="container">
-            <div class="row align-items-center">
-            <div class="col-lg-5 ml-auto">
-                <h1 class="text-white">THAM GIA GIẢI ĐẤU</h1>
+          <div class="col-9 mb-5">
+            {% for g in tournament %}
+            {% if g.trangthai == 'Đang diễn ra' %}
+            <div class="card bg-dark mt-5">
+              <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{g.ten_giaidau}}</h5>
+                <p>
+                  <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">
+                      {{g.ma_giaidau}}</h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}
+                    </h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}
+                    </h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội
+                    </h8>
+                  </h8>
+                </p>
+                <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
+                <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
+              </div>
             </div>
+            {% elif g.trangthai == 'Đang chuẩn bị' %}
+            <div class="card bg-dark mt-5">
+              <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{g.ten_giaidau}}</h5>
+                <p>
+                  <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">
+                      {{g.ma_giaidau}}</h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}
+                    </h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}
+                    </h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội
+                    </h8>
+                  </h8>
+                </p>
+                <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
+                <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
+              </div>
             </div>
-        </div>
-        </div>
+            {% else %}
+            <div class="card bg-dark mt-5">
+              <h5 class="card-header bg-danger bg-gradient">{{g.trangthai}}</h5>
+              <div class="card-body">
+                <h5 class="card-title">g.ten_giaidau</h5>
+                <p>
+                  <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">
+                      {{g.ma_giaidau}}</h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}
+                    </h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}
+                    </h8>
+                  </h8>
+                  <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội
+                    </h8>
+                  </h8>
+                </p>
+                <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
+                <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
 
-        <div class="tournaments mt-5">
-
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-3 text-white">
-                      <div class="row mt-5">
-
-                        <form>
-                          <div class="mb-3">
-                            <input type="text" class="form-control" name="nameOrId" placeholder="Nhập tên hoặc mã...">
-                          </div>
-
-                          <div class="mb-3 form-check mt-5">
-                            <label class="form-check-label text-info">Số đội tham gia</label>
-                            <ul>
-                              <li><input type="radio" class="form-check-input" value="16" name="amount"> 16</li>
-                              <li><input type="radio" class="form-check-input" value="32" name="amount"> 32</li>
-                            </ul>
-                          </div>
-
-                          <div class="mb-3 form-check mt-5">
-                            <label class="form-check-label text-info">Lứa tuổi</label>
-                            <ul>
-                              <li><input type="radio" class="form-check-input" value="U16" name="age"> U16</li>
-                              <li><input type="radio" class="form-check-input" value="U19" name="age"> U19</li>
-                              <li><input type="radio" class="form-check-input" value="U23" name="age"> U23</li>
-                            </ul>
-                          </div>
-
-                          <div class="mb-3">
-                            <label class="form-check-label text-info">Lệ phí (vnđ/đội)</label>
-                            <input type="text" class="form-control col" name="fees" value="0">
-                            <div>-</div>
-                            <input type="text" class="form-control col" name="fees" value="1000000">
-                          </div>
-
-                          <button type="submit" class="btn btn-primary mt-5">Lọc giải đấu</button>
-                        </form>
-                      </div>
-                    </div>
-
-                    <div class="col-9 mb-5">
-                        {% for g in tournament %}
-                        {% if g.trangthai == 'Đang diễn ra' %}
-                        <div class="card bg-dark mt-5">
-                          <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
-                          <div class="card-body">
-                            <h5 class="card-title">{{g.ten_giaidau}}</h5>
-                            <p>
-                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">{{g.ma_giaidau}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội</h8></h8>
-                            </p>
-                            <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
-                            <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
-                          </div>
-                        </div>
-                        {% elif g.trangthai == 'Đang chuẩn bị' %}
-                        <div class="card bg-dark mt-5">
-                          <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
-                          <div class="card-body">
-                            <h5 class="card-title">{{g.ten_giaidau}}</h5>
-                            <p>
-                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">{{g.ma_giaidau}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội</h8></h8>
-                            </p>
-                            <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
-                            <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
-                          </div>
-                        </div>
-                        {% else %}
-                        <div class="card bg-dark mt-5">
-                          <h5 class="card-header bg-danger bg-gradient">{{g.trangthai}}</h5>
-                          <div class="card-body">
-                            <h5 class="card-title">g.ten_giaidau</h5>
-                            <p>
-                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">{{g.ma_giaidau}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}</h8></h8>
-                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội</h8></h8>
-                            </p>
-                            <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
-                            <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
-                          </div>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-        
-                        <div class="card bg-dark mt-5">
+            <!-- <div class="card bg-dark mt-5">
                           <h5 class="card-header bg-success bg-gradient">Chuẩn bị</h5>
                           <div class="card-body">
                             <h5 class="card-title">Super League</h5>
@@ -241,17 +265,17 @@
                             <a href="#" class="btn btn-primary">Tham gia</a>
                             <a href="#" class="btn btn-primary float-end">Xem giải đấu</a>
                           </div>
-                        </div>
-        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% include 'partials/footer.html' %}
+                        </div> -->
 
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- {% include 'partials/ownJS.html' %} -->
+  </div>
+  {% include 'partials/footer.html' %}
+
+  </div>
+  {% include 'partials/ownJS.html' %}
 
 </body>
 
