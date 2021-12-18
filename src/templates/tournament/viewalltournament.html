@@ -1,45 +1,3 @@
-<h1 style="color: red;">Giải đấu: {{tournament.ten_giaidau}}</h1> <br>
-<h3>Lứa tuổi: {{tournament.luatuoi}}</h3> <br>
-<h3 style="color: blue;">Trạng thái: {{tournament.trangthai}}</h3> <br>
-<p>--------Danh sách thi dấu---------</p>
-{% for doibong in tournament.get_ds_thamdu %}
-- {{doibong.ten_doibong}} <br>
-{% endfor %}
-<p>----------------------------------</p>
-<p>-----------Bảng xếp hạng----------</p>
-<p>Bảng đấu     /số trận     /hiệu số     /số điểm      /thứ hạng       /tên đội bóng</p>
-{% if ranking %}
-    {% for rank in ranking %}
-        {% for t in team %}
-            {% if rank.ma_doibong.ma_doibong == t.ma_doibong %}
-                {{rank.bangdau}} {{rank.so_tran}} {{rank.hieuso}} {{rank.so_diem}} {{rank.thuhang}} {{t.ten_doibong}} <br>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
-{% endif %}
-<p>----------------------------------</p>
-<p>-----------Các trận đấu----------</p>
-{% if detail %}
-    {% for d in detail %}
-        {% for t in team %}
-            {% if t.ma_doibong == d.ma_doiA.ma_doibong %}
-                {% for j in team %}
-                    {% if j.ma_doibong == d.ma_doiB.ma_doibong %}
-                    <a href="/match/{{tournament.ma_giaidau}}/{{d.ma_trandau.ma_trandau}}">
-                        {% if d.banthang_A %}
-                            <p>{{t.ten_doibong}} {{d.banthang_A}} - {{d.banthang_B}} {{j.ten_doibong}} </p>
-                        {% else %}
-                            <p>{{t.ten_doibong}} - {{j.ten_doibong}} </p>
-                        {% endif %}
-                    </a>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
-{% endif %}
-<p>----------------------------------</p>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -131,21 +89,54 @@
                     </div>
 
                     <div class="col-9 mb-5">
-  
+                        {% for g in tournament %}
+                        {% if g.trangthai == 'Đang diễn ra' %}
                         <div class="card bg-dark mt-5">
-                          <h5 class="card-header bg-success bg-gradient">Chuẩn bị</h5>
+                          <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
                           <div class="card-body">
-                            <h5 class="card-title">Super League</h5>
+                            <h5 class="card-title">{{g.ten_giaidau}}</h5>
                             <p>
-                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">112sad874</h8></h8>
-                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">16</h8></h8>
-                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">U16</h8></h8>
-                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">1000000 vnđ/đội</h8></h8>
+                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">{{g.ma_giaidau}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội</h8></h8>
                             </p>
-                            <a href="#" class="btn btn-primary">Tham gia</a>
-                            <a href="#" class="btn btn-primary float-end">Xem giải đấu</a>
+                            <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
+                            <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
                           </div>
                         </div>
+                        {% elif g.trangthai == 'Đang chuẩn bị' %}
+                        <div class="card bg-dark mt-5">
+                          <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
+                          <div class="card-body">
+                            <h5 class="card-title">{{g.ten_giaidau}}</h5>
+                            <p>
+                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">{{g.ma_giaidau}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội</h8></h8>
+                            </p>
+                            <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
+                            <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
+                          </div>
+                        </div>
+                        {% else %}
+                        <div class="card bg-dark mt-5">
+                          <h5 class="card-header bg-danger bg-gradient">{{g.trangthai}}</h5>
+                          <div class="card-body">
+                            <h5 class="card-title">g.ten_giaidau</h5>
+                            <p>
+                              <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">{{g.ma_giaidau}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Số đội: <h8 class="card-text ms-1 text-white">{{g.sosoi_thamdu}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Lứa tuổi: <h8 class="card-text ms-1 text-white">{{g.luatuoi}}</h8></h8>
+                              <h8 class="card-text text-info me-4">Lệ phí: <h8 class="card-text ms-1 text-white">{{g.lephi}} vnđ/đội</h8></h8>
+                            </p>
+                            <a href="/jointournament/{{g.ma_giaidau}}" class="btn btn-primary">Tham gia</a>
+                            <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
+                          </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
         
                         <div class="card bg-dark mt-5">
                           <h5 class="card-header bg-success bg-gradient">Chuẩn bị</h5>
@@ -251,27 +242,6 @@
                             <a href="#" class="btn btn-primary float-end">Xem giải đấu</a>
                           </div>
                         </div>
-
-                        <div class="mt-5">
-
-                          <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-                        </div>
         
                         </div>
                     </div>
@@ -281,8 +251,6 @@
         {% include 'partials/footer.html' %}
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- {% include 'partials/ownJS.html' %} -->
 
 </body>

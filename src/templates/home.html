@@ -46,7 +46,8 @@
       </div>
     </div>
     <div class="s008">
-      <form>
+      <form method='POST' action='search'>
+        {% csrf_token %}
         <div class="inner-form">
           <div class="basic-search">
             <div class="input-field">
@@ -80,9 +81,9 @@
                 <div class="input-select">
                   <select data-trigger="" name="age">
                     <option placeholder="" value="">Độ tuổi</option>
-                    <option>U16</option>
-                    <option>U19</option>
-                    <option>U23</option>
+                    <option value=16>U16</option>
+                    <option value=19>U19</option>
+                    <option value=23>U23</option>
                   </select>
                 </div>
               </div>
