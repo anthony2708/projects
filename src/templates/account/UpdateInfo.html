@@ -38,36 +38,51 @@
         <div class="hero" style="background-image: url('../static/images/bg-7.jpg');">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class=" ml-auto">
+                    <div class=" ml-auto mt-5">
                         <div class="text-light">
 
-                            <p1>UPDATE YOUR INFO HERE</p1>
+                            <div class="mb-3 mt-5">
+                                <h2>CẬP NHẬT THÔNG TIN CÁ NHÂN</h2>
+                            </div>
                             <p>Tên tài khoản:  {{taikhoan.username}}</p>
                             <p>Mật khẩu:   ******</p>
                             <p>Email:   {{taikhoan.email}}</p>
                             <form method="POST" name='updateinfo'>
                                 {% csrf_token %}
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">Họ và tên</span>
-                                    <input type="text" class="form-control col-7">
+                                    <span class="input-group-text" id="basic-addon1" name='hoten'>Họ và tên</span>
+                                    <input type="text" class="form-control col-5">
                                 </div>
     
-                                <p>Ngày sinh:</p>
-                                <input type="date" name="ngaysinh">
-    
-                                <p>Giới tính:</p>
-                                <input type="radio" value="male" name='gioitinh' id='male'>
-                                <label for='male'>Nam</label>
-                                <input type="radio" value="female" name='gioitinh' id='female'>
-                                <label for='female'>Nữ</label>
-    
-                                <p>Địa chỉ:</p>
-                                <input type="text" name='diachi'>
-    
-                                <p>Số điện thoại::</p>
-                                <input type="text" name='so_dienthoai'>
-    
-                                <input type="submit">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">Ngày sinh</span>
+                                    <input type="date" name='ngaysinh' class="ms-3">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1" name='diachi'>Địa chỉ</span>
+                                    <input type="text" class="form-control col-6"  name='diachi'>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1" name='so_dienthoai'>Số điện thoại</span>
+                                    <input type="text" class="form-control col-4"  name='so_dienthoai'>
+                                </div>
+
+                                <p>Giới tính: </p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gioitinh" id="male">
+                                    <label class="form-check-label" for="male">
+                                      Nam
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gioitinh" id="female" checked>
+                                    <label class="form-check-label" for="female">
+                                      Nữ
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-success mt-3" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Xác nhận</button>
                             </form>
                         </div>
                     </div>
@@ -82,31 +97,3 @@
 </body>
 
 </html>
-
-
-<!-- <p1>UPDATE YOUR INFO HERE</p1>
-<p>Tên tài khoản: {{taikhoan.ten_taikhoan}}</p>
-<p>Mật khẩu: ******</p>
-<p>Email: {{taikhoan.email}}</p>
-<form method="POST" name='updateinfo'>
-    {% csrf_token %}
-    <p>Họ tên:</p>
-    <input type="text" name='hoten'>
-
-    <p>Ngày sinh:</p>
-    <input type="date" name="ngaysinh">
-
-    <p>Giới tính:</p>
-    <input type="radio" value="male" name='gioitinh' id='male'>
-    <label for='male'>Nam</label>
-    <input type="radio" value="female" name='gioitinh' id='female'>
-    <label for='female'>Nữ</label>
-
-    <p>Địa chỉ:</p>
-    <input type="text" name='diachi'>
-
-    <p>Số điện thoại::</p>
-    <input type="text" name='so_dienthoai'>
-
-    <input type="submit">
-</form> -->

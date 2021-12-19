@@ -379,6 +379,9 @@ def createteam(request):
 
     return render(request, 'user/createteam.html')
 
+@login_required(login_url='/signin')
+def myteam(request):
+    return render(request, 'user/myteam.html')
 
 @login_required(login_url='/signin')
 def match_arrange(request, pk):
