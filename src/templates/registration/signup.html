@@ -49,15 +49,15 @@
           {% csrf_token %}
           <div class="form-group">
             <label for="username">Tên đăng nhập</label>
-            <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username" name="username">
+            <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username" name="username" required>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" placeholder="Email" id="email" name="email">
+            <input type="email" class="form-control" placeholder="Email" id="email" name="email" required>
           </div>
           <div class="form-group">
             <label for="password">Mật khẩu</label>
-            <input type="password" class="form-control" placeholder="Mật khẩu" id="password" name="password">
+            <input type="password" class="form-control" placeholder="Mật khẩu" id="password" name="password" required>
           </div>
           <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">Đăng ký</button>

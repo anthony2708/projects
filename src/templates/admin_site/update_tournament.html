@@ -1,39 +1,11 @@
 {% extends 'admin_site/base.html' %}
 
 {% block tab1 %}
-<div class="modal fade" id="msg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="msgLabel">Kết quả tạo giải đấu</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {% for message in messages %}
-        {{message}}<br>
-        {% endfor %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="container-fluid mx-5 my-2">
   <div class="row mb-4">
     <div class="col-5">
-      <h1>Tạo giải đấu</h1>
+      <h1>Chỉnh sửa giải đấu</h1>
     </div>
-    <div class="col-1"></div>
-    <div class="col-2 text-center" id="back">
-      <a href="/admin_site/1/create_tournament/back">
-        <h4><i class="bi bi-arrow-left"></i> Trở về</h4>
-      </a>
-    </div>
-    <div class="col"></div>
   </div>
   <div class="row">
     <div class="col-5">
@@ -41,60 +13,69 @@
         {% csrf_token %}
         <div class="form-group">
           <label for="tournamentName">Tên giải đấu</label>
-          <input type="text" class="form-control" id="tournamentName" name="tournamentName" required />
+          <input type="text" class="form-control" id="tournamentName" name="tournamentName" value="{{ tournament.ten_giaidau }}" required />
         </div>
         <div class="form-group">
           <label for="type">Loại sân</label>
           <select id="type" class="form-control" name="type">
-            <option selected value="5">
+            <option {% if tournament.loaisan == 5 %} selected {% endif %} value="5">
               Trong nhà - 5 người
             </option>
-            <option value="11">Ngoài trời - 11 người</option>
+            <option {% if tournament.loaisan == 11 %} selected {% endif %} value="11">
+              Ngoài trời - 11 người
+            </option>
           </select>
         </div>
         <div class="form-group">
           <label for="numTeams">Số đội</label>
           <select id="numTeams" class="form-control" name="numTeams">
-            <option selected value="8">8 đội</option>
-            <option value="16">16 đội</option>
+            <option {% if tournament.sodoi_thamdu == 8 %} selected {% endif %} value="8">8 đội</option>
+            <option {% if tournament.sodoi_thamdu == 16 %} selected {% endif %} value="16">16 đội</option>
           </select>
         </div>
         <div class="form-group">
           <label for="age">Lứa tuổi</label>
           <select id="age" class="form-control" name="age">
-            <option selected value="16">U16</option>
-            <option value="19">U19</option>
-            <option value="23">U23</option>
+            <option {% if tournament.luatuoi == 16 %} selected {% endif %} value="16">U16</option>
+            <option {% if tournament.luatuoi == 19 %} selected {% endif %} value="19">U19</option>
+            <option {% if tournament.luatuoi == 23 %} selected {% endif %} value="23">U23</option>
           </select>
         </div>
         <div class="form-group">
           <label for="fee">Lệ phí</label>
-          <input type="number" class="form-control" id="fee" name="fee" required />
+          <input type="number" class="form-control" id="fee" name="fee" value="{{ tournament.lephi }}" required />
         </div>
         <div class="form-group">
           <label for="format">Thể thức thi đấu</label>
           <select id="format" class="form-control" name="format">
-            <option selected value="1">Vòng loại 1 lượt</option>
-            <option value="2">Vòng loại 2 lượt</option>
+            <option {% if tournament.thethuc == "Vòng loại 1 lượt" %} selected {% endif %} value="1">Vòng loại 1 lượt</option>
+            <option {% if tournament.thethuc == "Vòng loại 2 lượt" %} selected {% endif %} value="2">Vòng loại 2 lượt</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label for="state">Trạng thái</label>
+          <input type="text" class="form-control" id="state" name="state" value="{{ tournament.trangthai }}" required />
         </div>
         <div class="form-group">
           <label for="viewMode">Chế độ xem</label>
           <div id="viewMode">
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="public" name="viewMode" class="custom-control-input" value="public" required />
+              <input type="radio" id="public" name="viewMode" class="custom-control-input" value="public" {% if tournament.chedo == 1 %} checked {% endif %} required />
               <label class="custom-control-label" for="public">Công khai</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="private" name="viewMode" class="custom-control-input" value="private" required />
+              <input type="radio" id="private" name="viewMode" class="custom-control-input" value="private" {% if tournament.chedo == 0 %} checked {% endif %} required />
               <label class="custom-control-label" for="private">Không công khai</label>
             </div>
           </div>
         </div>
         <div class="form-group my-5 mx-2">
-          <button type="submit" class="btn btn-primary btnCreate">
-            Tạo
+          <button type="submit" class="btn btn-success">
+            Chỉnh sửa
           </button>
+          <a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/update/back" class="btn btn-danger">
+            Huỷ
+          </a>
         </div>
       </form>
     </div>

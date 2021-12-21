@@ -1,10 +1,12 @@
+from django.core.checks.messages import Error
 # from django.http import request
 from django.http.response import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # from django.urls import reverse, reverse_lazy
 import random
-
+import os
 # from .forms import CreateUserForm
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages, auth
@@ -581,23 +583,12 @@ def match(request, tourpk, matchpk):
 
 
 @login_required(login_url='/admin_site/signin')
-def admin_site(req, tab=None):
-    if tab is None:
-        tab = 1
+def admin_site(req, tabActive=None):
+    if tabActive is None:
+        tabActive = 1
     context = {}
-    for i in range(4):
-        if i + 1 == tab:
-            tabActive = "tab" + str(i + 1)
-            context[tabActive] = {
-                "active": "active",
-                "show": "show",
-            }
-        else:
-            tabActive = "tab" + str(i + 1)
-            context[tabActive] = {
-                "active": "",
-                "show": "",
-            }
+    contextTabActive = CreateContextTabActive(tabActive)
+    context.update(contextTabActive)
 
     if req.user.is_authenticated and req.user.username != "admin":
         auth.logout(req)
@@ -617,6 +608,8 @@ def admin_site(req, tab=None):
 
     tournaments = GIAIDAU.objects.all()
     context['tournaments'] = tournaments
+    users = User.objects.exclude(username="admin").order_by('id')
+    context['users'] = users
 
     return render(req, 'admin_site/home.html', context)
 
@@ -659,26 +652,15 @@ def admin_signout(req):
 def admin_create_tournament(req):
     context = {}
     tabActive = 1
-    for i in range(4):
-        if i + 1 == tabActive:
-            tab = "tab" + str(i + 1)
-            context[tab] = {
-                "active": "active",
-                "show": "show",
-            }
-        else:
-            tab = "tab" + str(i + 1)
-            context[tab] = {
-                "active": "",
-                "show": "",
-            }
+    contextTabActive = CreateContextTabActive(tabActive)
+    context.update(contextTabActive)
 
     if req.method == 'POST':
 
         tengiaidau = req.POST.get('tournamentName')
         sodoithamdu = req.POST.get('numTeams')
         thethuc = req.POST.get('format')
-        if thethuc == 1:
+        if thethuc == "1":
             thethuc = "Vòng loại 1 lượt"
         else:
             thethuc = "Vòng loại 2 lượt"
@@ -690,7 +672,7 @@ def admin_create_tournament(req):
             chedo_final = 1
         else:
             chedo_final = 0
-        trangthai = "Đang diễn ra"
+        trangthai = "Chuẩn bị"
 
         giaidau = GIAIDAU(ten_giaidau=tengiaidau,
                           sodoi_thamdu=sodoithamdu,
@@ -703,6 +685,9 @@ def admin_create_tournament(req):
         else:
             context['showMsg'] = True
             messages.error(req, "Tạo giải đấu không thành công")
+    
+    users = User.objects.exclude(username="admin").order_by('id')
+    context['users'] = users
 
     return render(req, 'admin_site/create_tournament.html', context)
 
@@ -714,26 +699,163 @@ def admin_create_tournament_back(req):
 
 @login_required(login_url='/admin_site/signin')
 def admin_search(req):
-    tab = 1
     context = {}
-    for i in range(4):
-        if i + 1 == tab:
-            tabActive = "tab" + str(i + 1)
-            context[tabActive] = {
-                "active": "active",
-                "show": "show",
-            }
-        else:
-            tabActive = "tab" + str(i + 1)
-            context[tabActive] = {
-                "active": "",
-                "show": "",
-            }
+    tabActive = 1
+    contextTabActive = CreateContextTabActive(tabActive)
+    context.update(contextTabActive)
 
     keyword = req.GET.get('keyword')
 
     tournaments = GIAIDAU.objects.filter(ten_giaidau=keyword)
     context['tournaments'] = tournaments
     context['count'] = tournaments.count()
+    
+    users = User.objects.exclude(username="admin").order_by('id')
+    context['users'] = users
 
     return render(req, 'admin_site/search_result.html', context)
+
+@login_required(login_url='/admin_site/signin')
+def admin_view_tournament(req, pk):
+    tournament = get_object_or_404(GIAIDAU, ma_giaidau=pk)
+    teams = DOIBONG.objects.filter(playin=pk)
+    
+    context = {}
+    tabActive = 1
+    contextTabActive = CreateContextTabActive(tabActive)
+    context.update(contextTabActive)
+    context['tournament'] = tournament
+    context['teams'] = teams
+
+    users = User.objects.exclude(username="admin").order_by('id')
+    context['users'] = users
+
+    return render(req, 'admin_site/view_tournament.html', context)
+
+@login_required(login_url='/admin_site/signin')
+def admin_update_tournament(req, pk):
+    tournament = GIAIDAU.objects.get(ma_giaidau=pk)
+    context = {}
+    tabActive = 1
+    contextTabActive = CreateContextTabActive(tabActive)
+    context.update(contextTabActive)
+    context['tournament'] = tournament
+    try:
+        if req.method == "POST":
+            if tournament is not None:
+                tengiaidau = req.POST.get('tournamentName')
+                sodoithamdu = req.POST.get('numTeams')
+                thethuc = req.POST.get('format')
+                if thethuc == "1":
+                    thethuc = "Vòng loại 1 lượt"
+                else:
+                    thethuc = "Vòng loại 2 lượt"
+                luatuoi = req.POST.get('age')
+                lephi = req.POST.get('fee')
+                loaisan = req.POST.get('type')
+                chedo = req.POST.get('viewMode')
+                if chedo == "public":
+                    chedo_final = 1
+                else:
+                    chedo_final = 0
+                trangthai = req.POST.get('state')
+
+                tournament.ten_giaidau = tengiaidau
+                tournament.sodoi_thamdu = sodoithamdu
+                tournament.thethuc = thethuc
+                tournament.luatuoi = luatuoi
+                tournament.lephi = lephi
+                tournament.loaisan = loaisan
+                tournament.chedo = chedo_final
+                tournament.trangthai = trangthai
+
+                tournament.save()
+                url = '/admin_site/1/tournament/' + str(tournament.ma_giaidau)
+                return redirect(url)
+    except os.error:
+        print(os.error)
+
+    users = User.objects.exclude(username="admin").order_by('id')
+    context['users'] = users
+
+    return render(req, 'admin_site/update_tournament.html', context)
+
+@login_required(login_url='/admin_site/signin')
+def admin_update_tournament_back(req, pk):
+    url = '/admin_site/1/tournament/' + str(pk)
+    return redirect(url)
+
+
+@login_required(login_url='/admin_site/signin')
+def admin_delete_tournament(req, pk):
+    try:
+        giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+        doibong = DOIBONG.objects.filter(playin=pk)
+        for db in doibong:
+            db.playing = False
+            db.playin = None
+            db.save()
+        giaidau.delete()
+    except os.error:
+        print(os.error)
+
+    return redirect('/admin_site/1')
+
+@login_required(login_url='/admin_site/signin')
+def admin_match_arrange(req, pk):
+    context = {}
+    giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+    if giaidau.sodoi_hientai == giaidau.sodoi_thamdu:
+        if giaidau.is_arranged is False:
+            giaidau.randomly_matches_gen()
+            giaidau.trangthai = 'Đang diễn ra'
+            giaidau.save()
+            url = '/admin_site/1/tournament/' + str(pk)
+            return redirect(url)
+        else:
+            messages.error(req, "Giải đấu đã được sắp xếp rồi.")
+            context['showMsgTab1'] = True
+            context['showTabMatch'] = True
+            return render(req, 'admin_site/view_tournament.html', context)
+    else:
+        messages.error(req, "Chưa đủ số đội tham dự.")
+        context['showMsgTab1'] = True
+        context['showTabMatch'] = True
+        return render(req, 'admin_site/view_tournament.html', context)
+
+
+
+@login_required(login_url='/admin_site/signin')
+def admin_view_user(req, pk):
+
+    # Xem thông tin người dùng
+
+    
+    return redirect('/admin_site/2')
+
+@login_required(login_url='/admin_site/signin')
+def admin_delete_user(req, pk):
+
+    # Xoá người dùng
+
+    
+    return redirect('/admin_site/2')
+
+
+# Tạo context tabActive
+def CreateContextTabActive(tabActive):
+    context = {}
+    for i in range(3):
+        if i + 1 == tabActive:
+            tab = "tab" + str(i + 1)
+            context[tab] = {
+                "active": "active",
+                "show": "show",
+            }
+        else:
+            tab = "tab" + str(i + 1)
+            context[tab] = {
+                "active": "",
+                "show": "",
+            }
+    return context
