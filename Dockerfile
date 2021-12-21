@@ -3,11 +3,11 @@ FROM ubuntu:latest
 
 # Cập nhật apt và cài đặt git
 RUN apt-get update && apt-get install -y git
-# Cài đặt python3 và python3-pip
-RUN apt-get install -y python3 && apt-get install -y vim
+# Cài đặt python3
+RUN apt-get install -y python3
 # Thiết lập thành thư mục /home/github
 WORKDIR /home/github
 # Clone repo từ github
 RUN git clone https://github.com/anthony2708/CN02_Socket.git
-# Thay đổi thư mục chạy
+# Thay đổi thư mục
 WORKDIR /home/github/CN02_Socket
