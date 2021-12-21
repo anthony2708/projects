@@ -1,3 +1,5 @@
+# from math import e
+# from django.contrib.auth import login
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.fields import BigAutoField, CharField
@@ -109,13 +111,12 @@ class GIAIDAU(models.Model):
         list_team_in_group = []
         for xh in list_xephang:
             ma_doibong = xh.ma_doibong
-            # doibong = DOIBONG.objects.get(ma_doibong=ma_doibong)
             list_team_in_group.append(ma_doibong)
         for i in range(0, 4):
             for j in range(i+1, 4):
                 trandau = TRANDAU(
                     ma_giaidau=self,
-                    trongtai=TRONGTAI().get_random_trongtai()
+                    trongtai=TRONGTAI.get_random_trongtai()
                 )
                 trandau.save()
                 chitiettrandau = CHITIETTRANDAU(
@@ -136,8 +137,151 @@ class GIAIDAU(models.Model):
             self.randomly_matches_gen_in_group(bangdau='B')
             self.randomly_matches_gen_in_group(bangdau='C')
             self.randomly_matches_gen_in_group(bangdau='D')
+
+        self.quarter_matches()
+        self.semi_matches()
+        self.final_match()
+
         self.is_arranged = True
         self.save()
+
+    def quarter_matches(self):
+        if self.sodoi_thamdu == 8:
+            return None
+        else:
+            CHITIETTRANDAU.match_making(
+                self, None, None, TRONGTAI.get_random_trongtai(), 'tuket1')
+            CHITIETTRANDAU.match_making(
+                self, None, None, TRONGTAI.get_random_trongtai(), 'tuket2')
+            CHITIETTRANDAU.match_making(
+                self, None, None, TRONGTAI.get_random_trongtai(), 'tuket3')
+            CHITIETTRANDAU.match_making(
+                self, None, None, TRONGTAI.get_random_trongtai(), 'tuket4')
+
+    def semi_matches(self):
+        CHITIETTRANDAU.match_making(
+            self, None, None, TRONGTAI.get_random_trongtai(), 'banket1')
+        CHITIETTRANDAU.match_making(
+            self, None, None, TRONGTAI.get_random_trongtai(), 'banket2')
+
+    def final_match(self):
+        CHITIETTRANDAU.match_making(
+            self, None, None, TRONGTAI.get_random_trongtai(), 'chungket')
+
+    def get_ranking(self):
+        bxh = []
+        if self.trangthai == 'Đang diễn ra':
+            xephang = XEPHANG.objects.filter(ma_giaidau=self.ma_giaidau)
+            return xephang.order_by('thuhang', 'bangdau')
+
+    def is_semi(self):
+        chitiet1 = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='tuket1')
+        chitiet2 = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='tuket2')
+        chitiet3 = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='tuket3')
+        chitiet4 = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='tuket4')
+        if chitiet1 is None or chitiet2 is None or chitiet3 is None \
+                or chitiet4 is None:
+            return False
+        return True
+
+    def is_quater(self):
+        chitiet = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='')
+        for c in chitiet:
+            if c.banthang_A is None:
+                return False
+        return True
+
+    def is_final(self):
+        chitiet1 = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='banket1')
+        chitiet2 = CHITIETTRANDAU.objects.filter(
+            ma_giaidau=self.ma_giaidau, tinhchat='banket2')
+
+        if chitiet1 is None or chitiet2 is None:
+            return False
+        return True
+
+    def update_playoff(self):
+        if self.is_final():
+            doiA = CHITIETTRANDAU.objects.get(
+                ma_giaidau=self.ma_giaidau, tinhchat='banket1').get_winner()
+            doiB = CHITIETTRANDAU.objects.get(
+                ma_giaidau=self.ma_giaidau, tinhchat='banket2').get_winner()
+            chitiet = CHITIETTRANDAU.objects.get(
+                ma_giaidau=self.ma_giaidau, tinhchat='chungket')
+            chitiet.ma_doiA, chitiet.ma_doiB = doiA, doiB
+            chitiet.save()
+        elif self.is_semi():
+            if self.sodoi_thamdu == 8:
+                nhatA = XEPHANG.get_first(self, 'A')
+                nhiB = XEPHANG.get_second(self, 'B')
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='banket1')
+                chitiet.ma_doiA, chitiet.ma_doiB = nhatA, nhiB
+                chitiet.save()
+
+                nhatB = XEPHANG.get_first(self, 'B')
+                nhiA = XEPHANG.get_second(self, 'A')
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='banket2')
+                chitiet.ma_doiA, chitiet.ma_doiB = nhatB, nhiA
+                chitiet.save()
+            else:
+                doiA = CHITIETTRANDAU.objects.filter(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket1').get_winner()
+                doiB = CHITIETTRANDAU.objects.filter(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket2').get_winner()
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='banket1')
+                chitiet.ma_doiA, chitiet.ma_doiB = doiA, doiB
+                chitiet.save()
+
+                doiC = CHITIETTRANDAU.objects.filter(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket3').get_winner()
+                doiD = CHITIETTRANDAU.objects.filter(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket4').get_winner()
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='banket2')
+                chitiet.ma_doiA, chitiet.ma_doiB = doiC, doiD
+                chitiet.save()
+        elif self.is_quater():
+            if self.sodoi_thamdu == 8:
+                pass
+            else:
+                nhatA = XEPHANG.get_first(self, 'A')
+                nhiB = XEPHANG.get_second(self, 'B')
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket1')
+                chitiet.ma_doiA, chitiet.ma_doiB = nhatA, nhiB
+                chitiet.save()
+
+                nhiA = XEPHANG.get_second(self, 'A')
+                nhatB = XEPHANG.get_first(self, 'B')
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket2')
+                chitiet.ma_doiA, chitiet.ma_doiB = nhatB, nhiA
+                chitiet.save()
+
+                nhatC = XEPHANG.get_first(self, 'C')
+                nhiD = XEPHANG.get_second(self, 'D')
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket3')
+                chitiet.ma_doiA, chitiet.ma_doiB = nhatC, nhiD
+                chitiet.save()
+
+                nhiC = XEPHANG.get_second(self, 'C')
+                nhatD = XEPHANG.get_first(self, 'D')
+                chitiet = CHITIETTRANDAU.objects.get(
+                    ma_giaidau=self.ma_giaidau, tinhchat='tuket4')
+                chitiet.ma_doiA, chitiet.ma_doiB = nhatD, nhiC
+                chitiet.save()
+        else:
+            pass
 
 
 class DOIBONG(models.Model):
@@ -149,7 +293,7 @@ class DOIBONG(models.Model):
     # is team playing in any tournament?
     playing = models.BooleanField(null=False, default=False)
     # playin {ma_giaidau} tournament
-    playin = models.ForeignKey(GIAIDAU, on_delete=CASCADE, null=True)
+    playin = models.ForeignKey(GIAIDAU, on_delete=SET_NULL, null=True)
 
 
 class CAUTHU(models.Model):
@@ -178,7 +322,7 @@ class TRONGTAI(models.Model):
     ma_trongtai = models.BigAutoField(primary_key=True, null=False)
     ten_trongtai = models.CharField(max_length=50, null=False)
 
-    def get_random_trongtai(self):
+    def get_random_trongtai():
         return TRONGTAI.objects.order_by('?').first()
 
 
@@ -202,15 +346,39 @@ class CHITIETTRANDAU(models.Model):
     ma_trandau = models.ForeignKey(TRANDAU, on_delete=CASCADE)
     ma_giaidau = models.ForeignKey(GIAIDAU, on_delete=CASCADE)
     ma_doiA = models.ForeignKey(
-        DOIBONG, on_delete=CASCADE, related_name='DoiA')
+        DOIBONG, on_delete=CASCADE, related_name='DoiA', null=True)
     ma_doiB = models.ForeignKey(
-        DOIBONG, on_delete=CASCADE, related_name='DoiB')
+        DOIBONG, on_delete=CASCADE, related_name='DoiB', null=True)
     banthang_A = models.IntegerField(null=True)
     banthang_B = models.IntegerField(null=True)
     thephat_A = models.IntegerField(null=True)
     thephat_B = models.IntegerField(null=True)
+    tinhchat = models.CharField(null=True, default='', max_length=10)
     ketqua = models.ForeignKey(
         DOIBONG, null=True, on_delete=CASCADE, related_name='ketqua')
+
+    def get_winner(self):
+        if self.banthang_A is None and self.banthang_B is None:
+            return None
+        elif self.banthang_A > self.banthang_B:
+            return self.ma_doiA
+        elif self.banthang_B > self.banthang_A:
+            return self.ma_doiB
+
+    def match_making(ma_giaidau, ma_doiA, ma_doiB, ma_trongtai, tinhchat):
+        trandau = TRANDAU(
+            ma_giaidau=ma_giaidau,
+            trongtai=ma_trongtai,
+        )
+        chitiet = CHITIETTRANDAU(
+            ma_giaidau=ma_giaidau,
+            ma_trandau=trandau,
+            ma_doiA=ma_doiA,
+            ma_doiB=ma_doiB,
+            tinhchat=tinhchat
+        )
+        trandau.save()
+        chitiet.save()
 
 
 class XEPHANG(models.Model):
@@ -232,12 +400,34 @@ class XEPHANG(models.Model):
         for team in list_team_in_group:
             list_score.append(team.so_diem)
         list_score.sort(reverse=True)
-        self.thuhang = list_score.index(self.so_diem)+1
         for team in list_team_in_group:
-            if team.thuhang == self.thuhang:
-                if team.hieuso < self.hieuso:
-                    team.thuhang += 1
-                    team.save()
-                else:
-                    self.thuhang += 1
-                    self.save()
+            team.thuhang = list_score.index(team.so_diem)+1
+            team.save()
+        for team in list_team_in_group:
+            for t in list_team_in_group:
+                if team != t and team.thuhang == t.thuhang:
+                    if team.hieuso > t.hieuso:
+                        t.thuhang += 1
+                        t.save()
+                    else:
+                        team.thuhang += 1
+                        team.save()
+
+    def get_first(giaidau, bangdau):  # get team at the first place
+        first = XEPHANG.objects.get(
+            ma_giaidau=giaidau, bangdau=bangdau, thuhang=1)
+        if first:
+            if first.sotran < 3:
+                return first
+            else:
+                return None
+        else:
+            return None
+
+    def get_second(giaidau, bangdau):
+        second = XEPHANG.objects.get(
+            ma_giaidau=giaidau, bangdau=bangdau, thuhang=2)
+        if second.sotran < 3:
+            return second
+        else:
+            return None

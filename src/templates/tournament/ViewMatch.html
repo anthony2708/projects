@@ -1,0 +1,18 @@
+<h1>Thông tin trận đấu</h1>
+{% if chitiet.banthang_A %}
+<br>
+<h2>
+<p style="color: blue;">{{doiA.ten_doibong}}</p> {{chitiet.banthang_A}} - {{chitiet.banthang_B}} <p style="color: red;">{{doiB.ten_doibong}}</p>
+</h2>
+<h3>Thông số trận đấu:</h3>
+<p>Thẻ phạt: {{chitiet.thephat_A}} - {{chitiet.thephat_B}}</p>
+<h3>Highlight:</h3>
+<p></p>
+{% else %}
+<h2>
+<p style="color: blue;">{{doiA.ten_doibong}}</p> Sắp diễn ra <p style="color: red;">{{doiB.ten_doibong}}</p>
+</h2>
+<h3>Thông số trận đấu:</h3>
+<p>Thẻ phạt: 0 - 0</p>
+<h3>Highlight: Sắp diễn ra</h3>
+{% endif %} 

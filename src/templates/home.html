@@ -46,7 +46,8 @@
       </div>
     </div>
     <div class="s008">
-      <form>
+      <form method='POST' action='search'>
+        {% csrf_token %}
         <div class="inner-form">
           <div class="basic-search">
             <div class="input-field">
@@ -80,9 +81,9 @@
                 <div class="input-select">
                   <select data-trigger="" name="age">
                     <option placeholder="" value="">Độ tuổi</option>
-                    <option>U16</option>
-                    <option>U19</option>
-                    <option>U23</option>
+                    <option value=16>U16</option>
+                    <option value=19>U19</option>
+                    <option value=23>U23</option>
                   </select>
                 </div>
               </div>
@@ -205,6 +206,8 @@
   </div>
   {% include 'partials/ownJS.html' %}
   {% include 'partials/searchJS.html' %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 
 </body>

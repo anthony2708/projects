@@ -3,13 +3,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('', views.index, name='index'),
     path('home', views.index, name='home'),
     path('signup', views.signup, name='signup'),
     path('signin', views.signin, name='signin'),
     path('signout', views.signout, name='signout'),
     path('editprofile', views.editprofile, name='editprofile'),
     path('createteam', views.createteam, name='createteam'),
+    path('myteam', views.myteam, name='myteam'),
     path('tournaments', views.allTournaments, name='tournaments'),
     path('createtournaments', views.createtournaments,
          name='createtournaments'),
@@ -23,11 +24,13 @@ urlpatterns = [
     path('deletetournament/<str:pk>', views.deletetournament,
          name='deletetournament'),  # delete tournament
     path('matcharrange/<str:pk>', views.match_arrange, name='match_arrange'),
-    path('matchupdate/<str:tourpk>/<str:matchpk>',
+    path('matchupdate/<str:tourpk>/<str:matchpk>',  # update match result
          views.matchupdate, name='matchupdate'),
     path('matcharrangeresult/<str:pk>',
          views.match_arrange_result, name='match_arrange_result'),
 
+    path('match/<str:tourpk>/<str:matchpk>', views.match, name='match'),
+    # view single match
 
     # Admin site
     path('admin_site', views.admin_site, name='admin_site'),

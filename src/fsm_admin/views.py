@@ -1,16 +1,18 @@
 from django.core.checks.messages import Error
+# from django.http import request
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+# from django.urls import reverse, reverse_lazy
 import random
 import os
-from .forms import CreateUserForm
+# from .forms import CreateUserForm
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from fsm_admin.models import CAUTHU, CHITIETTRANDAU, DOIBONG, GIAIDAU, \
-    HAUCAN, HLVIEN, TAIKHOAN, TRANDAU, XEPHANG
+    HAUCAN, HLVIEN, TAIKHOAN, TRANDAU, XEPHANG, TRONGTAI
 # Create your views here.
 
 
@@ -64,7 +66,7 @@ def signin(req):
 
             if rememberme is not False:
                 req.session.set_expiry(2629746)  # 1 tháng
-            return redirect('/home')
+            return redirect('/')
         else:
             messages.error(req, "Tên đăng nhập hoặc mật khẩu không đúng.")
             context['fail'] = True
@@ -111,23 +113,22 @@ def editprofile(request):
 
 def search(request):
     if request.method == 'POST':
-        # if request.GET.get('query'):
-        #     query = request.GET.get('query')
-        #     checklist = request.GET.getlist('search')
         query = request.POST.get('nameOrId')
         agecond = request.POST.get('age')
         numofteamcond = request.POST.get('numOfTeam')
         giaidau = GIAIDAU.objects.filter(ten_giaidau=query)
-        # redirect('index')
         if agecond == '' and numofteamcond == '':
-            if giaidau is not None:
+            giaidaus = []
+            if giaidau:
+                for g in giaidau:
+                    giaidaus.append(g)
                 return render(request, 'tournament/SearchResult.html',
                               {'giaidau': giaidau})
             else:
-                return render(request, 'tournament/TournamentNotExists.html')
-        elif agecond == '' and numofteamcond:
+                return render(request, 'tournament/TournamentNotExist.html')
+        elif agecond == '' and numofteamcond != '':
             giaidaus = []
-            if giaidau is not None:
+            if giaidau:
                 for g in giaidau:
                     if g.sodoi_thamdu == int(numofteamcond):
                         giaidaus.append(g)
@@ -142,34 +143,24 @@ def search(request):
                 for g in giaidau:
                     if g.luatuoi == int(agecond):
                         giaidaus.append(g)
+
+            if len(giaidaus) > 0:
                 return render(request, 'tournament/SearchResult.html',
                               {'giaidau': giaidaus})
             else:
                 return render(request, 'tournament/TournamentNotExist.html')
         elif agecond != '' and numofteamcond != '':
             giaidaus = []
-            if giaidau is not None:
+            if giaidau:
                 for g in giaidau:
                     if g.luatuoi == int(agecond) and g.sodoi_thamdu == \
                             int(numofteamcond):
                         giaidaus.append(g)
+            if len(giaidaus) > 0:
                 return render(request, 'tournament/SearchResult.html',
                               {'giaidau': giaidaus})
             else:
                 return render(request, 'tournament/TournamentNotExist.html')
-
-        # if cond == 'name':
-        #     if GIAIDAU.objects.filter(ten_giaidau=query):
-        #         giaidau = GIAIDAU.objects.filter(ten_giaidau=query)
-        #         return render(request, 'tournament/SearchResult.html',
-        # {'giaidau':giaidau})
-        #     else:
-        #         return render(request, 'tournament/TournamentNotExist.html')
-        # elif cond=='pk':
-        #     if GIAIDAU.objects.filter(ma_giaidau=query):
-        #         return tournament(request, query)
-        #     else:
-        #         return render(request, 'tournament/TournamentNotExist.html')
 
     return render(request, 'tournament/search.html')
 
@@ -177,15 +168,24 @@ def search(request):
 # Get all tournaments from the database
 def allTournaments(request):
     giaidau = GIAIDAU.objects.all()
-    return render(request, 'tournament/viewtournament.html',
+    return render(request, 'tournament/viewalltournament.html',
                   {'tournament': giaidau})
 
 
 # Get tournament base on key
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
+    bxh = giaidau.get_ranking()
+    chitiet = CHITIETTRANDAU.objects.filter(ma_giaidau=pk)
+    doibong = []
+    if bxh:
+        for b in bxh:
+            doibong.append(b.ma_doibong)
     return render(request, 'tournament/viewtournament.html',
-                  {'tournament': giaidau})
+                  {'tournament': giaidau,
+                   'ranking': bxh,
+                   'team': doibong,
+                   'detail': chitiet, })
 
 
 @login_required(login_url='/signin')
@@ -283,11 +283,13 @@ def deletetournament(request, pk):
     if current_user.is_superuser:
         if request.method == 'GET':
             giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
-            giaidau.delete()
             doibong = DOIBONG.objects.filter(playin=pk)
-            doibong.playing = False
-            doibong.save()
-            redirect('index')
+            for db in doibong:
+                db.playing = False
+                db.playin = None
+                db.save()
+                giaidau.delete()
+                redirect('index')
     else:
         return render(request, 'admin/DeleteTournamentNotGranted.html')
 
@@ -299,6 +301,8 @@ def createteam(request):
     if request.method == 'POST':
         current_user = request.user
         # user_id = current_user.id
+        numofplayer = int(request.POST.get('numofplayer'))
+        numofCoachOrSupport = int(request.POST.get('numofCoachOrSupport'))
         nameTeam = request.POST.get('nameTeam')
         colorHomeTeam = request.POST.get('colorHomeTeam')
         colorVisitTeam = request.POST.get('colorVisitTeam')
@@ -309,7 +313,7 @@ def createteam(request):
             ten_taikhoan=current_user
         )
         doibong.save()
-        for i in range(1, 4):
+        for i in range(1, numofplayer+1):
             index = str(i)
             # player
             namePlayer = 'namePlayer'+index
@@ -341,48 +345,58 @@ def createteam(request):
             cauthu.save()
 
         # now get value
-        namec = request.POST.get('nameCoachOrSupport1')
-        rolec = request.POST.get('role1')
-        if rolec == 'HLVT':
-            rolec = 'HLV Trưởng'  # create hlv truong
-            hlvt = HLVIEN(
-                ten_hlv=namec,
-                vaitro=rolec,
-                ma_doibong=doibong,
-            )
-            hlvt.save()
-        elif rolec == 'HLVP':  # create hlv pho
-            rolec = 'HLP Phó'
-            hlvp = HLVIEN(
-                ten_hlv=namec,
-                vaitro=rolec,
-                ma_doibong=doibong,
-            )
-            hlvp.save()
-        else:
-            hc = HAUCAN(
-                ten_haucan=namec,
-                ma_doibong=doibong,
-            )
-            hc.save()
+        for i in range(1, numofCoachOrSupport+1):
+            index = str(i)
+            # coach or support
+            name = 'nameCoachOrSupport'+index
+            role = 'role'+index
+            # now get value
+            namec = request.POST.get(name)
+            rolec = request.POST.get(role)
+
+            if rolec == 'HLVT':
+                rolec = 'HLV Trưởng'  # create hlv truong
+                hlvt = HLVIEN(
+                    ten_hlv=namec,
+                    vaitro=rolec,
+                    ma_doibong=doibong,
+                )
+                hlvt.save()
+            elif rolec == 'HLVP':  # create hlv pho
+                rolec = 'HLP Phó'
+                hlvp = HLVIEN(
+                    ten_hlv=namec,
+                    vaitro=rolec,
+                    ma_doibong=doibong,
+                )
+                hlvp.save()
+            else:
+                hc = HAUCAN(
+                    ten_haucan=namec,
+                    ma_doibong=doibong,
+                )
+                hc.save()
 
         redirect('index')
 
     return render(request, 'user/createteam.html')
 
+@login_required(login_url='/signin')
+def myteam(request):
+    return render(request, 'user/myteam.html')
 
 @login_required(login_url='/signin')
 def match_arrange(request, pk):
     current_user = request.user
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     ds_thamdu = giaidau.get_ds_thamdu()
-    # print('views')
-    # print(ds_thamdu)
     if current_user.is_superuser:
         if giaidau.sodoi_hientai == giaidau.sodoi_thamdu:
             if giaidau.is_arranged is False:
                 if request.method == 'POST':
                     giaidau.randomly_matches_gen()
+                    giaidau.trangthai = 'Đang diễn ra'
+                    giaidau.save()
                     return redirect('index')
             else:
                 return HttpResponse('Giai dau da duoc sap xep roi')
@@ -405,71 +419,169 @@ def match_arrange_result(request, pk):
 @login_required(login_url='/login')
 def matchupdate(request, tourpk, matchpk):
     current_user = request.user
-    # giaidau = GIAIDAU.objects.get(ma_giaidau=tourpk)
-    # trandau = TRANDAU,object.get(ma_giadau=tourpk, ma_trandau=matchpk)
+    giaidau = GIAIDAU.objects.get(ma_giaidau=tourpk)
     chitiettrandau = CHITIETTRANDAU.objects.get(
         ma_giaidau=tourpk, ma_trandau=matchpk)
-    # DOIBONG.objects.get(ma_doibong=chitiettrandau.ma_doiA)
     doiA = chitiettrandau.ma_doiA
-    # DOIBONG.objects.get(ma_doibong=chitiettrandau.ma_doiB)
     doiB = chitiettrandau.ma_doiB
+    xephang_A = XEPHANG.objects.get(
+        ma_giaidau=tourpk, ma_doibong=doiA.ma_doibong)
+    xephang_B = XEPHANG.objects.get(
+        ma_giaidau=tourpk, ma_doibong=doiB.ma_doibong)
 
     if request.method == 'POST':
+        banthang_A = int(request.POST.get('banthang_A'))
+        banthang_B = int(request.POST.get('banthang_B'))
+        thephat_A = int(request.POST.get('thephat_A'))
+        thephat_B = int(request.POST.get('thephat_B'))
+        ketqua = None
         if current_user.is_superuser:
-            # chitiettrandau = CHITIETTRANDAU.objects.get(ma_giaidau=tourpk,
-            # ma_trandau=matchpk)
-            xephang_A = XEPHANG.objects.get(
-                ma_giaidau=tourpk, ma_doibong=doiA.ma_doibong)
-            xephang_B = XEPHANG.objects.get(
-                ma_giaidau=tourpk, ma_doibong=doiB.ma_doibong)
+            if chitiettrandau.tinhchat == '':
 
-            banthang_A = int(request.POST.get('banthang_A'))
-            banthang_B = int(request.POST.get('banthang_B'))
-            thephat_A = int(request.POST.get('thephat_A'))
-            thephat_B = int(request.POST.get('thephat_B'))
-            ketqua = None
+                xephang_A = XEPHANG.objects.get(
+                    ma_giaidau=tourpk, ma_doibong=doiA.ma_doibong)
+                xephang_B = XEPHANG.objects.get(
+                    ma_giaidau=tourpk, ma_doibong=doiB.ma_doibong)
 
-            if banthang_A > banthang_B:
-                ketqua = xephang_A.ma_doibong
-                xephang_A.so_diem += 3
-                xephang_A.so_diem += 0
-            elif banthang_B > banthang_A:
-                ketqua = xephang_B.madoibong
-                xephang_A.so_diem += 0
-                xephang_B.so_diem += 3
-            else:
-                xephang_A.so_diem += 1
-                xephang_B.so_diem += 1
+                if banthang_A > banthang_B:
+                    ketqua = xephang_A.ma_doibong
+                    xephang_A.so_diem += 3
+                    xephang_A.so_diem += 0
+                elif banthang_B > banthang_A:
+                    ketqua = xephang_B.ma_doibong
+                    xephang_A.so_diem += 0
+                    xephang_B.so_diem += 3
+                else:
+                    xephang_A.so_diem += 1
+                    xephang_B.so_diem += 1
 
-            xephang_A.so_tran += 1
-            xephang_A.banthang += banthang_A
-            xephang_A.thephat += thephat_A
-            xephang_A.hieuso += (banthang_A-banthang_B)
-            xephang_A.save()
-            xephang_B.so_tran += 1
-            xephang_B.banthang += banthang_B
-            xephang_B.thephat += thephat_B
-            xephang_B.hieuso += (banthang_B-banthang_A)
-            xephang_B.save()
-            xephang_A.update_thuhang()
-            xephang_B.update_thuhang()
+            elif chitiettrandau.tinhchat:
+                if giaidau.is_final():
+                    if banthang_A > banthang_B:
+                        ketqua = xephang_A.ma_doibong
+                        # ketqua = kq1.ma_doibong
+                    elif banthang_B > banthang_A:
+                        ketqua = xephang_B.ma_doibong
 
-            chitiettrandau.banthang_A = banthang_A
-            chitiettrandau.banthang_B = banthang_B
-            chitiettrandau.thephat_A = thephat_A
-            chitiettrandau.thephat_B = thephat_B
-            chitiettrandau.ketqua = ketqua
-            chitiettrandau.save()
+                elif giaidau.is_semi():
+                    if chitiettrandau.tinhchat == 'banket1':
 
-            return redirect('index')
+                        if giaidau.sodoi_thamdu == 8:
+                            xephang_A = XEPHANG.get_first(giaidau, 'A')
+                            xephang_B = XEPHANG.get_second(giaidau, 'B')
+
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                                # ketqua = kq1.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                        elif giaidau.sodoi_thamdu == 16:
+
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'banket2':
+                        if giaidau.sodoi_thamdu == 8:
+                            xephang_A = XEPHANG.get_first(giaidau, 'B')
+                            xephang_B = XEPHANG.get_second(giaidau, 'A')
+
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                        elif giaidau.sodoi_thamdu == 16:
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                elif giaidau.is_quarter():
+                    if chitiettrandau.tinhchat == 'tuket1':
+                        xephang_A = XEPHANG.get_first(giaidau, 'A')
+                        xephang_B = XEPHANG.get_second(giaidau, 'B')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'tuket2':
+                        xephang_A = XEPHANG.get_first(giaidau, 'B')
+                        xephang_B = XEPHANG.get_second(giaidau, 'A')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'tuket3':
+                        xephang_A = XEPHANG.get_first(giaidau, 'C')
+                        xephang_B = XEPHANG.get_second(giaidau, 'D')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'tuket4':
+                        xephang_A = XEPHANG.get_first(giaidau, 'D')
+                        xephang_B = XEPHANG.get_second(giaidau, 'C')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                else:
+                    return HttpResponse('Giải đấu chưa đến vòng đấu này!!')
         else:
             return render(request, 'admin/UpdateMatchNotGranted.html')
+
+        xephang_A.so_tran += 1
+        xephang_A.banthang += banthang_A
+        xephang_A.thephat += thephat_A
+        xephang_A.hieuso += (banthang_A-banthang_B)
+        xephang_A.save()
+        xephang_B.so_tran += 1
+        xephang_B.banthang += banthang_B
+        xephang_B.thephat += thephat_B
+        xephang_B.hieuso += (banthang_B-banthang_A)
+        xephang_B.save()
+
+        chitiettrandau.banthang_A = banthang_A
+        chitiettrandau.banthang_B = banthang_B
+        chitiettrandau.thephat_A = thephat_A
+        chitiettrandau.thephat_B = thephat_B
+        chitiettrandau.ketqua = ketqua
+        chitiettrandau.save()
+
+        xephang_A.update_thuhang()
+        giaidau.update_playoff()
+
+        return redirect('index')
 
     return render(request, 'admin/UpdateMatch.html',
                   {'doiA': doiA, 'doiB': doiB, 'trandau': chitiettrandau})
 
 
+def match(request, tourpk, matchpk):
+    giaidau = GIAIDAU.objects.get(ma_giaidau=tourpk)
+    chitiet = CHITIETTRANDAU.objects.get(ma_giaidau=tourpk, ma_trandau=matchpk)
+    doiA = chitiet.ma_doiA
+    doiB = chitiet.ma_doiB
+    return render(request, 'tournament/ViewMatch.html', {
+        'doiA': doiA,
+        'doiB': doiB,
+        'chitiet': chitiet,
+    })
+
 # ================================= Admin site ================================
+
+
 @login_required(login_url='/admin_site/signin')
 def admin_site(req, tabActive=None):
     if tabActive is None:
@@ -493,7 +605,7 @@ def admin_site(req, tabActive=None):
         else:
             messages.error(req, "Không tìm thấy giải đấu phù hợp")
             context['showMsg'] = True
-    
+
     tournaments = GIAIDAU.objects.all()
     context['tournaments'] = tournaments
     users = User.objects.exclude(username="admin").order_by('id')
@@ -584,6 +696,7 @@ def admin_create_tournament(req):
 def admin_create_tournament_back(req):
     return redirect('/admin_site/1')
 
+
 @login_required(login_url='/admin_site/signin')
 def admin_search(req):
     context = {}
@@ -596,7 +709,7 @@ def admin_search(req):
     tournaments = GIAIDAU.objects.filter(ten_giaidau=keyword)
     context['tournaments'] = tournaments
     context['count'] = tournaments.count()
-
+    
     users = User.objects.exclude(username="admin").order_by('id')
     context['users'] = users
 

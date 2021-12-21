@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Soccer &mdash; Tạo đội bóng</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+
+  {% include 'partials/ownCSS.html' %}
+</head>
+
+<body>
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+    {% include 'partials/header.html' %}
+
+    <div class="hero overlay" style="background-image: url('../static/images/bg-create.jpg');">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-7 mx-auto text-center">
+              <h1 class="text-white">Đội bóng của tôi</h1>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-7">
+                <div class="row mt-3">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img src="../static/images/logo_3.png" class="img-fluid rounded-start" alt="image">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title text-dark">Super team</h4>
+                                <h6 class="text-dark">Số cầu thủ: 22</h6>
+                                <h6 class="text-dark">Số lượng HLV/HC: 5</h6>
+                                <h6 class="text-dark">HLV trưởng: Nguyễn Văn B</h6>
+                                <button type="button" class="btn btn-secondary" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Quản lý</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-5">
+                <div class="row mt-3">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img src="../static/images/logo_4.png" class="img-fluid rounded-start" alt="image">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h4 class="card-title text-dark">Super team</h4>
+                              <h6 class="text-dark">Số cầu thủ: 23</h6>
+                              <h6 class="text-dark">Số lượng HLV/HC: 5</h6>
+                              <h6 class="text-dark">HLV trưởng: Nguyễn Văn A</h6>
+                              <button type="button" class="btn btn-secondary" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Quản lý</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  {% include 'partials/footer.html' %}
+  </div>
+  <!-- .site-wrap -->
+
+  {% include 'partials/ownJS.html' %}
+  {% include 'partials/createJS.html' %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
