@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.fields import BigAutoField, CharField
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 import random as rd
 
@@ -32,6 +33,9 @@ class GIAIDAU(models.Model):
 
     def __str__(self):
         return '%s' % (self.ten_giaidau)
+
+    def get_absolute_url(self):
+        return reverse('admin_view_tournament', kwargs={'pk': self.ma_giaidau})
 
     def get_ds_thamdu(self):
         ds_thamdu = DOIBONG.objects.filter(playin=self.ma_giaidau)
