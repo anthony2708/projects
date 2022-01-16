@@ -14,12 +14,12 @@
   </div>
   <div class="row my-4">
     <div class="col-5">
-      <h4>{{doiA.ten_doibong}}({{doiA.ma_doibong}}) VS {{doiB.ten_doibong}}({{doiB.ma_doibong}})</h4>
+      <h4>{{doiA.ten_doibong}}&nbsp VS &nbsp{{doiB.ten_doibong}}</h4>
     </div>
   </div>
   <div class="row">
     <div class="col-5">
-      <form method="POST">
+      <form action="" method="POST">
         {% csrf_token %}
         <div class="form-group">
           <label for="banthang_A">Số bàn thắng {{doiA.ten_doibong}}</label>

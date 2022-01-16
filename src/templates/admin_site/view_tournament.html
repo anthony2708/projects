@@ -58,7 +58,7 @@
             <div class="p-4">
               {% if teams %}
               <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover text-center">
                   <thead>
                     <tr>
                       <th scope="col">STT</th>
@@ -88,13 +88,12 @@
             <div class="p-4">
               {% if matches %}
               <div class="table-responsive">
-                <table class="table table-sm table-hover">
+                <table class="table table-hover text-center">
                   <thead>
                     <tr>
                       <th scope="col">STT</th>
                       <th scope="col">Mã trận đấu</th>
-                      <th scope="col">Đội A</th>
-                      <th scope="col">Đội B</th>
+                      <th scope="col">Tỉ số</th>
                       <th scope="col">Thời gian</th>
                       <th scope="col">Địa điểm</th>
                       <th scope="col">Trọng tài</th>
@@ -103,16 +102,23 @@
                   </thead>
                   <tbody>
                     {% for match in matches %}
+                    {% if match.ma_doiA %}
                     <tr>
                       <td scope="row">{{ forloop.counter }}</td>
-                      <td>{{ match.ma_trandau_id }}</td>
-                      <td>{{ match.ma_doiA.ten_doibong }}</td>
-                      <td>{{ match.ma_doiB.ten_doibong }}</td>
+                      <td><a href="/match/{{tournament.ma_giaidau}}/{{match.ma_trandau_id}}" class="link-username">{{ match.ma_trandau_id }}</a></td>
+                      {% if match.banthang_A %}
+                      <td> {{ match.ma_doiA.ten_doibong }}&nbsp&nbsp <strong>{{ match.banthang_A }} - {{ match.banthang_B }}</strong> &nbsp&nbsp{{ match.ma_doiB.ten_doibong }}</td>
+                      {% else %}
+                      <td>{{ match.ma_doiA.ten_doibong }}&nbsp&nbsp <strong>0 - 0</strong> &nbsp&nbsp{{ match.ma_doiB.ten_doibong }}</td>
+                      {% endif %}
                       <td>{{ match.ma_trandau.thoigian }}</td>
                       <td>{{ match.ma_trandau.diadiem }}</td>
                       <td>{{ match.ma_trandau.trongtai.ten_trongtai }}</td>
-                      <td><a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/match/{{match.ma_trandau_id}}/update" class="btn btn-outline-success">Chỉnh sửa</a></td>
+                      <td>
+                        <a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/match/{{match.ma_trandau_id}}/update" class="btn btn-outline-success">Cập nhật</a>
+                      </td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
                   </tbody>
                 </table>
@@ -133,34 +139,36 @@
           <div class="tab-pane fade" id="standing" role="tabpanel">
             <div class="p-4">
               {% if standings %}
-              <table class="table">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">Bảng đấu</th>
-                    <th scope="col">Thứ hạng</th>
-                    <th scope="col">Tên đội bóng</th>
-                    <th scope="col">Số trận</th>
-                    <th scope="col">Hiệu số</th>
-                    <th scope="col">Số điểm</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for standing in standings %}
-                  {% for doibong in doibongs %}
-                  {% if standing.ma_doibong.ma_doibong == doibong.ma_doibong %}
-                  <tr>
-                    <th scope="row">{{ standing.bangdau }}</th>
-                    <td>{{ standing.thuhang }}</td>
-                    <td>{{ doibong.ten_doibong }}</td>
-                    <td>{{ standing.so_tran }}</td>
-                    <td>{{ standing.hieuso }}</td>
-                    <td>{{ standing.so_diem }}</td>
-                  </tr>
-                  {% endif %}
-                  {% endfor %}
-                  {% endfor %}
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table class="table text-center">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Bảng đấu</th>
+                      <th scope="col">Thứ hạng</th>
+                      <th scope="col">Tên đội bóng</th>
+                      <th scope="col">Số trận</th>
+                      <th scope="col">Hiệu số</th>
+                      <th scope="col">Số điểm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for standing in standings %}
+                    {% for doibong in doibongs %}
+                    {% if standing.ma_doibong.ma_doibong == doibong.ma_doibong %}
+                    <tr>
+                      <th scope="row">{{ standing.bangdau }}</th>
+                      <td>{{ standing.thuhang }}</td>
+                      <td>{{ doibong.ten_doibong }}</td>
+                      <td>{{ standing.so_tran }}</td>
+                      <td>{{ standing.hieuso }}</td>
+                      <td>{{ standing.so_diem }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
               {% else %}
               <div class="h4">
                 Giải đấu chưa có bảng xếp hạng.
