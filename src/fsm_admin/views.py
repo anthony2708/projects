@@ -95,15 +95,12 @@ def editprofile(request):
         elif gioitinh == 'female':
             gioitinh = "Nữ"
 
-        taikhoan = TAIKHOAN(
-            ma_taikhoan=current_user,
-            hoten=hoten,
-            ngaysinh=ngaysinh,
-            gioitinh=gioitinh,
-            diachi=diachi,
-            so_dienthoai=so_dienthoai,
-        )
-
+        taikhoan = TAIKHOAN.objects.get(ma_taikhoan = current_user)
+        taikhoan.hoten = hoten
+        taikhoan.ngaysinh = ngaysinh
+        taikhoan.gioitinh = gioitinh
+        taikhoan.diachi = diachi
+        taikhoan.so_dienthoai = so_dienthoai
         taikhoan.save()
         return redirect('index')
 
@@ -377,13 +374,28 @@ def createteam(request):
                 )
                 hc.save()
 
-        redirect('index')
+        redirect('myteam')
 
     return render(request, 'user/createteam.html')
 
 @login_required(login_url='/signin')
 def myteam(request):
-    return render(request, 'user/myteam.html')
+    current_user = request.user
+    team_info = []
+    myteams = DOIBONG.objects.filter(ten_taikhoan=current_user)
+    for team in myteams:
+        info = []
+        cauthu = CAUTHU.objects.filter(ma_doibong=team)
+        so_cauthu = len(cauthu)
+        hlv = HLVIEN.objects.filter(ma_doibong=team)
+        haucan = HAUCAN.objects.filter(ma_doibong=team)
+        so_hlv_hc = len(hlv)+len(haucan)
+        info.append(team)
+        info.append(so_cauthu)
+        info.append(so_hlv_hc)
+        team_info.append(info)
+
+    return render(request, 'user/myteam.html', {'team_info':team_info})
 
 @login_required(login_url='/signin')
 def match_arrange(request, pk):
