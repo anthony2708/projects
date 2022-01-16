@@ -390,9 +390,12 @@ def myteam(request):
         hlv = HLVIEN.objects.filter(ma_doibong=team)
         haucan = HAUCAN.objects.filter(ma_doibong=team)
         so_hlv_hc = len(hlv)+len(haucan)
+
+        hlv_truong = HLVIEN.objects.get(ma_doibong=team, vaitro='HLV Trưởng')
         info.append(team)
         info.append(so_cauthu)
         info.append(so_hlv_hc)
+        info.append(hlv_truong)
         team_info.append(info)
 
     return render(request, 'user/myteam.html', {'team_info':team_info})
@@ -731,7 +734,7 @@ def admin_search(req):
 def admin_view_tournament(req, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     teams = DOIBONG.objects.filter(playin=pk)
-    bxh = giaidau.get_ranking()
+    bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
     details = CHITIETTRANDAU.objects.filter(ma_giaidau=pk).order_by('ma_ct')
 
     doibong = []

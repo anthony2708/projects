@@ -38,10 +38,11 @@
           </div>
         </div>
     </div>
-    {% for team in team_info %}
+
     <div class="container mt-5">
         <div class="row">
-            <div class="col-7">
+          {% for team in team_info %}
+            <div class="col-6">
                 <div class="row mt-3">
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
@@ -53,7 +54,7 @@
                                 <h4 class="card-title text-dark">{{team.0.ten_doibong}}</h4>
                                 <h6 class="text-dark">Số cầu thủ: {{team.1}}</h6>
                                 <h6 class="text-dark">Số lượng HLV/HC: {{team.2}}</h6>
-                                <h6 class="text-dark">HLV trưởng: Nguyễn Văn B</h6>
+                                <h6 class="text-dark">HLV trưởng: {{team.3.ten_hlv}}</h6>
                                 <button type="button" class="btn btn-secondary" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Quản lý</button>
                             </div>
                           </div>
@@ -61,32 +62,11 @@
                     </div>
                 </div>
             </div>
-    {% endfor %}}
-            <div class="col-5">
-                <div class="row mt-3">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                          <div class="col-md-4">
-                            <img src="../static/images/logo_4.png" class="img-fluid rounded-start" alt="image">
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h4 class="card-title text-dark">Super team</h4>
-                              <h6 class="text-dark">Số cầu thủ: 23</h6>
-                              <h6 class="text-dark">Số lượng HLV/HC: 5</h6>
-                              <h6 class="text-dark">HLV trưởng: Nguyễn Văn A</h6>
-                              <button type="button" class="btn btn-secondary" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Quản lý</button>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    {% endfor %}
         </div>
     </div>
+    {% include 'partials/footer.html' %}
 
-  {% include 'partials/footer.html' %}
-  </div>
   <!-- .site-wrap -->
 
   {% include 'partials/ownJS.html' %}

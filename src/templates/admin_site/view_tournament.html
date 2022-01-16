@@ -137,11 +137,11 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Bảng đấu</th>
+                    <th scope="col">Thứ hạng</th>
+                    <th scope="col">Tên đội bóng</th>
                     <th scope="col">Số trận</th>
                     <th scope="col">Hiệu số</th>
                     <th scope="col">Số điểm</th>
-                    <th scope="col">Thứ hạng</th>
-                    <th scope="col">Tên đội bóng</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,11 +150,11 @@
                   {% if standing.ma_doibong.ma_doibong == doibong.ma_doibong %}
                   <tr>
                     <th scope="row">{{ standing.bangdau }}</th>
+                    <td>{{ standing.thuhang }}</td>
+                    <td>{{ doibong.ten_doibong }}</td>
                     <td>{{ standing.so_tran }}</td>
                     <td>{{ standing.hieuso }}</td>
                     <td>{{ standing.so_diem }}</td>
-                    <td>{{ standing.thuhang }}</td>
-                    <td>{{ doibong.ten_doibong }}</td>
                   </tr>
                   {% endif %}
                   {% endfor %}
