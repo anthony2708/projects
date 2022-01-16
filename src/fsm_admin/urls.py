@@ -50,7 +50,5 @@ urlpatterns = [
     path('admin_site/1/tournament/<int:pk>/match_arrange', views.admin_match_arrange, name='admin_match_arrange'),
     path('admin_site/1/user/<int:pk>', views.admin_view_user, name='admin_view_user'),
     path('admin_site/1/user/<int:pk>/delete', views.admin_delete_user, name='admin_delete_user'),
-
-    
-    
+    path('admin_site/1/tournament/<int:tourpk>/match/<int:matchpk>/update', views.admin_match_update, name='admin_update_match')
 ]

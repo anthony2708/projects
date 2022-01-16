@@ -390,9 +390,12 @@ def myteam(request):
         hlv = HLVIEN.objects.filter(ma_doibong=team)
         haucan = HAUCAN.objects.filter(ma_doibong=team)
         so_hlv_hc = len(hlv)+len(haucan)
+
+        hlv_truong = HLVIEN.objects.get(ma_doibong=team, vaitro='HLV Trưởng')
         info.append(team)
         info.append(so_cauthu)
         info.append(so_hlv_hc)
+        info.append(hlv_truong)
         team_info.append(info)
 
     return render(request, 'user/myteam.html', {'team_info':team_info})
@@ -729,15 +732,24 @@ def admin_search(req):
 
 @login_required(login_url='/admin_site/signin')
 def admin_view_tournament(req, pk):
-    tournament = get_object_or_404(GIAIDAU, ma_giaidau=pk)
+    giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     teams = DOIBONG.objects.filter(playin=pk)
-    
+    bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
+    details = CHITIETTRANDAU.objects.filter(ma_giaidau=pk).order_by('ma_ct')
+
+    doibong = []
+    if bxh:
+        for b in bxh:
+            doibong.append(b.ma_doibong)
     context = {}
     tabActive = 1
     contextTabActive = CreateContextTabActive(tabActive)
     context.update(contextTabActive)
-    context['tournament'] = tournament
+    context['tournament'] = giaidau
     context['teams'] = teams
+    context['matches'] = details
+    context['doibongs'] = doibong
+    context['standings'] = bxh
 
     users = User.objects.exclude(username="admin").order_by('id')
     context['users'] = users
@@ -815,7 +827,7 @@ def admin_delete_tournament(req, pk):
 
 @login_required(login_url='/admin_site/signin')
 def admin_match_arrange(req, pk):
-    context = {}
+    
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     if giaidau.sodoi_hientai == giaidau.sodoi_thamdu:
         if giaidau.is_arranged is False:
@@ -824,16 +836,173 @@ def admin_match_arrange(req, pk):
             giaidau.save()
             url = '/admin_site/1/tournament/' + str(pk)
             return redirect(url)
-        else:
-            messages.error(req, "Giải đấu đã được sắp xếp rồi.")
-            context['showMsgTab1'] = True
-            context['showTabMatch'] = True
-            return render(req, 'admin_site/view_tournament.html', context)
-    else:
-        messages.error(req, "Chưa đủ số đội tham dự.")
-        context['showMsgTab1'] = True
-        context['showTabMatch'] = True
-        return render(req, 'admin_site/view_tournament.html', context)
+
+    url = '/admin_site/1/tournament/' + str(pk)
+    return redirect(url)
+
+@login_required(login_url='/admin_site/signin')
+def admin_match_update(req, tourpk, matchpk):
+    giaidau = GIAIDAU.objects.get(ma_giaidau=tourpk)
+    chitiettrandau = CHITIETTRANDAU.objects.get(
+        ma_giaidau=tourpk, ma_trandau=matchpk)
+    doiA = chitiettrandau.ma_doiA
+    doiB = chitiettrandau.ma_doiB
+    xephang_A = XEPHANG.objects.get(
+        ma_giaidau=tourpk, ma_doibong=doiA.ma_doibong)
+    xephang_B = XEPHANG.objects.get(
+        ma_giaidau=tourpk, ma_doibong=doiB.ma_doibong)
+
+    users = User.objects.exclude(username="admin").order_by('id')
+
+    context = {
+        'users': users
+    }
+
+    tabActive = 1
+    contextTabActive = CreateContextTabActive(tabActive)
+    context.update(contextTabActive)
+
+    if req.method == 'POST':
+        banthang_A = int(req.POST.get('banthang_A'))
+        banthang_B = int(req.POST.get('banthang_B'))
+        thephat_A = int(req.POST.get('thephat_A'))
+        thephat_B = int(req.POST.get('thephat_B'))
+        ketqua = None
+        if chitiettrandau.tinhchat == '':
+
+            xephang_A = XEPHANG.objects.get(
+                ma_giaidau=tourpk, ma_doibong=doiA.ma_doibong)
+            xephang_B = XEPHANG.objects.get(
+                ma_giaidau=tourpk, ma_doibong=doiB.ma_doibong)
+
+            if banthang_A > banthang_B:
+                ketqua = xephang_A.ma_doibong
+                xephang_A.so_diem += 3
+                xephang_A.so_diem += 0
+            elif banthang_B > banthang_A:
+                ketqua = xephang_B.ma_doibong
+                xephang_A.so_diem += 0
+                xephang_B.so_diem += 3
+            else:
+                xephang_A.so_diem += 1
+                xephang_B.so_diem += 1
+
+        elif chitiettrandau.tinhchat:
+                if giaidau.is_final():
+                    if banthang_A > banthang_B:
+                        ketqua = xephang_A.ma_doibong
+                        # ketqua = kq1.ma_doibong
+                    elif banthang_B > banthang_A:
+                        ketqua = xephang_B.ma_doibong
+
+                elif giaidau.is_semi():
+                    if chitiettrandau.tinhchat == 'banket1':
+
+                        if giaidau.sodoi_thamdu == 8:
+                            xephang_A = XEPHANG.get_first(giaidau, 'A')
+                            xephang_B = XEPHANG.get_second(giaidau, 'B')
+
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                                # ketqua = kq1.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                        elif giaidau.sodoi_thamdu == 16:
+
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'banket2':
+                        if giaidau.sodoi_thamdu == 8:
+                            xephang_A = XEPHANG.get_first(giaidau, 'B')
+                            xephang_B = XEPHANG.get_second(giaidau, 'A')
+
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                        elif giaidau.sodoi_thamdu == 16:
+                            if banthang_A > banthang_B:
+                                ketqua = xephang_A.ma_doibong
+                            elif banthang_B > banthang_A:
+                                ketqua = xephang_B.ma_doibong
+
+                elif giaidau.is_quarter():
+                    if chitiettrandau.tinhchat == 'tuket1':
+                        xephang_A = XEPHANG.get_first(giaidau, 'A')
+                        xephang_B = XEPHANG.get_second(giaidau, 'B')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'tuket2':
+                        xephang_A = XEPHANG.get_first(giaidau, 'B')
+                        xephang_B = XEPHANG.get_second(giaidau, 'A')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'tuket3':
+                        xephang_A = XEPHANG.get_first(giaidau, 'C')
+                        xephang_B = XEPHANG.get_second(giaidau, 'D')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                    elif chitiettrandau.tinhchat == 'tuket4':
+                        xephang_A = XEPHANG.get_first(giaidau, 'D')
+                        xephang_B = XEPHANG.get_second(giaidau, 'C')
+
+                        if banthang_A > banthang_B:
+                            ketqua = xephang_A.ma_doibong
+                        elif banthang_B > banthang_A:
+                            ketqua = xephang_B.ma_doibong
+
+                else:
+                    context = {
+                        'msg': 'Giải đấu chưa đến vòng đấu này!!'
+                    }
+                    return render(req, 'admin_site/update_match.html', context)
+
+        xephang_A.so_tran += 1
+        xephang_A.banthang += banthang_A
+        xephang_A.thephat += thephat_A
+        xephang_A.hieuso += (banthang_A-banthang_B)
+        xephang_A.save()
+        xephang_B.so_tran += 1
+        xephang_B.banthang += banthang_B
+        xephang_B.thephat += thephat_B
+        xephang_B.hieuso += (banthang_B-banthang_A)
+        xephang_B.save()
+
+        chitiettrandau.banthang_A = banthang_A
+        chitiettrandau.banthang_B = banthang_B
+        chitiettrandau.thephat_A = thephat_A
+        chitiettrandau.thephat_B = thephat_B
+        chitiettrandau.ketqua = ketqua
+        chitiettrandau.save()
+
+        xephang_A.update_thuhang()
+        giaidau.update_playoff()
+
+        url = '/admin_site/1/tournament/' + str(tourpk)
+        return redirect(url)
+
+    context['doiA'] = doiA
+    context['doiB'] = doiB
+    context['tournament'] = giaidau
+
+    return render(req, 'admin_site/update_match.html', context)
 
 
 
