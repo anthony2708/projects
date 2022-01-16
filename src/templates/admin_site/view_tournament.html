@@ -2,27 +2,6 @@
 
 {% block tab1 %}
 {% load static %}
-<div class="modal fade" id="msgTab1" data-backdrop="static" data-keyboard="false" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="msgLabel">Thông báo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {% for message in messages %}
-        {{message}}<br>
-        {% endfor %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="container-fluid">
   <div class="row m-4">
     <div class="card mb-3">
@@ -79,7 +58,7 @@
             <div class="p-4">
               {% if teams %}
               <div class="table-responsive">
-                <table class="table table-sm table-hover">
+                <table class="table table-hover">
                   <thead>
                     <tr>
                       <th scope="col">STT</th>
@@ -119,17 +98,20 @@
                       <th scope="col">Thời gian</th>
                       <th scope="col">Địa điểm</th>
                       <th scope="col">Trọng tài</th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for match in matches %}
                     <tr>
                       <td scope="row">{{ forloop.counter }}</td>
-                      <td><a href="#" class="link-username">{{ match.ma_trandau }}</a></td>
-
-                      <td>{{ match.thoigian }}</td>
-                      <td>{{ match.diadiem }}</td>
-                      <td>{{ match.trongtai_id.ten_trongtai }}</td>
+                      <td>{{ match.ma_trandau_id }}</td>
+                      <td>{{ match.ma_doiA.ten_doibong }}</td>
+                      <td>{{ match.ma_doiB.ten_doibong }}</td>
+                      <td>{{ match.ma_trandau.thoigian }}</td>
+                      <td>{{ match.ma_trandau.diadiem }}</td>
+                      <td>{{ match.ma_trandau.trongtai.ten_trongtai }}</td>
+                      <td><a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/match/{{match.ma_trandau_id}}/update" class="btn btn-outline-success">Chỉnh sửa</a></td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -150,8 +132,35 @@
           </div>
           <div class="tab-pane fade" id="standing" role="tabpanel">
             <div class="p-4">
-              {% if standing %}
-
+              {% if standings %}
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Bảng đấu</th>
+                    <th scope="col">Số trận</th>
+                    <th scope="col">Hiệu số</th>
+                    <th scope="col">Số điểm</th>
+                    <th scope="col">Thứ hạng</th>
+                    <th scope="col">Tên đội bóng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for standing in standings %}
+                  {% for doibong in doibongs %}
+                  {% if standing.ma_doibong.ma_doibong == doibong.ma_doibong %}
+                  <tr>
+                    <th scope="row">{{ standing.bangdau }}</th>
+                    <td>{{ standing.so_tran }}</td>
+                    <td>{{ standing.hieuso }}</td>
+                    <td>{{ standing.so_diem }}</td>
+                    <td>{{ standing.thuhang }}</td>
+                    <td>{{ doibong.ten_doibong }}</td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                  {% endfor %}
+                </tbody>
+              </table>
               {% else %}
               <div class="h4">
                 Giải đấu chưa có bảng xếp hạng.
