@@ -1,41 +1,159 @@
-<h1 style="color: red;">Giải đấu: {{tournament.ten_giaidau}}</h1> <br>
-<h3>Lứa tuổi: {{tournament.luatuoi}}</h3> <br>
-<h3 style="color: blue;">Trạng thái: {{tournament.trangthai}}</h3> <br>
-<p>--------Danh sách thi dấu---------</p>
-{% for doibong in tournament.get_ds_thamdu %}
-- {{doibong.ten_doibong}} <br>
-{% endfor %}
-<p>----------------------------------</p>
-<p>-----------Bảng xếp hạng----------</p>
-<p>Bảng đấu /số trận /hiệu số /số điểm /thứ hạng /tên đội bóng</p>
-{% if ranking %}
-{% for rank in ranking %}
-{% for t in team %}
-{% if rank.ma_doibong.ma_doibong == t.ma_doibong %}
-{{rank.bangdau}} {{rank.so_tran}} {{rank.hieuso}} {{rank.so_diem}} {{rank.thuhang}} {{t.ten_doibong}} <br>
-{% endif %}
-{% endfor %}
-{% endfor %}
-{% endif %}
-<p>----------------------------------</p>
-<p>-----------Các trận đấu----------</p>
-{% if detail %}
-{% for d in detail %}
-{% for t in team %}
-{% if t.ma_doibong == d.ma_doiA.ma_doibong %}
-{% for j in team %}
-{% if j.ma_doibong == d.ma_doiB.ma_doibong %}
-<a href="/match/{{tournament.ma_giaidau}}/{{d.ma_trandau.ma_trandau}}">
-  {% if d.banthang_A %}
-  <p>{{t.ten_doibong}} {{d.banthang_A}} - {{d.banthang_B}} {{j.ten_doibong}} </p>
-  {% else %}
-  <p>{{t.ten_doibong}} - {{j.ten_doibong}} </p>
-  {% endif %}
-</a>
-{% endif %}
-{% endfor %}
-{% endif %}
-{% endfor %}
-{% endfor %}
-{% endif %}
-<p>----------------------------------</p>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Football League</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+  {% include 'partials/ownCSS.html' %}
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    <div class="container">
+      <div class="row mt-5">
+        <div class="row">
+          <div class="col-8">
+            <h1 class="text-info"> <i class="bi bi-trophy"></i> Giải đấu: {{tournament.ten_giaidau}} </h1> 
+          </div>
+          <div class="col-4 mt-3">
+            <a type="button" class="btn btn-success btn-lg float-end" href="/tournaments">Quay trở lại</a>
+          </div>
+        </div>
+        <div class="row">
+          <h5 class="text-white">Lứa tuổi: {{tournament.luatuoi}}</h5> 
+          <h5 class="text-white">Trạng thái: {{tournament.trangthai}}</h5> 
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-6">
+
+            <h3 class="mb-4"><i class="bi bi-card-list"></i> DANH SÁCH ĐỘI BÓNG</h3>
+            <div class="card" style="width: 18rem;">
+              <ul class="list-group list-group-flush">
+                {% for doibong in tournament.get_ds_thamdu %}
+                <li class="list-group-item">{{doibong.ten_doibong}}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          
+        </div>
+        <div class="col-6">
+            <h3 class="mb-4"><i class="bi bi-bar-chart"></i> BẢNG XẾP HẠNG</h3>
+            <div class="widget-next-match">
+              <table class="table custom-table">
+                <thead>
+                  <tr>
+                    <th>Bảng đấu</th>
+                    <th>Hạng</th>
+                    <th>Tên đội bóng</th>
+                    <th>Số trận</th>
+                    <th>Hiệu số</th>
+                    <th>Số điểm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if ranking %}
+                  {% for rank in ranking %}
+                  {% for t in team %}
+                  {% if rank.ma_doibong.ma_doibong == t.ma_doibong %}
+                  <tr>
+                    <td class="text-white">{{rank.bangdau}}</td>
+                    <td class="text-white">{{rank.thuhang}}</td>
+                    <td><strong class="text-white">{{t.ten_doibong}}</strong></td>
+                    <td class="text-white">{{rank.so_tran}}</td>
+                    <td class="text-white">{{rank.hieuso}}</td>
+                    <td class="text-white">{{rank.so_diem}}</td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-12 title-section">
+          <h2 class="heading">Danh sách các trận đấu</h2>
+        </div>
+        {% if detail %}
+        {% for d in detail %}
+        {% for t in team %}
+        {% if t.ma_doibong == d.ma_doiA.ma_doibong %}
+        {% for j in team %}
+        {% if j.ma_doibong == d.ma_doiB.ma_doibong %}
+        <div class="col-lg-6 mb-4">
+          <div class="bg-light p-4 rounded">
+            <div class="widget-body">
+                <div class="widget-vs">
+                  <div class="d-flex align-items-center justify-content-around justify-content-between w-100">
+                    <div class="team-1 text-center">
+                      <h3>{{t.ten_doibong}} </h3>
+                    </div>
+                    {% if d.banthang_A %}
+                    <div>
+                      <span class="vs"><span>{{d.banthang_A}} - {{d.banthang_B}}</span></span>
+                    </div>
+                    {% else %}
+                    <div>
+                      <span class="vs"><span>{{d.banthang_A}} - {{d.banthang_B}}</span></span>
+                    </div>
+                    {% endif %}
+                    <div class="team-2 text-center">
+                      <h3>{{j.ten_doibong}}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center widget-vs-contents mb-4">
+                <a type="button" class="btn btn-secondary btn-lg float-end" href="/match/{{tournament.ma_giaidau}}/{{d.ma_trandau.ma_trandau}}">Xem thông tin</a>
+              </div>
+            
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% include 'partials/ownJS.html' %}
+  {% include 'partials/searchJS.html' %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
+
