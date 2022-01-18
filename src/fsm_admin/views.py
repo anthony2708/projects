@@ -1019,7 +1019,6 @@ def admin_match_update(req, tourpk, matchpk):
     context['doiA'] = doiA
     context['doiB'] = doiB
     context['tournament'] = giaidau
-    print(trandau.thoigian)
 
     return render(req, 'admin_site/update_match.html', context)
 
