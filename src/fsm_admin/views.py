@@ -172,7 +172,9 @@ def allTournaments(request):
 # Get tournament base on key
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
-    bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
+    bxh = []
+    if giaidau.trangthai != 'Chuẩn bị':
+        bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
     chitiet = CHITIETTRANDAU.objects.filter(ma_giaidau=pk)
     doibong = []
     if bxh:
@@ -734,13 +736,16 @@ def admin_search(req):
 def admin_view_tournament(req, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
     teams = DOIBONG.objects.filter(playin=pk)
-    bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
+    bxh = []
+    if giaidau.trangthai != "Chuẩn bị":
+        bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
     details = CHITIETTRANDAU.objects.filter(ma_giaidau=pk).order_by('ma_ct')
 
     doibong = []
     if bxh:
         for b in bxh:
             doibong.append(b.ma_doibong)
+            
     context = {}
     tabActive = 1
     contextTabActive = CreateContextTabActive(tabActive)

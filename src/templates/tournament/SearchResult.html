@@ -65,7 +65,7 @@
                 <a href="/tournament/{{g.ma_giaidau}}" class="btn btn-primary float-end">Xem giải đấu</a>
               </div>
             </div>
-            {% elif g.trangthai == 'Đang chuẩn bị' %}
+            {% elif g.trangthai == 'Chuẩn bị' %}
             <div class="card bg-dark mt-5">
               <h5 class="card-header bg-success bg-gradient">{{g.trangthai}}</h5>
               <div class="card-body">
@@ -92,7 +92,7 @@
             <div class="card bg-dark mt-5">
               <h5 class="card-header bg-danger bg-gradient">{{g.trangthai}}</h5>
               <div class="card-body">
-                <h5 class="card-title">g.ten_giaidau</h5>
+                <h5 class="card-title">{{g.ten_giaidau}}</h5>
                 <p>
                   <h8 class="card-text text-info me-4">Mã giải đấu: <h8 class="card-text ms-1 text-white">
                       {{g.ma_giaidau}}</h8>
