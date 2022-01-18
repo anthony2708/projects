@@ -845,6 +845,7 @@ def admin_match_update(req, tourpk, matchpk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=tourpk)
     chitiettrandau = CHITIETTRANDAU.objects.get(
         ma_giaidau=tourpk, ma_trandau=matchpk)
+    trandau = TRANDAU.objects.get(ma_trandau=matchpk)
     doiA = chitiettrandau.ma_doiA
     doiB = chitiettrandau.ma_doiB
     xephang_A = XEPHANG.objects.get(
@@ -867,6 +868,9 @@ def admin_match_update(req, tourpk, matchpk):
         banthang_B = int(req.POST.get('banthang_B'))
         thephat_A = int(req.POST.get('thephat_A'))
         thephat_B = int(req.POST.get('thephat_B'))
+        thoigian = req.POST.get('thoigian')
+        diadiem = req.POST.get('diadiem')
+        print(thoigian)
         ketqua = None
         if chitiettrandau.tinhchat == '':
 
@@ -991,6 +995,10 @@ def admin_match_update(req, tourpk, matchpk):
         chitiettrandau.thephat_B = thephat_B
         chitiettrandau.ketqua = ketqua
         chitiettrandau.save()
+
+        trandau.thoigian = thoigian
+        trandau.diadiem = diadiem
+        trandau.save()
 
         xephang_A.update_thuhang()
         giaidau.update_playoff()
