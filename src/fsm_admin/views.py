@@ -868,9 +868,21 @@ def admin_match_update(req, tourpk, matchpk):
         banthang_B = int(req.POST.get('banthang_B'))
         thephat_A = int(req.POST.get('thephat_A'))
         thephat_B = int(req.POST.get('thephat_B'))
+
+
         thoigian = req.POST.get('thoigian')
         diadiem = req.POST.get('diadiem')
-        print(thoigian)
+        if thoigian and diadiem:
+            trandau.thoigian = thoigian
+            trandau.diadiem = diadiem
+            trandau.save()
+        elif thoigian:
+            trandau.thoigian = thoigian
+            trandau.save()
+        elif diadiem:
+            trandau.diadiem = diadiem
+            trandau.save()
+
         ketqua = None
         if chitiettrandau.tinhchat == '':
 
@@ -996,9 +1008,7 @@ def admin_match_update(req, tourpk, matchpk):
         chitiettrandau.ketqua = ketqua
         chitiettrandau.save()
 
-        trandau.thoigian = thoigian
-        trandau.diadiem = diadiem
-        trandau.save()
+
 
         xephang_A.update_thuhang()
         giaidau.update_playoff()
@@ -1009,6 +1019,7 @@ def admin_match_update(req, tourpk, matchpk):
     context['doiA'] = doiA
     context['doiB'] = doiB
     context['tournament'] = giaidau
+    print(trandau.thoigian)
 
     return render(req, 'admin_site/update_match.html', context)
 
