@@ -172,7 +172,7 @@ def allTournaments(request):
 # Get tournament base on key
 def tournament(request, pk):
     giaidau = GIAIDAU.objects.get(ma_giaidau=pk)
-    bxh = giaidau.get_ranking()
+    bxh = giaidau.get_ranking().order_by('bangdau', 'thuhang')
     chitiet = CHITIETTRANDAU.objects.filter(ma_giaidau=pk)
     doibong = []
     if bxh:
