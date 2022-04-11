@@ -5,7 +5,7 @@ matplotlib==3.5.1
 numpy==1.22.3
 Pillow==9.1.0
 pycodestyle==2.8.0
-pyparsing==3.0.7
+pyparsing==3.0.8
 python-dateutil==2.8.2
 six==1.16.0
 toml==0.10.2
