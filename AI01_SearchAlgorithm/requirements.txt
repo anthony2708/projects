@@ -1,7 +1,7 @@
 autopep8==1.6.0
 cycler==0.11.0
 kiwisolver==1.4.2
-matplotlib==3.5.1
+matplotlib==3.5.2
 numpy==1.22.3
 Pillow==9.1.0
 pycodestyle==2.8.0
