@@ -8,6 +8,6 @@ RUN apt-get install -y python3
 # Thiết lập thành thư mục /home/github
 WORKDIR /home/github
 # Clone repo từ github
-RUN git clone https://github.com/hcmus-teammates/CN02_Socket.git
+RUN git clone https://github.com/anthony2708/projects.git
 # Thay đổi thư mục
-WORKDIR /home/github/CN02_Socket
+WORKDIR /home/github/projects/CN02_Socket/src
