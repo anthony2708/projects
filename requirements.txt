@@ -1,6 +1,6 @@
 asgiref==3.4.1
 autopep8==1.6.0
-Django==4.0.6
+Django==4.0.7
 psycopg2==2.9.2
 pycodestyle==2.8.0
 python-dotenv==0.19.2
