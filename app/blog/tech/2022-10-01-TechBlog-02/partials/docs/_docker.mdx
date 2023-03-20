@@ -1,0 +1,24 @@
+## Khám phá Render, Docker bị trôi vào quên lãng...
+
+![Github](../img/package-registry.png)
+
+Ngay sau khi chuyển sang Render, tôi thật sự bất ngờ với độ phủ dịch vụ
+mà hệ thống này cung cấp. Gần như **tất cả dịch vụ** mà trước đó Heroku
+từng cung cấp, Render đều có đủ, và thậm chí còn tốt hơn cả Heroku.
+
+Tôi lập tức bắt tay vào việc chuyển đổi. Quá trình chuyển đổi tốn nhiều
+thời gian hơn dự kiến, do những vấn đề liên quan đến kiểm soát các đường
+dẫn API để trang web chính thức có thể sử dụng và truy vấn được. Cuối cùng,
+mọi thứ hoàn thiện và tiếp tục được duy trì cho đến ngày 15/09, khi tôi phát
+hiện ra một tính năng hoàn toàn mới của Netlify, chính là **Netlify Functions**.
+
+![Netlify](../img/netlify.png)
+
+**_Netlify Functions_** là một tính năng mới của Netlify, cho phép viết các hàm chạy
+chương trình chuyên biệt. Thay vì phải xây dựng một máy chủ chỉ dành riêng cho
+việc xử lý dữ liệu, giờ đây mọi thứ chỉ còn lại là một hàm duy nhất.
+
+Theo định hướng, **_Youtube Downloader_** đáp ứng hoàn toàn đầy đủ các tính chất
+cho một dịch vụ con (**microservice**) và có thể triển khai dịch vụ này. Do đó từ ngày
+**20/09/2022**, gói Docker trên **_Github Container Registry_** của Youtube Downloader
+đã không còn tồn tại nữa, chuẩn bị cho quá trình chuyển đổi sang **Netlify Functions**.

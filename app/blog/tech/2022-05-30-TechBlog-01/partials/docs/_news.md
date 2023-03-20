@@ -1,0 +1,13 @@
+- Github xác nhận có kẻ tấn công đã lợi dụng mã xác thực OAuth 2.0 để tải xuống trái phép dữ liệu bí mật của một số tổ chức.
+- Các dịch vụ chịu ảnh hưởng bao gồm Heroku, Travis-CI và cả NPM.
+- Github cho biết token không bị lấy qua lỗ hổng ở Github.
+- Heroku quyết định **_thu hồi_** toàn bộ Access Token đã cấp, đồng thời **_tạm dừng kết nối_** với Github để phòng ngừa rủi ro.
+- Một trong các dịch vụ của tôi, **Youtube Downloader** đang chạy trên nền Heroku và cũng đã được đóng lại (để đảm bảo an toàn).
+- Từ ngày 01/06/2022, mọi kết nối giữa Heroku và Github được khôi phục lại hoàn toàn. Từ ngày 01/07/2022, **Youtube Downloader** chính thức trở lại trên Heroku.
+- Từ ngày 01/09/2022, chính thức chuyển đổi tên miền mới và kho lưu trữ mới cho dịch vụ.
+- Các bài viết chính thức được đăng tải tại đây:
+
+  - Tiếng Việt: [Tín nhiệm mạng - NCSC](https://tinnhiemmang.vn/tin-tac-xam-nhap-hang-chuc-to-chuc-bang-cach-su-dung-oauth-token-bi-danh-cap)
+  - Tiếng Anh:
+    - Github: [Github Blog](https://github.blog/2022-04-15-security-alert-stolen-oauth-user-tokens/)
+    - Heroku: [Heroku Status](https://status.heroku.com/incidents/2413), [Heroku Blog](https://blog.heroku.com/april-2022-incident-review)

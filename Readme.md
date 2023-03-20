@@ -1,40 +1,54 @@
-# SoftEng
+### 🎇 Introducing Anthony
 
-A Football Schedule Maker, written in Django/Python, from students of ***Faculty of Information Technology - Vietnam National University of Ho Chi Minh City, University of Science***
+<img src="myself.jpg" alt="Anthony's Profile">
 
-## Contributors
-- Bùi Lê Tuấn Anh
-- Nguyễn Quốc Toàn
-- Nguyễn Văn Thịnh
-- Trương Công Thành
+<p align="center">
+<table>
+    <tr>
+      <th>Attributes</th>
+      <th>Value</th>
+    </tr>
+    <tr>
+      <td>💳 Name</td>
+      <td><b>Anthony Bùi Lê Tuấn Anh<b></td>
+    </tr>
+    <tr>
+      <td>📅 DOB</td>
+      <td>Aug 27th, 2001 (21)</td>
+    </tr>
+    <tr>
+      <td>🏡 Hometown</td>
+      <td>Hoa Thanh Town, Tay Ninh Province, Vietnam</td>
+    </tr>
+    <tr>
+      <td>📗 Currently Studying</td>
+      <td>Information Technology [<b>Senior (Sep 2022 - Jul 2023)</b>]</td>
+    </tr>
+    <tr>
+      <td>💻 Major</td>
+      <td><b>Computer Networking and Telecommunications</b></td>
+    </tr>
+    <tr>
+      <td>🏫 Uni</td>
+      <td><b><i>Vietnam National University of Ho Chi Minh City - University of Science</i></b></td>
+    </tr>
+    <tr>
+      <td>📮 Contact</td>
+      <td>
+        <ul>
+          <li>Email: <a href="mailto:builetuananh2708@gmail.com">builetuananh2708@gmail.com</a></li>
+          <li>Uni email: <a href="mailto:19120163@student.hcmus.edu.vn">19120163@student.hcmus.edu.vn</a></li>
+          <li>Facebook: <a href="https://facebook.com/buile.tuananh">Bùi Lê Tuấn Anh</a></li>
+        </ul>
+      </td>
+    </tr>
+</table>
+</p>
 
-## How to use
+### 💻 Github Statistics
 
-### Install Git
-Google Git and install first
-### Install Django
-1. Install Python 3.9. Then check with `python --version`
-2. Create a virtual environment with `python -m venv <your-virtualenv-name>`
-3. Activate by `<your-virtual-name>\Scripts\activate`
-4. Install Django and other files by `pip install -r requirements.txt`
+<p align="center"><img src="https://github-readme-stats.vercel.app/api?username=anthony2708&count_private=true&show_icons=true&theme=dracula" alt="anthony2708" /></p>
 
-### For quick use
-1. Fetch this repo `git fetch https://github.com/anthony2708/SoftEng.git`
-2. Follow the instruction above this part (**Install Django**)
-3. Change to your branch `git checkout <your-name>`
-4. Code yourself
+<p align="center"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=anthony2708&layout=compact&langs_count=10&card_width=445&theme=dracula" alt="Language Stats" /></p>
 
-### Commit files
-5. `git add <some-files>` or `git add .`
-6. `git commit -m <Date - Name - Content>`
-7. `git push`
-8. Create a ***PULL REQUEST*** from `your-name` to `master`
-
-(Remind: There may be merge conflicts, you must resolve before merging to master)
-### Test the server
-1. `django-admin fsm-football runserver` 
-2. `localhost:8000`
-
-
-## LICENSE
-BSD 3 Clauses
+<p align="center"><img src="https://github-readme-streak-stats.herokuapp.com?user=anthony2708&theme=dracula" alt="GitHub Streak" /></p>

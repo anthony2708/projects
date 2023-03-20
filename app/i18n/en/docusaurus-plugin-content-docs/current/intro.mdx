@@ -1,0 +1,27 @@
+---
+id: intro
+title: 🏡 Getting Started
+sidebar_position: 1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import Myself from "./intro_partial/_myself.md";
+import Experience from "./intro_partial/_experience.md";
+import Learning from "./intro_partial/_learning.md";
+import Projects from "./intro_partial/_projects.md";
+
+<Tabs lazy>
+  <TabItem value="intro" label="🏡 About" default>
+    <Myself />
+  </TabItem>
+  <TabItem value="experience" label="👩🏻‍💻 Experience">
+    <Experience />
+  </TabItem>
+  <TabItem label="📚 Skills" value="learning">
+    <Learning />
+  </TabItem>
+  <TabItem label="💼 Projects" value="projects">
+    <Projects />
+  </TabItem>
+</Tabs>

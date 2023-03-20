@@ -1,0 +1,37 @@
+# Hồi ký Hoàng chuyên
+anna:
+  name: Anna Trần Thụy Bình An
+  title: Đội hình Hồi ký Hoàng chuyên
+  url: https://www.facebook.com/tran.thuy.binh.an.779857
+  image_url: ../../img/blog/anna.jpg
+
+# Tản văn/Book Review
+latte:
+  name: Latte Huỳnh Thanh Nhàn
+  title: Đội hình Tản văn/Book Review
+  url: https://www.facebook.com/latte24211201
+  image_url: ../../img/blog/latte_ava.jpg
+
+jolie:
+  name: Jolie Nguyễn Ngọc Khánh Phương
+  title: Đội hình Tản văn/Book Review
+  url: https://www.facebook.com/profile.php?id=100066615586116
+  image_url: ../../img/blog/jolie_ava.jpg
+
+# Tech Blog
+anthony:
+  name: Anthony Bùi Lê Tuấn Anh
+  title: VNUHCM-ITUS Senior/Tech Blog
+  url: https://www.facebook.com/buile.tuananh
+  image_url: https://github.com/anthony2708.png
+# endi:
+# name: Endilie Yacop Sucipto
+# title: Maintainer of Docusaurus
+# url: https://github.com/endiliey
+# image_url: https://github.com/endiliey.png
+#
+# yangshun:
+# name: Yangshun Tay
+# title: Front End Engineer @ Facebook
+# url: https://github.com/yangshun
+# image_url: https://github.com/yangshun.png

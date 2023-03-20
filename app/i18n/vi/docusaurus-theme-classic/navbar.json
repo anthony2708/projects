@@ -1,0 +1,38 @@
+{
+  "title": {
+    "message": "Anthony Bùi Lê Tuấn Anh",
+    "description": "The title in the navbar"
+  },
+  "item.label.Giới thiệu": {
+    "message": "Giới thiệu",
+    "description": "Navbar item with label Giới thiệu"
+  },
+  "item.label.Blog cá nhân": {
+    "message": "Blog cá nhân",
+    "description": "Navbar item with label Blog cá nhân"
+  },
+  "item.label.Cổng dịch vụ": {
+    "message": "Cổng dịch vụ",
+    "description": "Navbar item with label Cổng dịch vụ"
+  },
+  "item.label.Tech Blog": {
+    "message": "Tech Blog",
+    "description": "Navbar item with label Tech Blog"
+  },
+  "item.label.Hồi ký Hoàng chuyên": {
+    "message": "Hồi ký Hoàng chuyên",
+    "description": "Navbar item with label Hồi ký Hoàng chuyên"
+  },
+  "item.label.The Collab Team": {
+    "message": "The Collab Team",
+    "description": "Navbar item with label The Collab Team"
+  },
+  "item.label.Scoreboard": {
+    "message": "Scoreboard",
+    "description": "Navbar item with label Scoreboard"
+  },
+  "item.label.Youtube Downloader": {
+    "message": "Youtube Downloader",
+    "description": "Navbar item with label Youtube Downloader"
+  }
+}

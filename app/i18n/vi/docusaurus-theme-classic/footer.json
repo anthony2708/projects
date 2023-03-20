@@ -1,0 +1,50 @@
+{
+  "link.title.Thông tin tổng hợp": {
+    "message": "Thông tin tổng hợp",
+    "description": "The title of the footer links column with title=Thông tin tổng hợp in the footer"
+  },
+  "link.title.Cổng dịch vụ": {
+    "message": "Cổng dịch vụ",
+    "description": "The title of the footer links column with title=Cổng dịch vụ in the footer"
+  },
+  "link.title.Blog cá nhân": {
+    "message": "Blog cá nhân",
+    "description": "The title of the footer links column with title=Blog cá nhân in the footer"
+  },
+  "link.item.label.Giới thiệu cá nhân": {
+    "message": "Giới thiệu cá nhân",
+    "description": "The label of footer link with label=Giới thiệu cá nhân linking to /docs/intro"
+  },
+  "link.item.label.Thông tin liên hệ": {
+    "message": "Thông tin liên hệ",
+    "description": "The label of footer link with label=Thông tin liên hệ linking to /docs/contact"
+  },
+  "link.item.label.Tài liệu VNUHCM-ITUS": {
+    "message": "Tài liệu VNUHCM-ITUS",
+    "description": "The label of footer link with label=Tài liệu VNUHCM-ITUS linking to /docs/resources"
+  },
+  "link.item.label.Scoreboard": {
+    "message": "Scoreboard",
+    "description": "The label of footer link with label=Scoreboard linking to /scoreboard"
+  },
+  "link.item.label.Youtube Downloader": {
+    "message": "Youtube Downloader",
+    "description": "The label of footer link with label=Youtube Downloader linking to /youtube"
+  },
+  "link.item.label.Tech Blog": {
+    "message": "Tech Blog",
+    "description": "The label of footer link with label=Tech Blog linking to /blog"
+  },
+  "link.item.label.The Collab Team": {
+    "message": "The Collab Team",
+    "description": "The label of footer link with label=The Collab Team linking to /collab"
+  },
+  "link.item.label.Hồi ký Hoàng chuyên": {
+    "message": "Hồi ký Hoàng chuyên",
+    "description": "The label of footer link with label=Hồi ký Hoàng chuyên linking to /hlk"
+  },
+  "copyright": {
+    "message": "Copyright © 2022 Anthony Bùi Lê Tuấn Anh. Built with ❤ & <a href=\"https://docusaurus.io\" target=\"_blank\" rel=\"noopener noreferrer\">Docusaurus</a>.",
+    "description": "The footer copyright"
+  }
+}
