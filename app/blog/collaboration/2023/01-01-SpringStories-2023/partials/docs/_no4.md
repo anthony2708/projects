@@ -3,6 +3,8 @@
 Định là qua Tết 2023 sẽ viết luôn bài này, nhưng mà hay sao lịch trình nó bận sấp mặt luôn nên thành ra để tới bây giờ
 mới bắt đầu viết, nên là cái tên **Xuân muộn** này cũng sẽ là tựa đề cho kỳ cuối của series 🌸 Câu chuyện mùa xuân 2022/23 🏵 này. Bắt đầu thôi...
 
+![A late spring](../img/SpringStories7.jpg)
+
 ### Chuyện của những lần đầu tiên...
 
 Lần đầu tiên, tôi dấn thân vào thứ được gọi là trải nghiệm "**Dậy sớm để thành công**" (Early Morning Routine). Tôi đã thức dậy lúc 5h sáng vào hai ngày trong tuần, đu xe bus từ Quận 3 xuống Thủ Đức chỉ để học hai môn còn sót lại. Thật sự
