@@ -30,7 +30,7 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.4.0",
     "@tsconfig/docusaurus": "^1.0.7",
-    "netlify-cli": "^15.0.0",
+    "netlify-cli": "^15.0.2",
     "typescript": "^5.0.4"
   },
   "browserslist": {
