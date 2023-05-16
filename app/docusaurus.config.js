@@ -67,6 +67,15 @@ const config = {
         authorsMapPath: "../authors.yml",
       },
     ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        id: "fourth-blog",
+        routeBasePath: "spring",
+        path: "./blog/SpringStories",
+        authorsMapPath: "../authors.yml",
+      },
+    ],
   ],
 
   themeConfig:
@@ -96,12 +105,16 @@ const config = {
                 to: "/blog",
               },
               {
+                label: "The Collab Team",
+                to: "/collab",
+              },
+              {
                 label: "Hồi ký Hoàng chuyên",
                 to: "/hlk",
               },
               {
-                label: "The Collab Team",
-                to: "/collab",
+                label: "Câu chuyện mùa xuân",
+                to: "/spring",
               },
             ],
           },
@@ -168,6 +181,10 @@ const config = {
               {
                 label: "Hồi ký Hoàng chuyên",
                 to: "/hlk",
+              },
+              {
+                label: "Câu chuyện mùa xuân",
+                to: "/spring",
               },
             ],
           },

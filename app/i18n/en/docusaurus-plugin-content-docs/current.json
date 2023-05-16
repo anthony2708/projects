@@ -2,9 +2,5 @@
   "version.label": {
     "message": "Next",
     "description": "The label for version current"
-  },
-  "sidebar.tutorialSidebar.category.current": {
-    "message": "current",
-    "description": "The label for category current in sidebar tutorialSidebar"
   }
 }

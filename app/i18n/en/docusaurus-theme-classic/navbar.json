@@ -26,5 +26,13 @@
   "item.label.The Collab Team": {
     "message": "The Collab Team",
     "description": "Navbar item with label The Collab Team"
+  },
+  "logo.alt": {
+    "message": "Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Câu chuyện mùa xuân": {
+    "message": "Spring Stories",
+    "description": "Navbar item with label Câu chuyện mùa xuân"
   }
 }

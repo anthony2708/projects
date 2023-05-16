@@ -36,7 +36,11 @@
     "description": "The label of footer link with label=Hồi ký Hoàng chuyên linking to /hlk"
   },
   "copyright": {
-    "message": "Copyright © 2022 Anthony Bui Le Tuan Anh. Built with ❤ & <a href=\"https://docusaurus.io\" target=\"_blank\" rel=\"noopener noreferrer\">Docusaurus</a>.",
+    "message": "Copyright © 2023 Anthony Bui Le Tuan Anh. Built with ❤ & <a href=\"https://docusaurus.io\" target=\"_blank\" rel=\"noopener noreferrer\">Docusaurus</a>.",
     "description": "The footer copyright"
+  },
+  "link.item.label.Câu chuyện mùa xuân": {
+    "message": "Spring Stories",
+    "description": "The label of footer link with label=Câu chuyện mùa xuân linking to /spring"
   }
 }

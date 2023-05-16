@@ -27,12 +27,12 @@
     "message": "The Collab Team",
     "description": "Navbar item with label The Collab Team"
   },
-  "item.label.Scoreboard": {
-    "message": "Scoreboard",
-    "description": "Navbar item with label Scoreboard"
+  "logo.alt": {
+    "message": "Logo",
+    "description": "The alt text of navbar logo"
   },
-  "item.label.Youtube Downloader": {
-    "message": "Youtube Downloader",
-    "description": "Navbar item with label Youtube Downloader"
+  "item.label.Câu chuyện mùa xuân": {
+    "message": "Câu chuyện mùa xuân",
+    "description": "Navbar item with label Câu chuyện mùa xuân"
   }
 }

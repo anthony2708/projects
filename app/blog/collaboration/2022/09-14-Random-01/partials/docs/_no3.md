@@ -1,15 +1,21 @@
-### 30 TẾT
+### VÀI DÒNG CHO EM
 
-![Second Image](../img/image2.jpg)
+> - **_"Khi nào xong thì cứ gọi anh sang đón nha."_**
+>
+> - **_"Em biết rồi."_**
 
-**Nguồn ảnh: [Link](http://thptkontum.edu.vn/van-hoa-van-nghe/NGUON-GOC-VA-Y-NGHIA-CUA-NGAY-TET-NGUYEN-DAN-812)**
+![Third Image](../img/image3.png)
 
-_Mình về nhà sau một năm đầy bộn bề ở xứ người. Mẹ với nội trang trí nhà cửa đã hoàn tất, mẹ cũng sắm một cây mai để trước sân nhà, dù không to lắm nhưng vẫn có không khí ngày Tết ở Sài Gòn._
+_Em của mình không thanh mảnh như những bạn nữ khác, chân không dài, mắt một mí, không biết make up là gì cả. Nhưng em của mình có những điều dễ thương lắm. Điển hình như việc mỗi khi cãi nhau, em luôn để mình giải quyết mọi việc theo ý mình, em không tạo áp lực, không gọi điện điên cuồng hoặc thúc giục mình phải làm huề khi hai đứa mình cãi nhau._
 
-> "Về thì nghỉ ngơi đi, mẹ với nội làm xong hết rồi."
+_Em của mình nói nhiều, nhưng không cằn nhằn mình nhiều, những lúc em khó chịu mình, em im lặng, mắt hơi ướt, phải đợi khi mình hỏi thì em mới nói, em ít khi chủ động than phiền về điều gì lắm._
 
-_Nhà mình tuy không giàu có hơn ai, nhưng nhà mình luôn đong đầy tình cảm, mỗi khi mình về nhà, mẹ đều chuẩn bị sẵn một phần bánh gạo cay rất ngon cho mình._
+_Em khá hậu đậu, hay quên những gì mình dặn, như việc uống nước đúng giờ, xăng chạy đến nấc số ba thì phải đổ xăng, và những điều khác. Nhưng khi mình đi công việc, nếu trời đổ mưa bất chợt, luôn có áo mưa trong cốp xe của mình dù mình chẳng để vào._
 
-_Mong rằng mỗi năm mình đều có thể về nhà, đều có thể thấy được cảnh gia đình hạnh phúc, vẫn còn đầy đủ các thành viên trong gia đình._
+_Em của mình không hoàn hảo, em cũng hậu đậu và vụng về. Nhưng đối với mình, có được em, là điều tuyệt vời lắm rồi._
 
-**_Sài Gòn, ba mươi Tết._**
+_Cảm ơn nhiều vì những gì em đã mang đến._
+
+**_Espresso,_**
+
+**_viết cho em, cho một chiều hoàng hôn đủ hồng để sưởi ấm._**
