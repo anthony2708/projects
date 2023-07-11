@@ -17,16 +17,12 @@ var dynamodb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
 
 // Check if the URL is valid
 const stringIsAValidUrl = (string) => {
-  const pattern = new RegExp(
-    "^(https?:\\/\\/)?" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-    "(\\#[-a-z\\d_]*)?$", // fragment locator
-    "i"
-  );
-  return pattern.test(string);
+  try {
+    url = new URL(string)
+  } catch (error) {
+    return false
+  }
+  return url.protocol === "http:" || url.protocol === "https:"
 };
 
 exports.handler = async function (event) {
