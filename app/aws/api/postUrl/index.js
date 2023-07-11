@@ -42,8 +42,9 @@ exports.handler = async function (event) {
       ((longURL.startsWith("http://") || longURL.startsWith("https://")))) {
       var status, message;
 
+      var allowedHosts = "https://api.builetuananh.name.vn"
       // Check if the URL is already shorten
-      if (longURL.includes("https://api.builetuananh.name.vn")) {
+      if (longURL.includes(allowedHosts)) {
         return {
           statusCode: 400,
           body: JSON.stringify({
