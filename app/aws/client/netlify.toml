@@ -1,0 +1,5 @@
+[dev]
+    command = "yarn start"
+    targetPort = 3000
+    port = 8888
+    publish = "build"

@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration page</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <ul>
+    <li><a class="active" href="#home">Home</a></li>
+    <li><a href="users">Users</a></li>
+  </ul>
+
+    <form method="POST" action="">  
+      <div class="site-logo">
+        <img src="./static/images/logo1.jpg" alt="logo" width="100px" height="100px">
+        
+      </div>
+      
+      <div class="text-center">          
+	    <p style="font-family: Lucida Console;font-size: larger;"><b> <label for="name">Name</label></b></p>
+      <input name='name' placeholder="Enter Name" type="text" />
+      <br />
+      <p style="font-family: Lucida Console;font-size: larger;"><b> <label for="email">Email </label></b></p>
+      <input name='email' placeholder="Enter Email" type ="email" />
+      <br />
+      <p style="font-family: Lucida Console;font-size: larger;"><b> <label for="password">Password </label></b></p>
+      <input name='password' placeholder="Enter Password" type ="password" />
+      <br />
+      <p style="font-family: Lucida Console;font-size: larger;"><b><label for="gender">Gender</label></b></p>
+      <select id="gender" name="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>  
+      <br />
+      <p style="font-family: Lucida Console;font-weight: bolder;"><b><label for="country">Country</label></b></p>
+      <select id="country" name="country">
+        <option value="Hungary">Hungary</option>
+        <option value="Israel">Israel</option>
+        <option value="Japan">Japan</option>
+        <option value="Romania">Romania</option>
+        <option value="Taiwan">Taiwan</option>
+        <option value="UK">United Kingdom</option>
+        <option value="USA">USA</option>
+        <option value="Vietnam">Vietnam</option>
+      </select>
+      <br />
+      <input type='submit' />
+    </div>
+    </form>
+
+   <!--Link to custom js (script.js)-->
+ <!-- <script src="script.js"></script> -->
+</body>
+</html>

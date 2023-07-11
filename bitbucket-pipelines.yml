@@ -1,0 +1,136 @@
+pipelines:
+  custom:
+    PlanDefault:
+      - variables:
+          - name: target
+      - step:
+          name: "Plan Default"
+          image: hashicorp/terraform:latest
+          deployment: default
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new default | terraform workspace select default
+            - terraform fmt
+            - terraform validate
+            - terraform plan -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    ApplyDefault:
+      - variables:
+          - name: target
+      - step:
+          name: "Apply Default"
+          image: hashicorp/terraform:latest
+          deployment: default
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new default | terraform workspace select default
+            - terraform fmt
+            - terraform validate
+            - terraform apply -auto-approve -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    DestroyDefault:
+      - variables:
+          - name: target
+      - step:
+          name: "Destroy Default"
+          image: hashicorp/terraform:latest
+          deployment: default
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new default | terraform workspace select default
+            - terraform fmt
+            - terraform validate
+            - terraform destroy -auto-approve -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    PlanDev:
+      - variables:
+          - name: target
+      - step:
+          name: "Plan Development"
+          image: hashicorp/terraform:latest
+          deployment: dev
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new dev | terraform workspace select dev
+            - terraform fmt
+            - terraform validate
+            - terraform plan -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    ApplyDev:
+      - variables:
+          - name: target
+      - step:
+          name: "Apply Development"
+          image: hashicorp/terraform:latest
+          deployment: dev
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new dev | terraform workspace select dev
+            - terraform fmt
+            - terraform validate
+            - terraform apply -auto-approve -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    DestroyDev:
+      - variables:
+          - name: target
+      - step:
+          name: "Destroy Development"
+          image: hashicorp/terraform:latest
+          deployment: dev
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new dev | terraform workspace select dev
+            - terraform fmt
+            - terraform validate
+            - terraform destroy -auto-approve -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    PlanProd:
+      - variables:
+          - name: target
+      - step:
+          name: "Plan Production"
+          image: hashicorp/terraform:latest
+          deployment: prod
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new prod | terraform workspace select prod
+            - terraform fmt
+            - terraform validate
+            - terraform plan -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    ApplyProd:
+      - variables:
+          - name: target
+      - step:
+          name: "Apply Production"
+          deployment: prod
+          image: hashicorp/terraform:latest
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new prod | terraform workspace select prod
+            - terraform fmt
+            - terraform validate
+            - terraform apply -auto-approve -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
+
+    DestroyProd:
+      - variables:
+          - name: target
+      - step:
+          name: "Destroy Production"
+          image: hashicorp/terraform:latest
+          deployment: prod
+          script:
+            - cd app/aws
+            - terraform init
+            - terraform workspace new prod | terraform workspace select prod
+            - terraform fmt
+            - terraform validate
+            - terraform destroy -auto-approve -target="$target" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"
