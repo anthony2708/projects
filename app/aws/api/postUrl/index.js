@@ -43,8 +43,9 @@ exports.handler = async function (event) {
       var status, message;
 
       var allowedHosts = "https://api.builetuananh.name.vn"
+      var parseHost = new URL(allowedHosts).host
       // Check if the URL is already shorten
-      if (longURL.includes(allowedHosts)) {
+      if (longURL.includes(parseHost)) {
         return {
           statusCode: 400,
           body: JSON.stringify({
