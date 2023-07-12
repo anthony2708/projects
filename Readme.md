@@ -11,7 +11,7 @@ A repository with 4 branches:
 
 ### Introduction
 
-This is a repository for all codes in the Graduation Thesis for Tuan Anh Bui Le, a senior student from the Faculty of
+This is a branch for all codes in the Graduation Thesis for Tuan Anh Bui Le, a senior student from the Faculty of
 Information Technology - Vietnam National University of Ho Chi Minh City, University of Science.
 
 ### Project Structure
@@ -19,6 +19,13 @@ Information Technology - Vietnam National University of Ho Chi Minh City, Univer
 ```
 .
 └── projects_v2/
+    ├── .github/
+    │   ├── ISSUE_TEMPLATE/ # All templates for issues
+    │   ├── workflows/ # All workflows for Github Actions
+    │   └── bitbucket-pipelines.yml # Bitbucket Pipelines configuration file
+    │   └── CODE_OF_CONDUCT.md # Code of Conduct file
+    │   └── CONTRIBUTING.md # Contributing file
+    │   └── dependabot.yml # Dependabot configuration file
     ├── app/
     │   ├── aws/ # All files for the webapp
     │   ├── includes/ # All files for the states management
@@ -32,7 +39,6 @@ Information Technology - Vietnam National University of Ho Chi Minh City, Univer
     │   └── terraform/
     ├── client # All files for 2048 game
     ├── .gitignore # Git ignore file
-    ├── bitbucket_pipelines.yml # Bitbucket Pipelines configuration
     ├── LICENSE # License file
     └── Readme.md # This file
 ```
