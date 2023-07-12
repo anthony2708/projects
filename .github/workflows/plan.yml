@@ -1,0 +1,67 @@
+name: Terraform planning
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Target to plan"
+        required: true
+        type: string
+      workspace:
+        description: "Workspace to plan"
+        required: true
+        type: choice
+        default: "default"
+        options:
+          - dev
+          - prod
+          - default
+
+permissions:
+  contents: read
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+
+jobs:
+  plan:
+    name: Planning on Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app/aws/
+        shell: bash
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      # Initialize Terraform
+      - name: Terraform Initialize
+        run: terraform init
+
+      # Select workspace Terraform
+      - name: Terraform Workspace
+        env:
+          WORKSPACE: ${{ inputs.workspace }}
+        run: terraform workspace new $WORKSPACE || terraform workspace select $WORKSPACE
+
+      # Terraform Format
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      # Validate the code
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Terraform Plan
+      - name: Terraform Planning
+        env:
+          TARGET: ${{ inputs.target }}
+        run: terraform plan -target="$TARGET" -var="aws_access_key=$AWS_ACCESS_KEY_ID" -var="aws_secret_key=$AWS_SECRET_ACCESS_KEY" -var="region=$region"

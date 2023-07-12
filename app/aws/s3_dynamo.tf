@@ -1,15 +1,15 @@
 # Bucket for the website
-resource "aws_s3_bucket" "static_webapp" {
-  bucket = var.webapp_bucket
-  tags = {
-    Name = "${var.webapp_bucket}"
-  }
-  lifecycle {
-    prevent_destroy = false
-  }
+# resource "aws_s3_bucket" "static_webapp" {
+#   bucket = var.webapp_bucket
+#   tags = {
+#     Name = "${var.webapp_bucket}"
+#   }
+#   lifecycle {
+#     prevent_destroy = false
+#   }
 
-  force_destroy = true
-}
+#   force_destroy = true
+# }
 
 resource "aws_s3_bucket" "dev_webapp" {
   bucket = var.dev_webapp_bucket
@@ -24,31 +24,31 @@ resource "aws_s3_bucket" "dev_webapp" {
   force_destroy = true
 }
 
-resource "aws_s3_bucket_acl" "static_webapp" {
-  bucket = var.webapp_bucket
-  acl    = "private"
-}
+# resource "aws_s3_bucket_acl" "static_webapp" {
+#   bucket = var.webapp_bucket
+#   acl    = "private"
+# }
 
 resource "aws_s3_bucket_acl" "dev_webapp" {
   bucket = var.dev_webapp_bucket
   acl    = "private"
 }
 
-resource "aws_s3_object" "webapp" {
-  depends_on = [
-    aws_s3_bucket_versioning.static_webapp
-  ]
+# resource "aws_s3_object" "webapp" {
+#   depends_on = [
+#     aws_s3_bucket_versioning.static_webapp
+#   ]
 
-  # Run yarn build before applying this, 
-  # and make sure this configuration is run 
-  # on the local machine
-  for_each     = fileset("./client/build", "**/*")
-  bucket       = aws_s3_bucket.static_webapp.bucket
-  key          = each.value
-  source       = "./client/build/${each.value}"
-  etag         = filemd5("./client/build/${each.value}")
-  content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), null)
-}
+#   # Run yarn build before applying this, 
+#   # and make sure this configuration is run 
+#   # on the local machine
+#   for_each     = fileset("./client/build", "**/*")
+#   bucket       = aws_s3_bucket.static_webapp.bucket
+#   key          = each.value
+#   source       = "./client/build/${each.value}"
+#   etag         = filemd5("./client/build/${each.value}")
+#   content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), null)
+# }
 
 # resource "aws_s3_object" "games" {
 #   depends_on = [
@@ -98,12 +98,12 @@ resource "aws_s3_object" "intro" {
   content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), null)
 }
 
-resource "aws_s3_bucket_versioning" "static_webapp" {
-  bucket = var.webapp_bucket
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+# resource "aws_s3_bucket_versioning" "static_webapp" {
+#   bucket = var.webapp_bucket
+#   versioning_configuration {
+#     status = "Enabled"
+#   }
+# }
 
 resource "aws_s3_bucket_versioning" "dev_webapp" {
   bucket = var.dev_webapp_bucket
@@ -112,13 +112,13 @@ resource "aws_s3_bucket_versioning" "dev_webapp" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "public_access_web" {
-  bucket                  = aws_s3_bucket.static_webapp.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
+# resource "aws_s3_bucket_public_access_block" "public_access_web" {
+#   bucket                  = aws_s3_bucket.static_webapp.id
+#   block_public_acls       = true
+#   block_public_policy     = true
+#   ignore_public_acls      = true
+#   restrict_public_buckets = true
+# }
 
 resource "aws_s3_bucket_public_access_block" "public_access_dev" {
   bucket                  = aws_s3_bucket.dev_webapp.id
@@ -128,15 +128,15 @@ resource "aws_s3_bucket_public_access_block" "public_access_dev" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_website_configuration" "webapp" {
-  bucket = var.webapp_bucket
-  index_document {
-    suffix = "index.html"
-  }
-  error_document {
-    key = "404.html"
-  }
-}
+# resource "aws_s3_bucket_website_configuration" "webapp" {
+#   bucket = var.webapp_bucket
+#   index_document {
+#     suffix = "index.html"
+#   }
+#   error_document {
+#     key = "404.html"
+#   }
+# }
 
 resource "aws_s3_bucket_website_configuration" "dev" {
   bucket = var.dev_webapp_bucket

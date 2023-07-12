@@ -1,27 +1,27 @@
 # Create a certificate for the webapp
-module "acm_app" {
-  source  = "terraform-aws-modules/acm/aws"
-  version = "~> 4.0"
+# module "acm_app" {
+#   source  = "terraform-aws-modules/acm/aws"
+#   version = "~> 4.0"
 
-  domain_name       = var.webapp_domain
-  validation_method = "DNS"
+#   domain_name       = var.webapp_domain
+#   validation_method = "DNS"
 
-  wait_for_validation    = false
-  create_route53_records = false
-  validation_record_fqdns = [
-    "${var.webapp_domain}",
-    "${var.api_domain}",
-  ]
+#   wait_for_validation    = false
+#   create_route53_records = false
+#   validation_record_fqdns = [
+#     "${var.webapp_domain}",
+#     "${var.api_domain}",
+#   ]
 
-  subject_alternative_names = [
-    "${var.api_domain}",
-  ]
+#   subject_alternative_names = [
+#     "${var.api_domain}",
+#   ]
 
-  tags = {
-    Name      = "${var.webapp_domain}",
-    Alternate = "${var.api_domain}",
-  }
-}
+#   tags = {
+#     Name      = "${var.webapp_domain}",
+#     Alternate = "${var.api_domain}",
+#   }
+# }
 
 module "acm_dev" {
   source  = "terraform-aws-modules/acm/aws"
@@ -221,23 +221,23 @@ resource "aws_wafv2_web_acl" "webapp" {
 }
 
 # Create a log group for the webapp
-resource "aws_cloudwatch_log_group" "webapp" {
-  name              = "/aws/lambda/getVideo"
-  retention_in_days = 14
-}
+# resource "aws_cloudwatch_log_group" "webapp" {
+#   name              = "/aws/lambda/getVideo"
+#   retention_in_days = 14
+# }
 
-resource "aws_cloudwatch_log_group" "getUrl" {
-  name              = "/aws/lambda/getUrl"
-  retention_in_days = 14
-}
+# resource "aws_cloudwatch_log_group" "getUrl" {
+#   name              = "/aws/lambda/getUrl"
+#   retention_in_days = 14
+# }
 
-resource "aws_cloudwatch_log_group" "postUrl" {
-  name              = "/aws/lambda/postUrl"
-  retention_in_days = 14
-}
+# resource "aws_cloudwatch_log_group" "postUrl" {
+#   name              = "/aws/lambda/postUrl"
+#   retention_in_days = 14
+# }
 
-# Create a log group for the api
-resource "aws_cloudwatch_log_group" "webapi" {
-  name              = "/aws/apigateway/lambda_api"
-  retention_in_days = 14
-}
+# # Create a log group for the api
+# resource "aws_cloudwatch_log_group" "webapi" {
+#   name              = "/aws/apigateway/lambda_api"
+#   retention_in_days = 14
+# }

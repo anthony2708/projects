@@ -1,21 +1,21 @@
 data "aws_availability_zones" "available" {}
-data "aws_iam_policy_document" "react_app_s3" {
-  depends_on = [
-    module.webapp
-  ]
+# data "aws_iam_policy_document" "react_app_s3" {
+#   depends_on = [
+#     module.webapp
+#   ]
 
-  statement {
-    actions = ["s3:GetObject"]
-    resources = [
-      aws_s3_bucket.static_webapp.arn,
-      "${aws_s3_bucket.static_webapp.arn}/*"
-    ]
-    principals {
-      type        = "AWS"
-      identifiers = module.webapp.cloudfront_origin_access_identity_iam_arns
-    }
-  }
-}
+#   statement {
+#     actions = ["s3:GetObject"]
+#     resources = [
+#       aws_s3_bucket.static_webapp.arn,
+#       "${aws_s3_bucket.static_webapp.arn}/*"
+#     ]
+#     principals {
+#       type        = "AWS"
+#       identifiers = module.webapp.cloudfront_origin_access_identity_iam_arns
+#     }
+#   }
+# }
 
 data "aws_iam_policy_document" "dev_app_s3" {
   depends_on = [
@@ -59,25 +59,25 @@ variable "bucket_name" {
   default     = "anthony_terraform_bucket"
 }
 
-variable "webapp_bucket" {
-  description = "The name of the S3 web bucket"
-  default     = "services.builetuananh.name.vn"
-}
+# variable "webapp_bucket" {
+#   description = "The name of the S3 web bucket"
+#   default     = "services.builetuananh.name.vn"
+# }
 
 variable "dev_webapp_bucket" {
   description = "The name of the S3 dev bucket"
   default     = "dev.builetuananh.name.vn"
 }
 
-variable "webapp_domain" {
-  description = "The domain of the webapp"
-  default     = "services.builetuananh.name.vn"
-}
+# variable "webapp_domain" {
+#   description = "The domain of the webapp"
+#   default     = "services.builetuananh.name.vn"
+# }
 
-variable "api_domain" {
-  description = "The domain of the api"
-  default     = "api.builetuananh.name.vn"
-}
+# variable "api_domain" {
+#   description = "The domain of the api"
+#   default     = "api.builetuananh.name.vn"
+# }
 
 variable "dev_domain" {
   description = "The domain of the dev VM"
@@ -99,15 +99,15 @@ variable "db_region" {
   default     = "ap-southeast-1"
 }
 
-variable "api_name" {
-  description = "The name of the API"
-  default     = "lambda_api"
-}
+# variable "api_name" {
+#   description = "The name of the API"
+#   default     = "lambda_api"
+# }
 
-variable "api_stage" {
-  description = "The stage of the API"
-  default     = "lambda_stage"
-}
+# variable "api_stage" {
+#   description = "The stage of the API"
+#   default     = "lambda_stage"
+# }
 
 variable "vm_ami" {
   description = "The AMI of the machine"
