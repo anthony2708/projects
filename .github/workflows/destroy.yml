@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: "Target to plan"
+        description: "Target to destroy"
         required: true
         type: string
       workspace:
-        description: "Workspace to plan"
+        description: "Workspace to destroy"
         required: true
         type: choice
         default: "default"
