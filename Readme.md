@@ -30,13 +30,10 @@ Information Technology - Vietnam National University of Ho Chi Minh City, Univer
     │   ├── aws/ # All files for the webapp
     │   ├── includes/ # All files for the states management
     │   └── scripts/ # All files for the automation scripts
-    ├── assets/ # All files for references
-    │   ├── fullstack/
-    │   ├── infra/
-    │   ├── k8s/
-    │   ├── karpenter/
-    │   ├── mocks/
-    │   └── terraform/
+    ├── assets/ # All files for references (not used for Graduation Thesis)
+    │   ├── else/
+    │   ├── THPTQG/
+    │   ├── python-reviewer-anthony/
     ├── client # All files for 2048 game
     ├── .gitignore # Git ignore file
     ├── LICENSE # License file
