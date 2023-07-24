@@ -34,7 +34,6 @@ Information Technology - Vietnam National University of Ho Chi Minh City, Univer
     │   ├── else/
     │   ├── THPTQG/
     │   ├── python-reviewer-anthony/
-    ├── client # All files for 2048 game
     ├── .gitignore # Git ignore file
     ├── LICENSE # License file
     └── Readme.md # This file
