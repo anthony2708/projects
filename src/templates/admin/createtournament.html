@@ -1,0 +1,36 @@
+<h1> Tạo giải đấu </h1>
+
+<form name="createtournaments" method="POST">
+    {% csrf_token %}
+    <p>Tên giải đấu</p>
+    <input type="text" name="ten_giaidau">
+    <p>Số đội tham dự</p>
+    <select name="sodoi_thamdu">
+        <option value="8">8 Đội</option>
+        <option value="16">16 Đội</option>
+        <option value="32">32 Đội</option>
+    </select>
+    <p>The thuc:</p>
+    <input type="text" name="thethuc" />
+    <p>Lua tuoi:</p>
+    <select name="luatuoi">
+        <option value="16">U16</option>
+        <option value="20">U20</option>
+    </select>
+    <p>Le phi:</p>
+    <input type="text" name="lephi" />
+    <p>Loai san:</p>
+    <select name="loaisan">
+        <option value="7">7</option>
+        <option value="11">11</option>
+    </select>
+    <p>Che do:</p>
+    <select name="chedo">
+        <option value="Cong khai">Công khai</option>
+        <option value="Rieng tu"> Riêng tư</option>
+    </select>
+    <p>Trang thai:</p>
+    <input type="text" name="trangthai" />
+    <br>
+    <input type="submit" />
+</form>
