@@ -6,10 +6,10 @@ From 31st July 2023, this repository will be archived as I am finishing my major
 
 ## Description
 
-A repository with 2 branches:
+A repository with 2 folders:
 
-- `main`: A branch for **Software Engineering** course in VNUHCM_ITUS.
-- `vnuhcm-itus`: A branch for all the resources of **Faculty of Information Technology, VNUHCM - University of Science**.
+- `main`: A folder for **Software Engineering** course in VNUHCM_ITUS.
+- `vnuhcm-itus`: A folder for all the resources of **Faculty of Information Technology, VNUHCM - University of Science**.
 
 ## Copyrights
 
