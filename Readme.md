@@ -28,7 +28,7 @@ A repository with 12 folders:
 7. 19120250: [Phạm Tiến Khải](https://github.com/khailqd81)
 8. 19120257: [Phạm Anh Khoa](https://github.com/19120257-PhamAnhKhoa)
 9. 19120660: [Trương Công Thành](https://github.com/congthanhtr)
-10. 19120667[Nguyễn Văn Thịnh](https://github.com/Inthh)
+10. 19120667: [Nguyễn Văn Thịnh](https://github.com/Inthh)
 
 ## LICENSE
 
