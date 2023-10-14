@@ -32,7 +32,7 @@ A repository with 12 folders:
 
 ## LICENSE
 
-We use GNU GENERAL PUBLIC LICENSE in this repository. You can check the [LICENSE](LICENSE) file for more information.
+We use BSD 3-Clause Clear License in this repository. You can check the [LICENSE](LICENSE) file for more information.
 
 ## Code of Conduct
 
