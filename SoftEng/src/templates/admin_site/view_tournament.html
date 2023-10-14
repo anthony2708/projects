@@ -1,0 +1,244 @@
+{% extends 'admin_site/base.html' %}
+
+{% block tab1 %}
+{% load static %}
+<div class="container-fluid">
+  <div class="row m-4">
+    <div class="card mb-3">
+      <div class="container-hero">
+        <img src="{% static 'images/admin_site/bg_3.jpg' %}" class="card-img-top hero" alt="...">
+      </div>
+      <div class="card-body">
+        <h1 class="card-title mb-4 ml-3">{{ tournament.ten_giaidau }}</h1>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab">
+              Thông tin giải đấu
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="teams-tab" data-toggle="tab" href="#teams" role="tab">
+              Các đội tham gia
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="matches-tab" data-toggle="tab" href="#matches" role="tab">
+              Các trận đấu
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="standing-tab" data-toggle="tab" href="#standing" role="tab">
+              Bảng xếp hạng
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="p-4">
+              Lứa tuổi: {{ tournament.luatuoi }} <br>
+              Số đội tham dự: {{ tournament.sodoi_hientai }}/{{ tournament.sodoi_thamdu}} <br>
+              Loại sân:
+              {% if tournament.loaisan == 5 %}
+              Trong nhà - 5 người <br>
+              {% else %}
+              Ngoài trời - 11 người <br>
+              {% endif %}
+              Thể thức thi đấu: {{ tournament.thethuc }} <br>
+              Chế độ xem:
+              {% if tournament.chedo == 1 %}
+              Công khai <br>
+              {% else %}
+              Không công khai <br>
+              {% endif %}
+              Trạng thái: {{ tournament.trangthai }} <br>
+              <a href="{{tournament.get_absolute_url}}/update" class="btn btn-outline-success mt-3">Chỉnh sửa giải đấu</a>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="teams" role="tabpanel">
+            <div class="p-4">
+              {% if teams %}
+              <div class="table-responsive">
+                <table class="table table-hover text-center">
+                  <thead>
+                    <tr>
+                      <th scope="col">STT</th>
+                      <th scope="col">Mã đội bóng</th>
+                      <th scope="col">Tên đội bóng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for team in teams %}
+                    <tr>
+                      <td scope="row">{{ forloop.counter }}</td>
+                      <td>{{ team.ma_doibong }}</td>
+                      <td><a href="#" class="link-username">{{ team.ten_doibong }}</a></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <div class="h4">
+                Chưa có đội đăng ký tham gia.
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="matches" role="tabpanel">
+            <div class="p-4">
+              {% if matches %}
+              <div class="table-responsive">
+                <table class="table table-hover text-center">
+                  <thead>
+                    <tr>
+                      <th scope="col">STT</th>
+                      <th scope="col">Mã trận đấu</th>
+                      <th scope="col">Tỉ số</th>
+                      <th scope="col">Thời gian</th>
+                      <th scope="col">Địa điểm</th>
+                      <th scope="col">Trọng tài</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for match in matches %}
+                    {% if match.ma_doiA %}
+                    <tr>
+                      <td scope="row">{{ forloop.counter }}</td>
+                      <td><a href="/match/{{tournament.ma_giaidau}}/{{match.ma_trandau_id}}" class="link-username">{{ match.ma_trandau_id }}</a></td>
+                      {% if match.banthang_A %}
+                      <td> {{ match.ma_doiA.ten_doibong }}&nbsp&nbsp <strong>{{ match.banthang_A }} - {{ match.banthang_B }}</strong> &nbsp&nbsp{{ match.ma_doiB.ten_doibong }}</td>
+                      {% else %}
+                      <td>{{ match.ma_doiA.ten_doibong }}&nbsp&nbsp <strong>0 - 0</strong> &nbsp&nbsp{{ match.ma_doiB.ten_doibong }}</td>
+                      {% endif %}
+                      <td>{{ match.ma_trandau.thoigian }}</td>
+                      <td>{{ match.ma_trandau.diadiem }}</td>
+                      <td>{{ match.ma_trandau.trongtai.ten_trongtai }}</td>
+                      <td>
+                        <a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/match/{{match.ma_trandau_id}}/update" class="btn btn-outline-success">Cập nhật</a>
+                      </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <div class="h4">
+                Chưa có trận đấu nào được xếp.
+              </div>
+              <div class="my-4">
+                <a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/match_arrange" class="btn btn-outline-success">
+                  Bắt đầu sắp xếp
+                </a>
+              </div>
+
+              {% endif %}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="standing" role="tabpanel">
+            <div class="p-4">
+              {% if standings %}
+              <div class="table-responsive">
+                <table class="table text-center">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Bảng đấu</th>
+                      <th scope="col">Thứ hạng</th>
+                      <th scope="col">Tên đội bóng</th>
+                      <th scope="col">Số trận</th>
+                      <th scope="col">Hiệu số</th>
+                      <th scope="col">Số điểm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for standing in standings %}
+                    {% for doibong in doibongs %}
+                    {% if standing.ma_doibong.ma_doibong == doibong.ma_doibong %}
+                    <tr>
+                      <th scope="row">{{ standing.bangdau }}</th>
+                      <td>{{ standing.thuhang }}</td>
+                      <td>{{ doibong.ten_doibong }}</td>
+                      <td>{{ standing.so_tran }}</td>
+                      <td>{{ standing.hieuso }}</td>
+                      <td>{{ standing.so_diem }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <div class="h4">
+                Giải đấu chưa có bảng xếp hạng.
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <a href="/admin_site" class="btn btn-outline-success">Trở về</a>
+          <a href="{{tournament.get_absolute_url}}/delete" class="btn btn-danger">Xoá giải đấu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block tab2 %}
+<div class="container-fluid">
+  <div class="row m-4 pb-5">
+    <div class="h1">Danh sách người dùng</div>
+  </div>
+  {% if users %}
+  <div class="row m-4">
+    <div class="col-1"></div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Mã người dùng</th>
+            <th scope="col">Tên đăng nhập</th>
+            <th scope="col">Họ tên</th>
+            <th scope="col">Email</th>
+            <th scope="col">Ngày tham gia</th>
+            <th scope="col">Đăng nhập lần cuối</th>
+            <!-- <th scope="col"></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td><a href="/admin_site/2/user/{{ user.id }}" class="link-username">{{ user.username }}</a></td>
+            <td>{{ user.get_full_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_joined }}</td>
+            <td>{{ user.last_login }}</td>
+            <!-- <td><a href="/admin_site/2/user/{{ user.id }}/delete" class="btn btn-outline-danger">Xoá</a></td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="row my-5 mx-4">
+    <div class="h4">
+      Không có người dùng nào để hiển thị.
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block tab3 %}
+<div class="container-fluid">
+  <div class="row m-4">
+    <div class="h1">Cài đặt</div>
+  </div>
+  <hr class="pb-5">
+</div>
+{% endblock %}

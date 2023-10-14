@@ -1,0 +1,140 @@
+{% extends 'admin_site/base.html' %}
+
+{% block tab1 %}
+<div class="container-fluid mx-5 my-2">
+  <div class="row mb-4">
+    <div class="col-5">
+      <h1>Chỉnh sửa giải đấu</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="tournamentName">Tên giải đấu</label>
+          <input type="text" class="form-control" id="tournamentName" name="tournamentName" value="{{ tournament.ten_giaidau }}" required />
+        </div>
+        <div class="form-group">
+          <label for="type">Loại sân</label>
+          <select id="type" class="form-control" name="type">
+            <option {% if tournament.loaisan == 5 %} selected {% endif %} value="5">
+              Trong nhà - 5 người
+            </option>
+            <option {% if tournament.loaisan == 11 %} selected {% endif %} value="11">
+              Ngoài trời - 11 người
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="numTeams">Số đội</label>
+          <select id="numTeams" class="form-control" name="numTeams">
+            <option {% if tournament.sodoi_thamdu == 8 %} selected {% endif %} value="8">8 đội</option>
+            <option {% if tournament.sodoi_thamdu == 16 %} selected {% endif %} value="16">16 đội</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="age">Lứa tuổi</label>
+          <select id="age" class="form-control" name="age">
+            <option {% if tournament.luatuoi == 16 %} selected {% endif %} value="16">U16</option>
+            <option {% if tournament.luatuoi == 19 %} selected {% endif %} value="19">U19</option>
+            <option {% if tournament.luatuoi == 23 %} selected {% endif %} value="23">U23</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fee">Lệ phí</label>
+          <input type="number" class="form-control" id="fee" name="fee" value="{{ tournament.lephi }}" required />
+        </div>
+        <div class="form-group">
+          <label for="format">Thể thức thi đấu</label>
+          <select id="format" class="form-control" name="format">
+            <option {% if tournament.thethuc == "Vòng loại 1 lượt" %} selected {% endif %} value="1">Vòng loại 1 lượt</option>
+            <option {% if tournament.thethuc == "Vòng loại 2 lượt" %} selected {% endif %} value="2">Vòng loại 2 lượt</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="state">Trạng thái</label>
+          <input type="text" class="form-control" id="state" name="state" value="{{ tournament.trangthai }}" required />
+        </div>
+        <div class="form-group">
+          <label for="viewMode">Chế độ xem</label>
+          <div id="viewMode">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="public" name="viewMode" class="custom-control-input" value="public" {% if tournament.chedo == 1 %} checked {% endif %} required />
+              <label class="custom-control-label" for="public">Công khai</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="private" name="viewMode" class="custom-control-input" value="private" {% if tournament.chedo == 0 %} checked {% endif %} required />
+              <label class="custom-control-label" for="private">Không công khai</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group my-5 mx-2">
+          <button type="submit" class="btn btn-success">
+            Chỉnh sửa
+          </button>
+          <a href="/admin_site/1/tournament/{{tournament.ma_giaidau}}/update/back" class="btn btn-danger">
+            Huỷ
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block tab2 %}
+<div class="container-fluid">
+  <div class="row m-4 pb-5">
+    <div class="h1">Danh sách người dùng</div>
+  </div>
+  {% if users %}
+  <div class="row m-4">
+    <div class="col-1"></div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Mã người dùng</th>
+            <th scope="col">Tên đăng nhập</th>
+            <th scope="col">Họ tên</th>
+            <th scope="col">Email</th>
+            <th scope="col">Ngày tham gia</th>
+            <th scope="col">Đăng nhập lần cuối</th>
+            <!-- <th scope="col"></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td><a href="/admin_site/2/user/{{ user.id }}" class="link-username">{{ user.username }}</a></td>
+            <td>{{ user.get_full_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_joined }}</td>
+            <td>{{ user.last_login }}</td>
+            <!-- <td><a href="/admin_site/2/user/{{ user.id }}/delete" class="btn btn-outline-danger">Xoá</a></td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="row my-5 mx-4">
+    <div class="h4">
+      Không có người dùng nào để hiển thị.
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block tab3 %}
+<div class="container-fluid">
+  <div class="row m-4">
+    <div class="h1">Cài đặt</div>
+  </div>
+  <hr class="pb-5">
+</div>
+{% endblock %}
