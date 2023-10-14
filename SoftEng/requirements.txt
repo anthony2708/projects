@@ -2,7 +2,7 @@ asgiref==3.7.2
 autopep8==2.0.4
 Django==4.2.6
 psycopg2==2.9.9
-pycodestyle==2.11.0
+pycodestyle==2.11.1
 python-dotenv==1.0.0
 pytz==2023.3.post1
 sqlparse==0.4.4
