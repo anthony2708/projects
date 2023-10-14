@@ -1,0 +1,56 @@
+May 14 11:16:46.093 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 14 11:16:46.093 HYPERVISOR: Started on IP = localhost, TCP port = 53038.
+May 14 11:16:46.599 HYPERVISOR: exec_cmd: hypervisor version 
+May 14 11:16:46.599 HYPERVISOR: exec_cmd: hypervisor working_dir E:\Submit\19120163_19120257_bai2\project-files\dynamips 
+May 14 11:16:46.599 GENERAL: working_dir=E:\Submit\19120163_19120257_bai2\project-files\dynamips
+May 14 11:16:46.599 HYPERVISOR: exec_cmd: hypervisor working_dir E:\Submit\19120163_19120257_bai2\project-files\dynamips\4e665e2e-6a41-4664-8d42-bc5dbdb3dac8 
+May 14 11:16:46.600 GENERAL: working_dir=E:\Submit\19120163_19120257_bai2\project-files\dynamips\4e665e2e-6a41-4664-8d42-bc5dbdb3dac8
+May 14 11:16:46.600 HYPERVISOR: exec_cmd: vm create SW3 3 c3725 
+May 14 11:16:46.601 VM: VM SW3 created.
+May 14 11:16:46.601 HYPERVISOR: exec_cmd: vm set_con_tcp_port SW3 5044 
+May 14 11:16:46.601 HYPERVISOR: exec_cmd: c3725 get_mac_addr SW3 
+May 14 11:16:46.602 HYPERVISOR: exec_cmd: vm set_disk0 SW3 1 
+May 14 11:16:46.602 HYPERVISOR: exec_cmd: vm set_exec_area SW3 64 
+May 14 11:16:46.602 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:46.602 HYPERVISOR: exec_cmd: vm set_idle_pc SW3 0x602467a4 
+May 14 11:16:46.603 HYPERVISOR: exec_cmd: vm set_ios SW3 C:/Users/darkh/GNS3/images/IOS/c3725-adventerprisek9-mz.124-25d.image 
+May 14 11:16:46.603 HYPERVISOR: exec_cmd: c3725 set_mac_addr SW3 c203.04b4.0000 
+May 14 11:16:46.604 HYPERVISOR: exec_cmd: vm set_nvram SW3 256 
+May 14 11:16:46.604 HYPERVISOR: exec_cmd: vm set_ram SW3 256 
+May 14 11:16:46.604 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:46.604 HYPERVISOR: exec_cmd: vm slot_add_binding SW3 1 0 NM-16ESW 
+May 14 11:16:46.605 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:46.605 HYPERVISOR: exec_cmd: vm slot_add_binding SW3 0 16 WIC-1T 
+May 14 11:16:46.605 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:46.605 HYPERVISOR: exec_cmd: vm slot_add_binding SW3 0 32 WIC-1T 
+May 14 11:16:51.111 HYPERVISOR: exec_cmd: nio create_udp udp-da65193a-3185-4000-93ec-7f74c6e47270 10042 127.0.0.1 10043 
+May 14 11:16:51.329 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SW3 1 0 udp-da65193a-3185-4000-93ec-7f74c6e47270 
+May 14 11:16:51.329 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:51.388 HYPERVISOR: exec_cmd: nio create_udp udp-ecb02b25-a7a2-468d-a669-7262b4808727 10048 127.0.0.1 10049 
+May 14 11:16:51.390 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SW3 1 11 udp-ecb02b25-a7a2-468d-a669-7262b4808727 
+May 14 11:16:51.391 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:51.595 HYPERVISOR: exec_cmd: nio create_udp udp-77f8765d-c676-4838-bdba-d3c7ade0eaa0 10060 127.0.0.1 10061 
+May 14 11:16:51.597 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SW3 1 6 udp-77f8765d-c676-4838-bdba-d3c7ade0eaa0 
+May 14 11:16:51.598 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:51.988 HYPERVISOR: exec_cmd: nio create_udp udp-dfc276d7-e9d0-4f31-a4c9-72696991c820 10067 127.0.0.1 10068 
+May 14 11:16:51.990 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SW3 1 1 udp-dfc276d7-e9d0-4f31-a4c9-72696991c820 
+May 14 11:16:51.991 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:16:52.072 HYPERVISOR: exec_cmd: nio create_udp udp-6348f707-b074-4729-829a-db5ec41407ba 10070 127.0.0.1 10071 
+May 14 11:16:52.074 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SW3 1 12 udp-6348f707-b074-4729-829a-db5ec41407ba 
+May 14 11:16:52.075 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:18:04.497 HYPERVISOR: exec_cmd: vm set_ghost_status SW3 2 
+May 14 11:18:04.505 HYPERVISOR: exec_cmd: vm set_ghost_file SW3 E:\Submit\19120163_19120257_bai2\project-files\dynamips\c3725-adventerprisek9-mz.124-25d.image-256.ghost 
+May 14 11:18:04.505 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:18:04.514 HYPERVISOR: exec_cmd: vm set_config SW3 configs\i3_startup-config.cfg 
+May 14 11:18:04.514 HYPERVISOR: exec_cmd: vm start SW3 
+May 14 11:26:38.996 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:26:38.997 HYPERVISOR: exec_cmd: vm stop SW3 
+May 14 11:26:39.254 VM: VM SW3 shutdown.
+May 14 11:26:39.255 HYPERVISOR: exec_cmd: vm extract_config SW3 
+May 14 11:26:40.183 HYPERVISOR: exec_cmd: vm get_status SW3 
+May 14 11:26:40.184 HYPERVISOR: exec_cmd: vm extract_config SW3 
+May 14 11:26:40.191 HYPERVISOR: exec_cmd: vm delete SW3 
+May 14 11:26:40.191 VM: VM SW3 destroyed.
+May 14 11:26:40.193 HYPERVISOR: exec_cmd: hypervisor stop 
+May 14 11:26:40.476 HYPERVISOR: Stopped.
+May 14 11:26:40.477 GENERAL: reset done.

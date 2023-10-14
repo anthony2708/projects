@@ -1,0 +1,15 @@
+//19120128 - Ngô Nhật Tân
+
+Yêu cầu đề bài:
+
+Trong kho chứa Vaccine tại Việt Nam có nhập kho 3 loại vaccine:
+ - AstraZeneca
+ - NanoCovax
+ - Pfizer-BioNTech
+
+Mỗi loại Vaccine có các thông tin như sau: ID, tên vaccine, công ty sản xuất vaccine, loại vaccine.
+Viết chương trình quản lý vaccine trong kho.
+
+Yêu cầu:
+ - Có tích hợp tìm kiếm và thêm vaccine vào kho.
+ - Việc thao tác trên một vaccine không ảnh hưởng đến các vaccine khác.

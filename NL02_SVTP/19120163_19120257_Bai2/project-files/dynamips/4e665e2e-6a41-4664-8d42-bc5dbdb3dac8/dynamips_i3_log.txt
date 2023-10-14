@@ -1,0 +1,16 @@
+May 14 11:16:45.864 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 14 11:16:45.864 HYPERVISOR: Started on IP = localhost, TCP port = 53022.
+May 14 11:16:45.867 HYPERVISOR: exec_cmd: hypervisor version 
+May 14 11:16:45.867 HYPERVISOR: exec_cmd: hypervisor working_dir E:\Submit\19120163_19120257_bai2\project-files\dynamips 
+May 14 11:16:45.868 GENERAL: working_dir=E:\Submit\19120163_19120257_bai2\project-files\dynamips
+May 14 11:16:45.868 HYPERVISOR: exec_cmd: ethsw create SW5 
+May 14 11:16:49.008 HYPERVISOR: exec_cmd: nio create_udp udp-23514c7f-30b7-46a2-893f-2dde23b1fe3e 10001 127.0.0.1 10000 
+May 14 11:16:49.008 HYPERVISOR: exec_cmd: ethsw add_nio SW5 udp-23514c7f-30b7-46a2-893f-2dde23b1fe3e 
+May 14 11:16:49.014 HYPERVISOR: exec_cmd: ethsw set_access_port SW5 udp-23514c7f-30b7-46a2-893f-2dde23b1fe3e 1 
+May 14 11:16:51.665 HYPERVISOR: exec_cmd: nio create_udp udp-9f097f23-00d2-4d8e-9889-3ccfaec79c5f 10063 127.0.0.1 10062 
+May 14 11:16:51.665 HYPERVISOR: exec_cmd: ethsw add_nio SW5 udp-9f097f23-00d2-4d8e-9889-3ccfaec79c5f 
+May 14 11:16:51.666 HYPERVISOR: exec_cmd: ethsw set_access_port SW5 udp-9f097f23-00d2-4d8e-9889-3ccfaec79c5f 1 
+May 14 11:26:39.893 HYPERVISOR: exec_cmd: ethsw delete SW5 
+May 14 11:26:39.951 HYPERVISOR: exec_cmd: hypervisor stop 
+May 14 11:26:40.107 HYPERVISOR: Stopped.
+May 14 11:26:40.108 GENERAL: reset done.

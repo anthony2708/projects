@@ -1,0 +1,17 @@
+//19120163 - Bùi Lê Tuấn Anh
+
+Yêu cầu đề bài:
+
+Một hiệu sách có kinh doanh 3 thể loại:
+
+- Truyện tranh: Có nhiều phần
+- Sách văn học: Có thể có nhiều chương
+- Sách ngoại văn: Có thể có nhiều chương, có thể có ngôn ngữ xuất bản khác
+
+Mỗi quyển sách có những thông tin: mã, tên, tác giả, năm xuất bản, số trang, thể loại. 
+Mặc định ngôn ngữ xuất bản là tiếng Việt (trừ các điều kiện kèm theo ở trên).
+Viết chương trình quản lý hiệu sách này. Đề bài có thể yêu cầu vẽ sơ đồ lớp
+
+Yêu cầu: 
+- Phần mềm có tích hợp việc tìm kiếm và thêm sách, phục vụ việc trao đổi và kinh doanh. 
+- Việc thao tác trên một quyển sách không làm ảnh hưởng đến các quyển sách khác trong hệ thống.   

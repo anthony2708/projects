@@ -1,0 +1,10 @@
+Một cửa hàng điện thoại có kinh doanh điện thoại của 3 hãng:
+	- Samsung
+	- Apple
+	- Xiaomi
+Mỗi điện thoại có mã, tên, năm sản xuất, hãng điện thoại.
+Khách hàng đến cửa hàng có thể xem thông tin của tất cả các sản phẩm cửa hàng đang có.
+Viết chương trình quản lý cửa hàng điện thoại trên.
+Yêu cầu:
+- Việc thêm điện thoại của 1 hãng mới không ảnh hưởng đến các hãng khác.
+- Hỗ trợ việc tìm kiếm thông tin điện thoại.
