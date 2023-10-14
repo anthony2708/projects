@@ -1,0 +1,19 @@
+<form name="search" method="POST">
+    {% csrf_token %}
+    <p>Searchhh!!!</p>
+    <input type="text" name='query'>
+    <select name="numOfTeam">
+        <option placeholder="" value="">Số đội bóng</option>
+        <option value='8'>8</option>
+        <option value='12'>12</option>
+        <option value='16'>16</option>
+    </select>
+    <select name="age">
+        <option placeholder="" value="">Độ tuổi</option>
+        <option value='16'>U16</option>
+        <option value='19'>U19</option>
+        <option value='23'>U23</option>
+      </select>
+    <br>
+    <input type="submit">
+</form>

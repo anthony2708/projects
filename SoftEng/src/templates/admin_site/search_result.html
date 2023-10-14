@@ -1,0 +1,123 @@
+{% extends 'admin_site/base.html' %}
+
+{% block tab1 %}
+<div class="container-fluid">
+  <div class="row m-4 pb-2">
+    <div class="col-2"></div>
+    <div class="col-4 d-flex flex-grow-1">
+      <form class="mr-2 my-auto w-100 d-inline-block order-1" action="/admin_site/1" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+          <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm theo tên giải đấu" name="keyword" required />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Tìm kiếm
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-2 d-flex justify-content-center">
+      <a href="/admin_site/1/create_tournament" id="btnCreTournament">Tạo giải đấu</a>
+    </div>
+  </div>
+  <div class="row m-4">
+    <div class="col-1"></div>
+    <div class="col-6">
+      <div class="h4">
+        Tìm được {{ count }} kết quả phù hợp.
+        <hr>
+      </div>
+    </div>
+    <div class="col-2" id="back">
+      <a href="/admin_site">
+        <h4><i class="bi bi-arrow-left"></i> Trở về</h4>
+      </a>
+    </div>
+  </div>
+  <div class="row mx-4">
+    <div class="col-1"></div>
+
+  </div>
+  {% for tournament in tournaments %}
+  {% load static %}
+  <div class="row m-4">
+    <div class="col-1"></div>
+    <div class="col">
+      <a href="#" class="card mb-3" style="max-width: 700px; max-height: 200px;">
+        <div class="row no-gutters">
+          <div class="col-md-4 container-thumb">
+            <img src="{% static 'images/admin_site/bg_2.jpg' %}" class="thumb">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h3 class="card-title">{{ tournament.ten_giaidau }}</h3>
+              <p class="card-text">
+                Số đội tham gia: {{ tournament.sodoi_thamdu }} <br>
+                Lứa tuổi: {{ tournament.luatuoi }} <br>
+                Trạng thái: {{ tournament.trangthai }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block tab2 %}
+<div class="container-fluid">
+  <div class="row m-4 pb-5">
+    <div class="h1">Danh sách người dùng</div>
+  </div>
+  {% if users %}
+  <div class="row m-4">
+    <div class="col-1"></div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Mã người dùng</th>
+            <th scope="col">Tên đăng nhập</th>
+            <th scope="col">Họ tên</th>
+            <th scope="col">Email</th>
+            <th scope="col">Ngày tham gia</th>
+            <th scope="col">Đăng nhập lần cuối</th>
+            <!-- <th scope="col"></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td><a href="/admin_site/2/user/{{ user.id }}" class="link-username">{{ user.username }}</a></td>
+            <td>{{ user.get_full_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_joined }}</td>
+            <td>{{ user.last_login }}</td>
+            <!-- <td><a href="/admin_site/2/user/{{ user.id }}/delete" class="btn btn-outline-danger">Xoá</a></td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="row my-5 mx-4">
+    <div class="h4">
+      Không có người dùng nào để hiển thị.
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block tab3 %}
+<div class="container-fluid">
+  <div class="row m-4">
+    <div class="h1">Cài đặt</div>
+  </div>
+  <hr class="pb-5">
+</div>
+{% endblock %}
